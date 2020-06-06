@@ -1,3 +1,12 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +14,110 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  width: 100%;
+  height: 100%;
 }
+@media ( max-width: 576px ) {
+  body {
+    font-size: 14px;
+  }
+}
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: rgb(29, 161, 242);
+    margin-top: 1em;
+} 
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.active {
+  color: rgb(29, 161, 242) !important;
+}
+a {
+  color: rgb(29, 161, 242);
+  text-decoration: none;
+}
+a > svg {
+    float: left;
+}
+.btn {
+   color: inherit;
+   padding: .5em;
+   display: inline-block;
+   transition: background-color .2s ease-out;
+}
+.btn:active {
+  opacity: .5;
+}
+.btn:hover {
+  color: rgb(29, 161, 242);
+  background-color: rgba(29, 161, 242, .1);
+}
+div.btn:active {
+    opacity: .5;
+}
+
+button {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+}
+
+button:active,
+button:focus,
+button:hover {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+textarea {
+  resize: none;
+  font: inherit;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+textarea:active,
+textarea:focus,
+textarea:hover {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+input {
+  border: none;
+  color: rgb(20, 23, 26);
+  background-color: transparent;
+  font-family: inherit;
+}
+input:active,
+input:focus {
+  outline: none;
+  border: none;
+}
+a > span {
+  margin: auto;
+}
+a {
+  white-space: nowrap;
+}
+button > span {
+  margin: auto;
 }

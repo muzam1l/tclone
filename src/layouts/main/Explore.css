@@ -1,0 +1,57 @@
+/* uses .Feed and &.header from Feed.css*/
+.trends {
+    padding: 0 .5em;
+}
+.trends > .header {
+    color: black;
+    font-size: 1.3em;
+    font-weight: 800;
+    padding: .5em .75em;
+    border-bottom: 1px solid rgb(230, 236, 240);
+}
+.trends > .thumb {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+}
+.trends > .thumb > img {
+    max-width: 500px;
+    max-height: 500px;
+}
+.trends > .thumb > a {
+    font-size: .5em;
+    color: rgb(56, 58, 66);
+    opacity: .5;
+    align-self: flex-end;
+}
+.Explore {
+    /* box-shadow: 10px 10px 45px 10px rgba(165, 167, 172, 0.233); */
+    background: white;
+    border: 1px solid rgb(204, 214, 221);
+}
+
+.Explore > .header {
+    display: flex;
+    flex-direction: column;
+}
+
+.Explore > .header > .top {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin: 1em 0;
+    padding: 0 .5em;
+}
+.Explore > .header > .top > .search {
+    width: 100%;
+    display: flex;
+}
+
+.Explore > .header > .top > .icon {
+    margin-left: auto;
+    display: flex;
+    padding: .5em;
+}
+.Explore > .header > .top > .icon > svg {
+    margin: auto;
+}

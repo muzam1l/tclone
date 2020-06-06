@@ -1,0 +1,75 @@
+
+/* Users */
+
+.Users > .content {
+    display: flex;
+    flex-direction: row;
+    color: rgb(101, 119, 134);
+    border-bottom: 1px solid rgb(230, 236, 240);
+    cursor: pointer;
+    transition: background-color .2s ease-out;
+    padding: 0 .75em;
+}
+.Users > .content:hover {
+    background-color: rgba(139, 147, 153, 0.08);
+}
+/*
+* media
+*/
+.Users > .content > .media {
+    width: 25%;
+}
+.Users > .content > .media > div.img {
+    margin: .75em auto;
+    width: 50px;
+    height: 50px;
+}
+.Users > .content > .media > div.img > img {
+    border-radius: 10em;
+    width: 100%;
+    height: 100%;
+}
+
+/*
+* body
+*/
+.Users > .content > .body {
+    margin: 1em 0;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+}
+.Users > .content > .body > .main {
+    width: 60%;
+}
+.Users > .content > .body > .main > .name {
+    color: black;
+    font-weight: 700;
+}
+.Users > .content > .body > .main > .user {
+    
+}
+.Users > .content > .body > .main > .pro {
+    margin-top: .75em;
+    font-size: .85em;
+}
+.Users > .content > .body > .main > .pro > svg {
+    margin-right: .5em;
+}
+.Users > .content > .body > .follow {
+    width: 40%;
+    display: flex;
+}
+.Users > .content > .body > .follow > * {
+    margin: auto;
+    width: 80%;
+    border: 1px solid rgb(29, 161, 242);
+    border-radius: 10em;
+    color: rgb(29, 161, 242);
+    font-weight: 700;
+    padding: .25em 0.75em;
+    display: flex;
+}
+a > span {
+    margin: auto;
+}

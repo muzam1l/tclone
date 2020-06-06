@@ -1,0 +1,55 @@
+
+form.auth {
+    margin: 0 1.25em;
+}
+form.auth .group {
+    background-color: rgb(245, 248, 250);
+    border-bottom: 2px solid rgb(101, 119, 134);
+    padding: .25em;
+    margin-bottom: 1em;
+}
+form.auth .group > .label {
+    color: rgb(101, 119, 134);
+}
+form.auth .group > input {
+    font-size: 1.2em;
+    padding: .2em;
+    width: 100%;
+}
+form.auth .group > input[type=password] {
+    background-color: rgb(232, 240, 254);
+}
+form.auth > .links {
+    font-size: .85em;
+    margin-top: -1em;
+}
+form.auth .buttons {
+    display: flex;
+    flex-direction: column;
+    margin: .5em 0;
+}
+form.auth .buttons > * {
+    margin: .25em 0;
+}
+form.auth .buttons > button,
+form.auth .buttons > a {
+    border: 1px solid rgb(29, 161, 242);
+    border-radius: 10em;
+    width: 100%;
+    font-weight: 700;
+    display: flex;
+}
+form.auth .buttons > .passive {
+    color: white;
+    background-color: rgb(29, 161, 242);;
+}
+form.auth .buttons > .seperator {
+    color: rgb(101, 119, 134);
+    font-size: .85em;
+    align-self: center;
+}
+form.auth > .error {
+    font-size: .85em;
+    color: red;
+    margin: .1em .25em;
+}

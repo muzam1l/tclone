@@ -1,0 +1,116 @@
+.Header {
+    font-size: 1.2em;
+    color: rgb(20, 23, 26);
+    font-weight: 700;
+    padding: .5em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.Header > .column {
+    /* margin-left: auto; */
+    margin-right: 1.8em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+/*
+* Logo
+*/
+
+.Header > .column > .logo  {
+    color: rgb(29, 161, 242);
+    font-size: 1.5em;
+}
+.Header > .column > .logo > a{
+    margin: auto;
+    padding: .4em;
+    border-radius: 50%;
+}
+.Header > .column > .logo > a > svg {
+    float: left; /*fixes a not being square*/
+}
+/*
+* List
+*/
+.Header > .column > .list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.Header > .column > .list > .item.active {
+   color: rgb(29, 161, 242);
+}
+.Header > .column > .list > .item {
+    margin: .2em 0;
+    display: flex;
+}
+.Header > .column > .list > .item > a {
+    margin: auto;
+    padding: .75em .75em;
+    border-radius: 10em;
+}
+.Header > .column > .list > .item > a > span.name {
+    margin: auto 0;
+    margin-left: 1em;
+}
+
+.Header > .column > .list svg {
+    font-size: 1.3em;
+}
+/*
+* Compose
+*/
+.Header > .column > a svg {
+    display: none;
+    font-size: 1.3em;
+    float: left;
+}
+.Header > .column  > a {
+    margin: 0 auto;
+    margin-top: 1em;
+    padding: .75em;
+    height: 3em;
+    background-color: rgb(29, 161, 242);
+    color: white;
+    border-radius: 10em;
+    font-size: .9em;
+}
+.Header > .column  > a:hover {
+    background-color: rgb(26, 145, 218);
+}
+.Header > .column >  a > .fill {
+    padding: 0 4.5em;
+    height: 100%;
+    display: flex;
+}
+.Header > .column >  a > .fill > span {
+    margin: auto;
+}
+
+@media (max-width: 1280px) {
+
+  .Header > .column > .list {
+      align-items: center;
+  }
+  .Header a > span.name, 
+  .Header a#compose div.fill {
+    display: none;
+  }
+  .Header > .column > a svg {
+    display: inline-block;
+  }
+}
+@media (max-width: 1152px) {
+  .Header > .column {
+    margin-right: .25em;
+  }
+}
+@media (max-width: 1020px) {
+    .Header > .column {
+    margin-right: 1.5em;
+  }
+}
+@media (max-width: 576px) , (max-height: 500px) {
+
+}

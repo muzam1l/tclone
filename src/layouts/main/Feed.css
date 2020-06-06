@@ -1,0 +1,45 @@
+.Feed {
+    border-left: 1px solid rgb(230, 236, 240);
+    border-right: 1px solid rgb(230, 236, 240);
+    font-size: 1em;
+    position: relative;
+}
+.Feed > .header {
+    background-color: white;
+    z-index: 3;
+    /* height: 3.5em; */
+    display: flex;
+    position: sticky;
+    top: 0em;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid rgb(230, 236, 240);
+}
+.Feed > .header > .title {
+    font-weight: 800;
+    font-size: 1.25em;
+    margin: .5em;
+}
+.Feed > .header > .btn {
+    margin: .25em;
+    margin-left: auto;
+    font-size: 1.2em;
+    border-radius: 10em;
+    padding: .5em;
+    color: rgb(29, 161, 242);
+}
+.Compose {
+    margin-top: .5em;
+}
+.btn > svg {
+    float: left;
+}
+.btn:hover {
+    background-color: rgba(29, 161, 242, .1);
+}
+.divider {
+    width: 100%;
+    height: 10px;
+    background-color: rgb(230, 236, 240);
+}

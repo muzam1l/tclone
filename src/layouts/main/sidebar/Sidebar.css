@@ -1,0 +1,96 @@
+.Sidebar {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1em;
+    height: 100%;
+}
+.Sidebar > .column {
+    position: relative;
+    width: 85%;
+    margin: .5em auto;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+/*
+* content
+*/
+.Sidebar > .column > .content {
+  /* This is the magic bit for Firefox */
+  scrollbar-width: none;
+}
+
+.Sidebar > .column > .content::-webkit-scrollbar {
+  /* This is the magic bit for WebKit */
+  display: none;
+}
+
+.Sidebar > .column > .content {
+    height: 90%;
+    /* margin: 3em 0; */
+    overflow: scroll;
+}
+/*
+* card
+*/
+.card {
+    color: rgb(101, 119, 134);
+    background-color: rgb(245, 248, 250);
+    border: 1px solid rgb(245, 248, 250);
+    margin: 1em 0;
+    border-radius: 1em;
+    padding: .5em 1em;
+}
+.card > .footer {
+    height: 3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.card > .header {
+    border-bottom: 1px solid rgb(230, 236, 240);
+    height: 3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.card > .header > .title {
+    color: black;
+    font-size: 1.2em;
+    font-weight: 800;
+}
+.card > .header > a {
+    color: rgb(29, 161, 242);
+    border-radius: 10em;
+    padding: .3em;
+    font-size: 1.5em;
+    margin-left: auto;
+}
+
+.card > .content {
+    border-bottom: 1px solid rgb(230, 236, 240);
+    cursor: pointer;
+    transition: background-color .2s ease-out;
+}
+.card > .content:hover {
+    background-color: rgba(139, 147, 153, 0.08);
+}
+
+
+.bottomer { 
+    padding: 1em;
+    font-size: .85em;
+    color: rgb(101, 119, 134);
+}
+.bottomer > .links {
+    margin-bottom: 1em;
+
+}
+.bottomer > .links > a {
+    font-size: .85em;
+    margin: 0 .35em;
+    color: inherit;
+    white-space: pre-wrap;
+}
+.bottomer > .links > a:hover {
+    text-decoration: underline;
+}

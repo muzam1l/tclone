@@ -1,0 +1,27 @@
+.Main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    /* overflow-x: hidden; */
+}
+.Main > .Feed {
+    width: 60%;
+    max-width: 600px;
+}
+.Main > .Sidebar {
+    width: 40%;
+    position: sticky;
+    top: 0;
+    flex-shrink: 2;
+}
+@media (max-width: 1020px) {
+  .App > .Main > .Feed {
+    width: 100%;
+  }
+}
+@media (max-width: 576px) , (max-height: 500px) {
+  .Main > .Feed {
+    margin-bottom: 4em;
+  }
+} 

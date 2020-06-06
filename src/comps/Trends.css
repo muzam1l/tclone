@@ -1,0 +1,27 @@
+.Trends > .content {
+    color: rgb(101, 119, 134);
+    border-bottom: 1px solid rgb(230, 236, 240);
+    cursor: pointer;
+    transition: background-color .2s ease-out;
+    padding: 0 .75em;
+}
+.Trends > .content:hover {
+    background-color: rgba(139, 147, 153, 0.08);
+}
+
+.Trends > .content > .main {
+    padding: .5em 0;
+}
+.Trends > .content > .main > * {
+    margin: .1em;
+}
+.Trends > .content > .main > .detail {
+    font-size: .85em;
+}
+.Trends > .content > .main > .hashtag {
+    color: black;
+    font-weight: 700;
+}
+.Trends > .content > .main > .ntweets {
+
+}

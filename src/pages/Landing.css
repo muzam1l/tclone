@@ -1,0 +1,91 @@
+.Landing {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: white;
+    font-size: 15px;
+}
+.Landing > content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 90%;
+}
+.Landing > content > .main {
+    /* background-color: rgba(165, 167, 172, 0.199); */
+    width: 60%;
+    /* border: 1px solid rgb(204, 214, 221); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.Landing > content > .main > .Explore {
+    width: 90%;
+    max-width: 600px;
+    /* margin-left: 2.5em; */
+}
+.Landing .sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 40%;
+    height: 100%;
+}
+.Landing .sidebar > .column {
+    /* This is the magic bit for Firefox */
+    scrollbar-width: none;
+}
+  
+.Landing .sidebar > .column::-webkit-scrollbar {
+    /* This is the magic bit for WebKit */
+    display: none;
+}
+
+.Landing .sidebar > .column {
+    overflow-y: scroll;
+    max-width: 350px;
+    min-width: 250px;
+    margin: .5em 2.5em;
+    border: 1px solid rgb(230, 236, 240);
+    display: flex;
+    flex-direction: column;
+    border-radius: 1em;
+    box-shadow: 10px 10px 45px 10px rgba(165, 167, 172, 0.233);
+    /* margin-bottom: .5em; */
+}
+.Landing .sidebar > .column > .thumb {
+    display: flex;
+    flex-direction: column;
+    padding: .25em;
+}
+.Landing .sidebar > .column > .thumb > img {
+    align-self: center;
+    max-width: 225px;
+    max-height: 200px;
+}
+.Landing .sidebar > .column > .thumb > a {
+    color: rgb(56, 60, 65);
+    opacity: .5;
+    font-size: .5em;
+    align-self: flex-end;
+}
+.Landing .sidebar > .column > .title {
+    font-weight: 800;
+    font-size: 1.25em;
+    margin: 1em;
+}
+@media (max-width: 850px) {
+    .Landing .sidebar {
+        width: 100%;
+        align-items: center;
+
+    }
+    .Landing .sidebar > .column {
+        margin: .5em 1em;
+    }
+}
