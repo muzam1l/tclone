@@ -4,6 +4,7 @@ import Search from '../../comps/Search'
 import Trends from '../../comps/Trends'
 import MediaQuery from 'react-responsive'
 import FollowCard from './sidebar/FollowCard'
+import Users from '../../comps/Users'
 import { Route, Switch } from 'react-router-dom'
 
 import './Explore.css'
@@ -19,7 +20,9 @@ class Explore extends React.Component {
                     <MediaQuery maxWidth={1020} >
                         <div className="top">
                             <div className="search">
-                                <Search />
+                                {!this.props.noSearchBar ?
+                                    <Search /> : undefined
+                                }
                             </div>
                         </div>
                     </MediaQuery>
@@ -27,8 +30,11 @@ class Explore extends React.Component {
                         {/* TODO */}
                     </div>
                 </div>
-                {path.startsWith('/search') ?
-                    <Posts url={`/api${path}${query}`} /> :
+                {path.startsWith('/search') ? (
+                    <>
+                        <Posts url={`/api${path}${query}`} />
+                    </>
+                ) :
                     <div className="trends">
                         <Switch>
                             <Route path='/explore/users'>

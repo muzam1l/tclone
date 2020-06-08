@@ -25,7 +25,7 @@ class Users extends React.Component {
         }
     }
     async fetchUsers() {
-        let res = await fetch('/api/users');
+        let res = await fetch(this.props.url || '/api/users');
         if (!res.ok) {
             if (res.status === 401) {
                 this.context.logout();
@@ -52,6 +52,7 @@ class Users extends React.Component {
         }
         return (
             <div className="Users">
+                {console.log(this.state)}
                 {(!this.state.users && !this.state.doneFetching) ?
                     <div className="spinner">
                         <Spinner />

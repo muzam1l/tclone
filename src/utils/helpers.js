@@ -21,7 +21,7 @@ function filterInput(input, type = 'custom', {
     regex: reg = null
 } = {}) {
     let regexes = {
-        username: RegExp(`^[a-zA-Z0-9]{${min},${max}}$`),
+        username: RegExp(`^[_a-zA-Z0-9]{${min},${max}}$`),
         password: RegExp(`^\\S{${min},${max}}$`),
         name: RegExp(`.{${min},${max}}`),
     }

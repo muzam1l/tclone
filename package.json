@@ -2,7 +2,6 @@
   "name": "tclone",
   "sideEffects": false,
   "version": "0.0.1",
-  "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -22,8 +21,8 @@
     "socket.io-client": "^2.3.0"
   },
   "scripts": {
-    "start": "node ./node_modules/react-scripts/scripts/start.js",
-    "#start": "react-scripts start",
+    "jstart": "node ./node_modules/react-scripts/scripts/start.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -33,7 +32,7 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5%",
       "not dead",
       "not op_mini all"
     ],

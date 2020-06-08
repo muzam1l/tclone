@@ -7,11 +7,14 @@ import { AuthContext } from '../../utils/context/auth'
 class Signup extends React.Component {
     static contextType = AuthContext;
     state = {
+        disabled: false,
         error: null
     }
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.setState({ error: null })
+        if (this.state.disabled)
+            return
+        this.setState({ error: null, disabled: true })
         try {
             let form = e.target;
             let username = filterInput(form.username.value, 'username', { min_length: 4 });
@@ -41,47 +44,58 @@ class Signup extends React.Component {
             console.log(error.message);
             this.setState({ error: error.message })
         }
+        this.setState({ disabled: false })
     }
     render() {
+        let disabled = this.state.disabled ? "disabled" : ""
         return (
-            <form onSubmit={this.handleSubmit} className="auth" method="POST">
-                <div className="group">
-                    <div className="label">Choose a username - (required)</div>
-                    <input type="text"
-                        name="username"
-                        autoComplete="off"
-                        autoCapitalize="off"
-                    />
+            <>
+                <div className="thumb">
+                    <img src="img/login-thumb-vector.svg" alt="people vector" />
+                    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by pikisuperstar - www.freepik.com</a>
                 </div>
-                <div className="group">
-                    <div className="label">Full name - (optional)</div>
-                    <input name="fullname" type="text" />
-                </div>
-                <div className="group">
-                    <div className="label">Choose a password - (required)</div>
-                    <input type="password" name="password" />
-                </div>
-                <div className="links">
-                    Already have account?
+                <div style={{}} className="title">
+                    Sign up to see fake_world right now
+            </div>
+                <form onSubmit={this.handleSubmit} className={`auth ${disabled}`} method="POST">
+                    <div className="group">
+                        <div className="label">Choose a username - (required)</div>
+                        <input type="text"
+                            name="username"
+                            autoComplete="off"
+                            autoCapitalize="off"
+                        />
+                    </div>
+                    <div className="group">
+                        <div className="label">Full name - (optional)</div>
+                        <input name="fullname" type="text" />
+                    </div>
+                    <div className="group">
+                        <div className="label">Choose a password - (required)</div>
+                        <input type="password" name="password" />
+                    </div>
+                    <div className="links">
+                        Already have account?
                     <Link to="/login"> login instead</Link>
-                </div>
-                <div className="error">
-                    {this.state.error}
-                </div>
-                <div className="buttons">
-                    <button
-                        type="submit"
-                        className="btn active">
-                        <span>Sign up</span>
-                    </button>
-                    <div className="seperator"><span>or</span></div>
-                    <Link
-                        to="login"
-                        className="btn passive">
-                        <span>Log in</span>
-                    </Link>
-                </div>
-            </form>
+                    </div>
+                    <div className="error">
+                        {this.state.error}
+                    </div>
+                    <div className="buttons">
+                        <button
+                            type="submit"
+                            className="btn active">
+                            <span>Sign up</span>
+                        </button>
+                        <div className="seperator"><span>or</span></div>
+                        <Link
+                            to="login"
+                            className="btn passive">
+                            <span>Log in</span>
+                        </Link>
+                    </div>
+                </form>
+            </>
         )
     }
 }

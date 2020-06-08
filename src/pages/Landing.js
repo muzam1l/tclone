@@ -17,25 +17,18 @@ class Landing extends React.Component {
                     <content>
                         <div className="main">
                             <MediaQuery minWidth={850} >
-                                <Explore />
+                                <Explore noSearchBar />
                             </MediaQuery>
                         </div>
                         <div className="sidebar">
                             <div className="column">
-                                <div className="thumb">
-                                    <img src="img/login-thumb-vector.svg" alt="people vector" />
-                                    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by pikisuperstar - www.freepik.com</a>
-                                </div>
-                                <div style={{}} className="title">
-                                    See what’s happening in the fake_world right now
-                                </div>
                                 <Switch>
                                     <Route path="/signup">
                                         <Signup />
                                     </Route>
                                     <Route path="/search">
                                         <MediaQuery maxWidth={850}>
-                                            <Explore />
+                                            <Explore noSearchBar />
                                         </MediaQuery>
                                         <MediaQuery minWidth={850}>
                                             <Login />

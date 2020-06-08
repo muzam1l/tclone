@@ -7,6 +7,7 @@ import { AuthContext } from '../../utils/context/auth'
 class Login extends React.Component {
     static contextType = AuthContext;
     state = {
+        disabled: false,
         error: null,
         password: 'test',
         username: 'test'
@@ -18,7 +19,9 @@ class Login extends React.Component {
     }
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.setState({ error: null })
+        if (this.state.disabled)
+            return
+        this.setState({ error: null, disabled: true })
         try {
             let form = e.target;
             let username = filterInput(form.username.value, 'username', { min_length: 4 });
@@ -49,37 +52,49 @@ class Login extends React.Component {
             console.log(error.message);
             this.setState({ error: error.message })
         }
+        this.setState({ disabled: true })
     }
     render() {
+        let disabled = this.state.disabled ? "disabled" : ""
         return (
-            <form action='/login' onSubmit={this.handleSubmit} className="auth" method="POST">
-                <div className="group">
-                    <div className="label">Username</div>
-                    <input onChange={this.handleChange} value={this.state.username} type="text" name="username" autoCapitalize="off" />
+            <>
+                <div className="thumb">
+                    <img src="img/login-thumb-vector.svg" alt="people vector" />
+                    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by pikisuperstar - www.freepik.com</a>
                 </div>
-                <div className="group">
-                    <div className="label">Password</div>
-                    <input onChange={this.handleChange} value={this.state.password} autoCorrect="off" type="password" name="password" id="" />
+                <div style={{}} className="title">
+                    See what’s happening in the fake_world right now
                 </div>
-                <div className="links">
-                    <Link to="/help">Forgot password?</Link>
-                </div>
-                <div className="error">
-                    {this.state.error}
-                </div>
-                <div className="buttons">
-                    <button
-                        type="submit"
-                        className="btn active">
-                        <span>Log in</span>
-                    </button>
-                    <div className="seperator"><span>or</span></div>
-                    <Link to="/signup"
-                        className="btn passive">
-                        <span>Sign up</span>
-                    </Link>
-                </div>
-            </form>
+                <form action='/login' className={`auth ${disabled}`}
+                    onSubmit={this.handleSubmit} method="POST">
+                    <div className="group">
+                        <div className="label">Username</div>
+                        <input onChange={this.handleChange} value={this.state.username} type="text" name="username" autoCapitalize="off" />
+                    </div>
+                    <div className="group">
+                        <div className="label">Password</div>
+                        <input onChange={this.handleChange} value={this.state.password} autoCorrect="off" type="password" name="password" id="" />
+                    </div>
+                    <div className="links">
+                        <Link to="/help">Forgot password?</Link>
+                    </div>
+                    <div className="error">
+                        {this.state.error}
+                    </div>
+                    <div className="buttons">
+                        <button
+                            type="submit"
+                            className="btn active">
+                            <span>Log in</span>
+                        </button>
+                        <div className="seperator"><span>or</span></div>
+                        <Link to="/signup"
+                            className="btn passive">
+                            <span>Sign up</span>
+                        </Link>
+                    </div>
+                </form>
+            </>
         )
     }
 }
