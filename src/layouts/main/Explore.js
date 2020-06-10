@@ -38,7 +38,7 @@ class Explore extends React.Component {
                     <div className="trends">
                         <Switch>
                             <Route path='/explore/users'>
-                                <FollowCard title='Users to follow' length={20} />
+                                <FollowCard title='Users to follow' />
                             </Route>
                             <Route path='/'>
                                 <MediaQuery maxWidth={1020}>

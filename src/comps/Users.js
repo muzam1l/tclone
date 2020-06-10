@@ -18,7 +18,7 @@ class Users extends React.Component {
         this.fetchUsers();
     }
     async followUser(username) {
-        let url = `api/follow/${username}`;
+        let url = `/api/follow/${username}`;
         let res = await fetch(url);
         if (res.ok) {
             window.location.reload();
@@ -52,6 +52,7 @@ class Users extends React.Component {
         }
         return (
             <div className="Users">
+                {/* {console.log(this.state)} */}
                 {(!this.state.users && !this.state.doneFetching) ?
                     <div className="spinner">
                         <Spinner />
