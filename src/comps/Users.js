@@ -52,7 +52,6 @@ class Users extends React.Component {
         }
         return (
             <div className="Users">
-                {console.log(this.state)}
                 {(!this.state.users && !this.state.doneFetching) ?
                     <div className="spinner">
                         <Spinner />

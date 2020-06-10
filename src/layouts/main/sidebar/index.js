@@ -16,7 +16,7 @@ function Sidebar() {
                     {!(location.pathname === '/explore') ?
                         <TrendingCard title='Trends for you' /> : undefined}
                     {!(location.pathname === '/explore/users') ?
-                        <FollowCard title='Who to follow' /> : undefined}
+                        <FollowCard length={5} title='Who to follow' /> : undefined}
                     <Footer />
                 </div>
             </div>
