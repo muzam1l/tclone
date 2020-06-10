@@ -105,6 +105,7 @@ class Posts extends React.Component {
     render() {
         return (
             <div className="Posts">
+                {/* {console.log(this.state.posts)} */}
                 {this.state.posts.map(post => {
                     return (
                         <div key={post.id_str} className="post">
@@ -165,7 +166,7 @@ class Posts extends React.Component {
                             <div className="message">
                                 No (more) posts to show!
                             </div>
-                            <FollowCard title='Follow (more) users to see their posts' />
+                            <FollowCard title='Follow (more) users to see their posts' length={7} />
                         </>
                         :
                         (!this.state.errorFetching) ?

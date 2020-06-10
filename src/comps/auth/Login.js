@@ -9,8 +9,8 @@ class Login extends React.Component {
     state = {
         disabled: false,
         error: null,
-        password: 'test',
-        username: 'test'
+        password: '',
+        username: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -46,13 +46,13 @@ class Login extends React.Component {
             else if (responce.ok) {
                 let data = await responce.json();
                 console.log(data.message);
+                this.setState({ disabled: false })
                 this.context.login(data.user);
             }
         } catch (error) {
             console.log(error.message);
-            this.setState({ error: error.message })
+            this.setState({ error: error.message, disabled: false })
         }
-        this.setState({ disabled: true })
     }
     render() {
         let disabled = this.state.disabled ? "disabled" : ""

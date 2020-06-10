@@ -62,6 +62,7 @@ class Compose extends React.Component {
     }
     render() {
         let user = this.context.user;
+        // console.log(user);
         return (
             <div className="Compose">
                 <div className="media">

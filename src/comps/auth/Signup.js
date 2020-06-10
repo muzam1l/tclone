@@ -38,13 +38,12 @@ class Signup extends React.Component {
             }
             let data = await responce.json();
             console.log(data.message);
+            this.setState({ disabled: false })
             this.context.login(data.user);
-
         } catch (error) {
             console.log(error.message);
-            this.setState({ error: error.message })
+            this.setState({ error: error.message, disabled: false })
         }
-        this.setState({ disabled: false })
     }
     render() {
         let disabled = this.state.disabled ? "disabled" : ""
