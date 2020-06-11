@@ -54,7 +54,7 @@ class Users extends React.Component {
         }
         return (
             <div className="Users">
-                {/* {console.log(this.state)} */}
+                {console.log(this.state)}
                 {(!this.state.users && !this.state.doneFetching) ?
                     <div className="spinner">
                         <Spinner />
@@ -62,7 +62,7 @@ class Users extends React.Component {
                     : (
                         !this.state.users ?
                             <div className="message">
-                                No user suggestions for you right now
+                                {this.props.message || 'No user suggestions for you right now'}
                             </div>
                             : this.state.users.slice(0, this.props.length).map(itm => {
                                 return (

@@ -15,6 +15,7 @@ import { AuthContext } from '../utils/context/auth'
 import FollowCard from '../layouts/main/sidebar/FollowCard'
 
 import './Posts.css'
+import Users from './Users'
 
 class Posts extends React.Component {
     static contextType = AuthContext;
@@ -166,6 +167,7 @@ class Posts extends React.Component {
                             <div className="message">
                                 No (more) posts to show!
                             </div>
+                            <Users url={this.props.url} message={' '} />
                             <FollowCard title='Follow (more) users to see their posts' length={7} />
                         </>
                         :
