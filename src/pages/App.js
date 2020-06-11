@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from '../layouts/main'
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 //import { render } from '@testing-library/react';
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function (color = 'current') {
+export default function (color) {
     return (
         <div className="spinner-border">
             <style>{`
@@ -29,6 +29,14 @@ export default function (color = 'current') {
                 animation: spinner-border .75s linear infinite;
                 border-width: 0.2em;
             }
+            .spinner {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                color: rgb(29, 161, 242);
+                margin-top: 1em;
+            } 
             `}</style>
         </div>
     )

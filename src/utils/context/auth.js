@@ -4,14 +4,15 @@ const AuthContext = React.createContext()
 class AuthProvider extends React.Component {
     state = {
         isAuthenticated: false,
+        loading: false,
         user: null,
     }
     async logon() {
-        // this.setState({ loading: true });
+        this.setState({ loading: true, error: false });
         try {
             let responce = await fetch('/auth/login');
             if (responce.status >= 500) {
-                // this.setState({ error: true })
+                this.setState({ error: true })
             }
             if (responce.status >= 400) {
                 this.logout()
@@ -23,9 +24,9 @@ class AuthProvider extends React.Component {
             }
         } catch (error) {
             console.log(error);
-            // this.setState({ error: true })
+            this.setState({ error: true })
         } finally {
-            // this.setState({ loading: false })
+            this.setState({ loading: false })
         }
     }
     logon = this.logon.bind(this);

@@ -4,6 +4,11 @@
     overflow: hidden;
     background-color: white;
     font-size: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.Landing > .Navbar {
+    height: 60px; 
 }
 .Landing > content {
     display: flex;
@@ -12,7 +17,7 @@
     position: relative;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 90%;
+    height: 100%;
 }
 .Landing > content > .main {
     /* background-color: rgba(165, 167, 172, 0.199); */

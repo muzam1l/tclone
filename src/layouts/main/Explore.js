@@ -4,16 +4,27 @@ import Search from '../../comps/Search'
 import Trends from '../../comps/Trends'
 import MediaQuery from 'react-responsive'
 import FollowCard from './sidebar/FollowCard'
-import Users from '../../comps/Users'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 
 import './Explore.css'
 import Posts from '../../comps/Posts'
 
 class Explore extends React.Component {
+    state = {
+        path: this.props.location.pathname,
+        query: this.props.location.search,
+    }
+    componentDidUpdate() {
+        // let path = this.props.location.pathname;
+        let query = this.props.location.search;
+        if (query !== this.state.query) {
+            this.setState({
+                path: this.props.location.pathname,
+                query: this.props.location.search
+            })
+        }
+    }
     render() {
-        let path = window.location.pathname;
-        let query = window.location.search;
         return (
             <div className="Feed Explore">
                 <div className="header">
@@ -30,9 +41,9 @@ class Explore extends React.Component {
                         {/* TODO */}
                     </div>
                 </div>
-                {path.startsWith('/search') ? (
+                {this.state.path.startsWith('/search') ? (
                     <>
-                        <Posts url={`/api${path}${query}`} />
+                        <Posts key={this.state.query} url={`/api${this.state.path}${this.state.query}`} />
                     </>
                 ) :
                     <div className="trends">
@@ -58,4 +69,4 @@ class Explore extends React.Component {
         )
     }
 }
-export default Explore;
+export default withRouter(Explore);

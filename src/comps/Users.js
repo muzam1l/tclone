@@ -6,6 +6,7 @@ import './Users.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleUp'
 import { AuthContext } from '../utils/context/auth'
+import { withRouter } from 'react-router-dom'
 
 class Users extends React.Component {
     static contextType = AuthContext
@@ -21,7 +22,8 @@ class Users extends React.Component {
         let url = `/api/follow/${username}`;
         let res = await fetch(url);
         if (res.ok) {
-            window.location.reload();
+            this.props.history.push({ pathname: "/explore" });
+            this.props.history.replace({ pathname: "/home" });
         }
     }
     async fetchUsers() {
@@ -66,7 +68,7 @@ class Users extends React.Component {
                                 return (
                                     <div
                                         key={itm.screen_name}
-                                        onClick={() => { window.location.href = `/user/${itm.screen_name}` }}
+                                        onClick={() => { this.props.history.push(`/user/${itm.screen_name}`) }}
                                         className="content">
                                         <div className="media">
                                             <div className="img">
@@ -85,7 +87,11 @@ class Users extends React.Component {
                                                 ) : undefined}
                                             </div>
                                             <div className="follow">
-                                                <button onClick={() => this.followUser(itm.screen_name)} className="btn"><span>Follow</span></button>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); this.followUser(itm.screen_name) }}
+                                                    className="btn">
+                                                    <span>Follow</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -97,4 +103,4 @@ class Users extends React.Component {
         )
     }
 }
-export default Users
+export default withRouter(Users)

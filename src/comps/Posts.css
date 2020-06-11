@@ -1,7 +1,7 @@
 .Posts {
     /* margin-top: 5em; */
 }
-.message, .spinner {
+.message {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -61,7 +61,7 @@
     /* flex-grow: 2; */
     display: flex;
     flex-direction: column;
-    max-width: 82.5%;/* this shoudnt be like this */
+    width: 82.5%;/* this shoudnt be like this */
 }
 /*
 * name and username 
