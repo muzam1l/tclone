@@ -1,6 +1,7 @@
 import React from 'react'
 import TryAgain from './tools/TryAgain'
 import Spinner from './tools/Spinner'
+import { withRouter } from 'react-router-dom'
 
 import './Trends.css'
 
@@ -55,7 +56,7 @@ class TrendingCard extends React.Component {
                                     <div
                                         key={itm.name}
                                         className="content"
-                                        onClick={() => { window.location.href = `${window.origin}/search?q=${itm.query}` }}>
+                                        onClick={() => { this.props.history.push(`/search?q=${itm.query}`) }}>
                                         <div className="main">
                                             <div className="detail">{itm.name}</div>
                                             <div className="hashtag">{itm.name}</div>
@@ -71,4 +72,4 @@ class TrendingCard extends React.Component {
     }
 }
 
-export default TrendingCard;
+export default withRouter(TrendingCard);

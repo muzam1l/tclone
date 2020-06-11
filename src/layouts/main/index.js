@@ -24,7 +24,6 @@ class Main extends React.Component {
                         <Explore />
                     </Route>
                     <Route path='/'>
-                        <Redirect to='/' />
                         <Feed />
                     </Route>
                 </Switch>

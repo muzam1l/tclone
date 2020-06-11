@@ -39,7 +39,7 @@ function TryAgain(props) {
         <div style={style.main}>
             <div style={style.detail}>
                 <div style={style.txt}>
-                    Something went wrong
+                    {props.message || 'Something went wrong'}
                 </div>
                 <div style={style.btn} className='btn' onClick={props.fn}>
                     <FontAwesomeIcon icon={faRedo} />

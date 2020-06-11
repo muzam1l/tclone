@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import Spinner from './comps/tools/Spinner'
+import TryAgain from './comps/tools/TryAgain'
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider, useAuth } from './utils/context/auth'
@@ -26,12 +27,16 @@ ReactDOM.render(
   document.getElementById('root')
 );
 function Root() {
-  let { isAuthenticated, user, logon } = useAuth();
+  let { loading, error, isAuthenticated, user, logon } = useAuth();
   useEffect(() => {
     logon();
     // eslint-disable-next-line
   }, [])
-  if (isAuthenticated && user)
+  if (loading)
+    return <div className="spinner"><Spinner /></div>
+  else if (error)
+    return <TryAgain fn={logon} message='Something went wrong, check you connection and try again' />
+  else if (isAuthenticated && user)
     return <App />
   return <Landing />
 }

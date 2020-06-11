@@ -6,9 +6,9 @@ import { faSmile } from '@fortawesome/free-regular-svg-icons/faSmile'
 import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
 import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
-import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons/faUserAstronaut'
 
 import { AuthContext } from '../utils/context/auth'
+import { withRouter } from 'react-router-dom'
 
 import './Compose.css'
 class Compose extends React.Component {
@@ -46,7 +46,8 @@ class Compose extends React.Component {
         })
         if (res.ok) {
             // let data = await res.json();
-            window.location.reload();
+            this.props.history.push({ pathname: "/explore" });
+            this.props.history.replace({ pathname: "/" });
         }
         else
             alert('could not post your tweet, try again')
@@ -120,4 +121,4 @@ class Compose extends React.Component {
         )
     }
 }
-export default Compose
+export default withRouter(Compose)
