@@ -22,9 +22,9 @@ Though I am considering implementing modal and media sharing in posts (Tweets). 
 - __Pre populated posts__ (only original feature of this project 💪).
 when you open [tclone](https://tclone.netlify.app/), you see a bunch of users and their tweets (after you follow them). These are actual recent tweets of these accounts on Twitter and fetched via twitter api and then populated in database (so no, NASA didn't log into this clone 💣). Tweet Model on this project is exactly compatible with Tweet objects returned by Twitter api so you can pre populate  you own set of tweets (parsed automatically) for your own fork of this project (Go make one...----------------------------------------------------------------         please🥺).
 - __Trends and User suggestions__ (*It ain't much but it's honest work*)
-Not sophisticated and real-time though, but Hashtags with higher posts are stored as trends on the sidebar or on explore page and you can click on them to search for posts with given hashtags and users you are not following are also listed in Who to follow card on sidebar. Again, not real time so new posts aren't currently pushed to trends, but they can be (just not done yet, this is a fake one right 👀)
+Hashtags with higher posts are stored as trends on the sidebar or on explore page and you can click on them to search for posts with given hashtags and users you are not following are also listed in Who to follow card on sidebar. Trends are now realtime, so go on rise your hastag to trending section 💥.
 - __Search__ (it is easily done through mongoDB queries but I was proud to have it 🥇)
-You can search for text that the posts contain or for hashtags (by prefixing search with #) and for user mentions in posts (prefixing with @) and all of this works. I will also make search experience better in coming builds, as right now it is messy, but it works🥳)
+You can search for text that the posts contain or for hashtags (by prefixing search with #) and for users, prefix your query with @ to find user of that username (or name) and all of this just works and is enough to search through all of database 🥳)
 
 ## TODO
 All those things which I want to do and makes me learn smarting new and ........ lets see what I can do 🤷‍♂️.
