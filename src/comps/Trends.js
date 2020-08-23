@@ -57,7 +57,7 @@ class TrendingCard extends React.Component {
                                         to={`/search?q=${itm.query}`}
                                     >
                                         <small className="text-muted">{itm.name}</small>
-                                        <p className="mb-1 text-black"><b>{itm.name}</b></p>
+                                        <p className="mb-1 text-dark font-weight-bold text-capitalize">{itm.name}</p>
                                         <em className="">{itm.tweet_volume + ' Tweets'} </em>
                                     </ListGroup.Item>
 

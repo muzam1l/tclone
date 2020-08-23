@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { filterInput } from '../../utils/helpers'
-import { AuthContext } from '../../utils/context/auth'
+import { filterInput } from 'utils/helpers'
+import { AuthContext } from 'utils/context/auth'
 import { Figure, Form, Col } from 'react-bootstrap'
 
 class Login extends React.Component {
@@ -84,7 +84,7 @@ class Login extends React.Component {
                                 autoCapitalize="off"
                             ></Form.Control>
                         </Form.Group>
-                        <Form.Group controlId="password">
+                        <Form.Group className="mb-0" controlId="password">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 onChange={this.handleChange}
@@ -93,13 +93,12 @@ class Login extends React.Component {
                                 type="password"
                                 name="password"
                             ></Form.Control>
-                            <Form.Text>
-                                <Link to="/help">Forgot password?</Link>
-                            </Form.Text>
                         </Form.Group>
-                        <div className="error">
-                            {this.state.error}
-                        </div>
+                        <p>
+                            <small><Link to="/help">Forgot password?</Link></small>
+                            <br />
+                            <small className="text-danger">{this.state.error}</small>
+                        </p>
                         <div className="d-flex flex-column align-items-center">
                             <button type="submit" className="btn btn-outline-primary btn-block rounded-pill font-weight-bold">
                                 Log in

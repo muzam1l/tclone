@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { filterInput } from '../../utils/helpers'
-import { AuthContext } from '../../utils/context/auth'
+import { filterInput } from 'utils/helpers'
+import { AuthContext } from 'utils/context/auth'
 import { Figure, Form, Col } from 'react-bootstrap'
 
 class Signup extends React.Component {
@@ -88,11 +88,12 @@ class Signup extends React.Component {
                                 type="password"
                                 name="password"
                             ></Form.Control>
-                            <Form.Text>
-                                Already have account? <Link to="/login">login instead</Link>
-                            </Form.Text>
                         </Form.Group>
-                        <p className="text-danger">{this.state.error}</p>
+                        <p className="mt-n2">
+                            <small>Already have account? <Link to="/login">login instead</Link></small>
+                            <br />
+                            <small className="text-danger">{this.state.error}</small>
+                        </p>
                         <div className="d-flex flex-column align-items-center">
                             <button
                                 type="submit"

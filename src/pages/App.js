@@ -1,11 +1,11 @@
 import React from 'react';
-import Main from '../layouts/main'
+import Main from 'layouts/main'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { Row, Col, Container } from 'react-bootstrap'
 //import { render } from '@testing-library/react';
 
-const Header = React.lazy(() => import('../layouts/header'))
+const Header = React.lazy(() => import('layouts/header'))
 function App() {
   return (
     <Router>

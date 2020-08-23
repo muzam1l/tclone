@@ -2,14 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 
-const Trends = React.lazy(() => import('../../../comps/Trends'))
+const Trends = React.lazy(() => import('comps/Trends'))
 
 function TrendingCard(props) {
     let footer = {
         href: "/explore"
     }
+    let { className } = props;
     return (
-        <Card>
+        <Card className={className}>
             <Card.Header>{props.title}</Card.Header>
             {/* ListGroup */}
             <Trends length={4} />

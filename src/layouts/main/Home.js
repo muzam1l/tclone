@@ -10,7 +10,7 @@ class Home extends React.Component {
             <Col className="border">
                 <Heading title="Home" btnLogout={true} />
                 <Compose className='mt-2' />
-                <div style={{ height: "10px" }} className="w-100 bg-border border"></div>
+                <div style={{ height: "10px" }} className="w-100 bg-border-color border"></div>
                 <Posts url='/api/home_timeline' />
             </Col>
         )

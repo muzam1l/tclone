@@ -2,9 +2,7 @@ import React from 'react'
 import TryAgain from './TryAgain'
 import Spinner from './Spinner'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleUp'
-import { AuthContext } from '../utils/context/auth'
+import { AuthContext } from 'utils/context/auth'
 import { withRouter, Link } from 'react-router-dom'
 import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 
@@ -82,7 +80,7 @@ class Users extends React.Component {
                                             <Media.Body>
                                                 <Row>
                                                     <Col className="pr-2" xs="8">
-                                                        <p className="text-dark mb-0 text-truncate"><b>{itm.name}</b></p>
+                                                        <p className="text-dark mb-0 text-truncate text-capitalize font-weight-bold">{itm.name}</p>
                                                         <p className="text-muted text-truncate mb-1"> @{itm.screen_name}</p>
                                                     </Col>
                                                     <Col className="d-flex align-items-center justify-content-end px-2" xs="4">

@@ -1,5 +1,5 @@
 import React from 'react'
-import Search from '../../../comps/Search'
+import Search from 'comps/Search'
 import FollowCard from './FollowCard'
 import TrendingCard from './TrendingCard'
 import { Col } from "react-bootstrap"
@@ -11,11 +11,12 @@ function Sidebar() {
     return (
         <Col>
             <Search className="sticky-top my-2" />
-            {!(location.pathname === '/explore') ?
-                <TrendingCard title='Trends for you' /> : undefined}
-            <br />
+
             {!(location.pathname === '/explore/users') ?
-                <FollowCard length={5} title='Who to follow' /> : undefined}
+                <FollowCard className="my-3" length={5} title='Who to follow' /> : undefined}
+            {/* <br /> */}
+            {!(location.pathname === '/explore') ?
+                <TrendingCard className="my-3" title='Trends for you' /> : undefined}
             <footer className="m-2 mt-3 overflow-hidden">
                 <small>
                     <a

@@ -67,21 +67,21 @@ function Header(props) {
 
     ]
     return (
-        <Col className="p-0 d-flex flex-column">
-            <div className="mt-2">
+        <Col className="px-lg-3 d-flex flex-column">
+            <div className="mt-2 ml-n2">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
                     to={logo.href}>
                     <FontAwesomeIcon size="2x" icon={logo.icon} />
                 </Link>
             </div>
-            <div className="ml-n3 d-flex flex-column mb-2">
+            <div className="ml-n2 d-flex flex-column mb-2">
                 {list.map(itm => {
                     return (
                         <NavLink
                             key={itm.name}
                             to={itm.href}
-                            className="py-0 btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
+                            className="p-0 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
                             activeClassName="active"
                         >
                             <FontAwesomeIcon className="m-3 mx-sm-auto m-xl-3" size="lg" icon={itm.icon} />

@@ -9,11 +9,11 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { faRetweet } from '@fortawesome/free-solid-svg-icons/faRetweet'
 import { faShare } from '@fortawesome/free-solid-svg-icons/faShare'
 
-import { numFormatter } from '../utils/helpers'
-import { AuthContext } from '../utils/context/auth'
+import { numFormatter } from 'utils/helpers'
+import { AuthContext } from 'utils/context/auth'
 import { Link } from 'react-router-dom'
 
-import FollowCard from '../layouts/main/sidebar/FollowCard'
+import FollowCard from 'layouts/main/sidebar/FollowCard'
 import { Col, Media, Row, Card, ListGroup } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 
@@ -132,13 +132,14 @@ class Posts extends React.Component {
                                         <Link to={`/users/${post.user.screen_name}`} className="text-dark font-weight-bold mr-1">{post.user.name}</Link>
                                         {/* tick */}
                                         <span className="text-muted mr-1">@{post.user.screen_name}</span>
+                                        <pre className="m-0 text-muted">{" - "}</pre>
                                         <span className="text-muted"><ReactTimeAgo date={Date.parse(post.created_at)} timeStyle="twitter" /></span>
                                     </Row>
-                                    <Row><blockquote style={{ whiteSpace: "pre-wrap" }} className="text-break">{post.text}</blockquote></Row>
-                                    <Row>
+                                    <Row><blockquote style={{ whiteSpace: "pre-wrap" }} className="text-break mb-2">{post.text}</blockquote></Row>
+                                    <Row className="mb-2">
                                         <MultiMedia entities={post.entities} extented_entities={post.extented_entities} />
                                     </Row>
-                                    <Row className="d-flex justify-content-around align-items-center my-n2">
+                                    <Row className="d-flex justify-content-around align-items-center mb-n2">
                                         <button
                                             className="btn btn-naked-primary rounded-pill"
                                         >

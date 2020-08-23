@@ -21,7 +21,8 @@ function Search(props) {
     }
     return (
         <Form className={className} onSubmit={handleSubmit} role="search">
-            <Form.Group className="w-100 mb-0">
+            <Form.Group className="w-100 mb-0 rounded-pill border-0 px-3"
+                style={{ backgroundColor: "rgb(233,236,239)" }}>
                 <InputGroup className="w-100">
                     <InputGroup.Prepend>
                         <InputGroup.Text>
@@ -29,6 +30,8 @@ function Search(props) {
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
+                        style={{ backgroundColor: "rgb(233,236,239)" }}
+                        size="sm"
                         type="search"
                         placeholder="Search for posts, #hastags or @users"
                         name="search"

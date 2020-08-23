@@ -74,3 +74,27 @@ a {
   justify-content: center;
   padding: 2em 0;
 }
+.list-group {
+  max-width: 600px;
+}
+.form-group {
+  background-color: $input-bg;
+  border-bottom: 2px solid $gray-600;
+  padding: .25em;
+}
+label.form-label {
+  margin-bottom: 0;
+  color: $text-muted;
+  font-size: .9em;
+}
+input[type="password"] {
+  background-color: darken($input-bg, 5%) !important;
+}
+.card-header {
+  font-weight: 800;
+  font-size: 1.25em;
+  border-bottom: 1px solid $border-color;
+}
+.card-footer {
+  border-top: 1px solid $border-color !important;
+}

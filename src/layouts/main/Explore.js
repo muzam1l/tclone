@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Search from '../../comps/Search'
-import Trends from '../../comps/Trends'
+import Search from 'comps/Search'
+import Trends from 'comps/Trends'
 import MediaQuery from 'react-responsive'
 import FollowCard from './sidebar/FollowCard'
 import Users from 'comps/Users'
@@ -9,7 +9,7 @@ import Heading from 'comps/Heading'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { Col, Figure } from 'react-bootstrap'
 
-import Posts from '../../comps/Posts'
+import Posts from 'comps/Posts'
 
 class Explore extends React.Component {
     state = {
