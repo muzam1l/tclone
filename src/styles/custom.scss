@@ -1,0 +1,83 @@
+/* make the customizations */
+$primary: rgb(29, 161, 242);
+$secondary: rgb(26, 145, 218);
+$dark: rgb(20, 23, 26);
+$bg-color: rgba(29, 161, 242, 0.15);
+$border: rgb(230, 236, 240);
+$colors: (
+  "border": $border,
+  "bg-color": $bg-color
+);
+$theme-colors: (
+  "black": black,
+  "border": $border
+);
+$body-color: $dark;
+$input-btn-focus-width: 0;
+$btn-disabled-opacity: .5;
+$font-weight-bolder: 800;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1180px
+);
+
+$grid-gutter-width: 0;
+$enable-responsive-font-sizes: true;
+
+$spinner-width: 1.75rem;
+$spinner-border-width: .2em;
+
+$overflows: auto, hidden visible;
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value, $secondary);
+  }
+  .btn-outline-#{$color} {
+    @include button-outline-variant($value, $value, $bg-color);
+  }
+  // custom button with no outline or fill
+  .btn-naked-#{$color} {
+    @include button-variant(white, transparent, lighten($value, 40%), transparent, lighten($value, 37.5%));
+    border: none;
+    background: transparent;
+    &:hover {
+      color: $value;
+    }
+    &:focus:not(:hover) {
+      color: $value;
+      background: transparent;
+    }
+    &:not(:disabled):not(.disabled):active {
+      color: $value;
+    }
+    &:not(:disabled):not(.disabled):not(:hover).active {
+      background-color: transparent;
+    }
+  }
+}
+@each $value in $overflows {
+  .overflow-y-#{$value} { overflow-y: $value !important; }
+  .overflow-x-#{$value} { overflow-x: $value !important; }
+}
+.list-group {
+  max-width: 600px;
+}
+
+// // Option B: Include parts of Bootstrap
+
+// // Required
+// @import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/variables";
+// @import "../node_modules/bootstrap/scss/mixins";
+
+// // Optional
+// @import "../node_modules/bootstrap/scss/reboot";
+// @import "../node_modules/bootstrap/scss/type";
+// @import "../node_modules/bootstrap/scss/images";
+// @import "../node_modules/bootstrap/scss/code";
+// @import "../node_modules/bootstrap/scss/grid";

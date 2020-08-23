@@ -2,38 +2,33 @@ import React from 'react'
 import Search from '../../../comps/Search'
 import FollowCard from './FollowCard'
 import TrendingCard from './TrendingCard'
-import './Sidebar.css'
+import { Col } from "react-bootstrap"
 
 import { useLocation } from 'react-router-dom'
 
 function Sidebar() {
     const location = useLocation();
     return (
-        <div className="Sidebar">
-            <div className="column">
-                <Search />
-                <div className="content">
-                    {!(location.pathname === '/explore') ?
-                        <TrendingCard title='Trends for you' /> : undefined}
-                    {!(location.pathname === '/explore/users') ?
-                        <FollowCard length={5} title='Who to follow' /> : undefined}
-                    <Footer />
-                </div>
-            </div>
-        </div>
+        <Col>
+            <Search className="sticky-top my-2" />
+            {!(location.pathname === '/explore') ?
+                <TrendingCard title='Trends for you' /> : undefined}
+            <br />
+            {!(location.pathname === '/explore/users') ?
+                <FollowCard length={5} title='Who to follow' /> : undefined}
+            <footer className="m-2 mt-3 overflow-hidden">
+                <small>
+                    <a
+                        className="text-muted text-dark"
+                        href='https://www.freepik.com/free-photos-vectors/people'
+                    >People vector created by studiogstock - www.freepik.com</a>
+                </small>
+                <p className="text-black font-weight-bold">
+                    <a className="text-monospace" href="https://github.com/muzam1l/tclone">Tclone, the twitter clone</a>
+                </p>
+            </footer>
+        </Col>
     )
 }
-
-function Footer() {
-    return (
-        <div className="bottomer">
-            <div className="links">
-                <a href='https://www.freepik.com/free-photos-vectors/people'>People vector created by studiogstock - www.freepik.com</a>
-            </div>
-            <div className="about">@tclone, the twitter clone</div>
-        </div>
-    )
-}
-
 
 export default Sidebar;

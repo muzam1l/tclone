@@ -1,12 +1,12 @@
 import React from 'react'
-import TryAgain from './tools/TryAgain'
-import Spinner from './tools/Spinner'
-import './Users.css'
+import TryAgain from './TryAgain'
+import Spinner from './Spinner'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowAltCircleUp'
 import { AuthContext } from '../utils/context/auth'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
+import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 
 class Users extends React.Component {
     static contextType = AuthContext
@@ -45,6 +45,7 @@ class Users extends React.Component {
     }
     fetchUsers = this.fetchUsers.bind(this);
     render() {
+        let { className, url, length, message } = this.props;
         if (this.state.errorFetching) {
             return (
                 <div className="card">
@@ -53,53 +54,53 @@ class Users extends React.Component {
             )
         }
         return (
-            <div className="Users">
-                {console.log(this.state)}
+            <ListGroup className={"" + className} variant="flush">
                 {(!this.state.users && !this.state.doneFetching) ?
-                    <div className="spinner">
-                        <Spinner />
-                    </div>
+                    <Spinner />
                     : (
                         !this.state.users ?
                             <div className="message">
-                                {this.props.message || 'No user suggestions for you right now'}
+                                {message || 'No user suggestions for you right now'}
                             </div>
-                            : this.state.users.slice(0, this.props.length).map(itm => {
+                            : this.state.users.slice(0, length).map(itm => {
                                 return (
-                                    <div
+                                    <ListGroup.Item
+                                        className="px-1"
+                                        action
                                         key={itm.screen_name}
-                                        onClick={() => { this.props.history.push(`/user/${itm.screen_name}`) }}
-                                        className="content">
-                                        <div className="media">
-                                            <div className="img">
-                                                <img src={itm.profile_image_url_https} alt='' />
-                                            </div>
-                                        </div>
-                                        <div className="body">
-                                            <div className="main">
-                                                <div className="name">{itm.name}</div>
-                                                <div className="user">{itm.screen_name}</div>
-                                                {itm.promoted ? (
-                                                    <div className="pro">
-                                                        <FontAwesomeIcon icon={faArrowCircleUp} />
-                                                        <span>Promoted</span>
-                                                    </div>
-                                                ) : undefined}
-                                            </div>
-                                            <div className="follow">
-                                                <button
-                                                    onClick={(e) => { e.stopPropagation(); this.followUser(itm.screen_name) }}
-                                                    className="btn">
-                                                    <span>Follow</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        as={Link}
+                                        to={`/user/${itm.screen_name}`}
+                                    >
+                                        <Media>
+                                            <img
+                                                width={50}
+                                                height={50}
+                                                className="rounded-circle mx-3"
+                                                src={itm.profile_image_url_https}
+                                                alt=''
+                                            />
+                                            <Media.Body>
+                                                <Row>
+                                                    <Col className="pr-2" xs="8">
+                                                        <p className="text-dark mb-0 text-truncate"><b>{itm.name}</b></p>
+                                                        <p className="text-muted text-truncate mb-1"> @{itm.screen_name}</p>
+                                                    </Col>
+                                                    <Col className="d-flex align-items-center justify-content-end px-2" xs="4">
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); this.followUser(itm.screen_name) }}
+                                                            className="btn btn-outline-primary rounded-pill px-3 py-1 font-weight-bold">
+                                                            <span>Follow</span>
+                                                        </button>
+                                                    </Col>
+                                                </Row>
+                                            </Media.Body>
+                                        </Media>
+                                    </ListGroup.Item>
                                 )
                             })
                     )
                 }
-            </div>
+            </ListGroup>
         )
     }
 }

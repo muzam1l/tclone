@@ -1,8 +1,8 @@
 import React from 'react'
-import './auth.css'
 import { Link } from 'react-router-dom'
 import { filterInput } from '../../utils/helpers'
 import { AuthContext } from '../../utils/context/auth'
+import { Figure, Form, Col } from 'react-bootstrap'
 
 class Signup extends React.Component {
     static contextType = AuthContext;
@@ -46,55 +46,69 @@ class Signup extends React.Component {
         }
     }
     render() {
-        let disabled = this.state.disabled ? "disabled" : ""
+        let disabled = this.state.disabled;
         return (
-            <>
-                <div className="thumb">
-                    <img src="img/login-thumb-vector.svg" alt="people vector" />
-                    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by pikisuperstar - www.freepik.com</a>
-                </div>
-                <div style={{}} className="title">
-                    Sign up to see fake_world right now
-            </div>
-                <form onSubmit={this.handleSubmit} className={`auth ${disabled}`} method="POST">
-                    <div className="group">
-                        <div className="label">Choose a username - (required)</div>
-                        <input type="text"
-                            name="username"
-                            autoComplete="off"
-                            autoCapitalize="off"
-                        />
-                    </div>
-                    <div className="group">
-                        <div className="label">Full name - (optional)</div>
-                        <input name="fullname" type="text" />
-                    </div>
-                    <div className="group">
-                        <div className="label">Choose a password - (required)</div>
-                        <input type="password" name="password" />
-                    </div>
-                    <div className="links">
-                        Already have account?
-                    <Link to="/login"> login instead</Link>
-                    </div>
-                    <div className="error">
-                        {this.state.error}
-                    </div>
-                    <div className="buttons">
-                        <button
-                            type="submit"
-                            className="btn active">
-                            <span>Sign up</span>
-                        </button>
-                        <div className="seperator"><span>or</span></div>
-                        <Link
-                            to="login"
-                            className="btn passive">
-                            <span>Log in</span>
-                        </Link>
-                    </div>
-                </form>
-            </>
+            <Col style={{ maxWidth: "350px" }} className="mx-auto border px-3 pb-3">
+                <Figure>
+                    <Figure.Image
+                        width={250}
+                        height={250}
+                        src="img/login-thumb-vector.svg"
+                        alt="people vector"
+                    />
+                    <Figure.Caption as="a" href="https://www.freepik.com/free-photos-vectors/people">
+                        <small className="text-muted text-wrap">People vector created by pikisuperstar - www.freepik.com</small>
+                    </Figure.Caption>
+                </Figure>
+                <h5 className="font-weight-bolder">
+                    See what’s happening in the fake_world right now
+                </h5>
+                <fieldset disabled={disabled}>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group controlId="username">
+                            <Form.Label>Choose a username - <small className="text-muted">required</small></Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="username"
+                                autoCapitalize="off"
+                                autoComplete="off"
+                            ></Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="fillname">
+                            <Form.Label>Full name - <small className="text-muted">optional</small></Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="fullname"
+                                autoCapitalize="on"
+                            ></Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="password">
+                            <Form.Label>Choose a password - <small className="text-muted">required</small></Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                            ></Form.Control>
+                            <Form.Text>
+                                Already have account? <Link to="/login">login instead</Link>
+                            </Form.Text>
+                        </Form.Group>
+                        <p className="text-danger">{this.state.error}</p>
+                        <div className="d-flex flex-column align-items-center">
+                            <button
+                                type="submit"
+                                className="btn btn-outline-primary font-weight-bold rounded-pill btn-block">
+                                <span>Sign up</span>
+                            </button>
+                            <div className="seperator"><span>or</span></div>
+                            <Link
+                                to="login"
+                                className="btn btn-primary font-weight-bold rounded-pill btn-block">
+                                <span>Log in</span>
+                            </Link>
+                        </div>
+                    </Form>
+                </fieldset>
+            </Col>
         )
     }
 }

@@ -1,36 +1,35 @@
 import React from 'react'
-import Login from '../comps/auth/Login'
-import Signup from '../comps/auth/Signup'
-import Navbar from '../layouts/landing/Navbar'
-// import Spinner from '../comps/tools/Spinner'
+import Login from 'comps/auth/Login'
+import Signup from 'comps/auth/Signup'
+import Navbar from 'layouts/landing/Navbar'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { Container, Col, Row } from 'react-bootstrap'
 
 import MediaQuery from 'react-responsive'
-import './Landing.css'
-const Explore = React.lazy(() => import('../layouts/main/Explore'))
+const Explore = React.lazy(() => import('layouts/main/Explore'))
 class Landing extends React.Component {
     render() {
         return (
             <Router>
-                <div className="Landing">
+                <>
                     <Navbar />
-                    <content>
-                        <div className="main">
-                            <MediaQuery minWidth={850} >
-                                <Explore noSearchBar />
-                            </MediaQuery>
-                        </div>
-                        <div className="sidebar">
-                            <div className="column">
+                    <Container>
+                        <Row>
+                            <Col lg="7">
+                                <MediaQuery minWidth={992} >
+                                    <Explore noSearchBar />
+                                </MediaQuery>
+                            </Col>
+                            <Col className="mx-auto  h-100 sticky-top" xs lg="5">
                                 <Switch>
                                     <Route path="/signup">
                                         <Signup />
                                     </Route>
                                     <Route path="/search">
-                                        <MediaQuery maxWidth={850}>
+                                        <MediaQuery maxWidth={992}>
                                             <Explore noSearchBar />
                                         </MediaQuery>
-                                        <MediaQuery minWidth={850}>
+                                        <MediaQuery minWidth={992}>
                                             <Login />
                                         </MediaQuery>
                                     </Route>
@@ -39,10 +38,10 @@ class Landing extends React.Component {
                                         <Login />
                                     </Route>
                                 </Switch>
-                            </div>
-                        </div>
-                    </content>
-                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </>
             </Router>
         )
     }

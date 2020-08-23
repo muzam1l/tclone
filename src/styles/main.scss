@@ -1,0 +1,76 @@
+@import "custom";
+
+.active {
+  color: $primary !important;
+}
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+a {
+  color: $primary;
+  text-decoration: none;
+  & > img:hover {
+    box-shadow: 0px 0px 5px 0px var(--primary);
+  }
+  svg {
+    float: left;
+  }
+}
+.btn {
+  font-family: inherit;
+  // font-weight: inherit;
+  // font-size: inherit;
+  padding: .5em;
+  > svg {
+    float: left;
+  }
+}
+button {
+  font-family: inherit;
+  // font-size: inherit;
+  // font-weight: inherit;
+  > span {
+    margin: auto;
+  }
+}
+textarea {
+  resize: none;
+  font: inherit;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  &:active:focus:hover {
+    background-color: transparent;
+    outline: none;
+    border: none;
+  }
+}
+input {
+  border: none;
+  color: $dark;
+  background-color: transparent;
+  font-family: inherit;
+  &:active:focus {
+    outline: none;
+    border: none;
+  }
+}
+a {
+  white-space: nowrap;
+}
+.hide-scroll {
+  /* This is the magic bit for Firefox */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    /* This is the magic bit for WebKit */
+    display: none;
+  }
+}
+.message {
+  width: 100%;
+  color: $primary;
+  display: flex;
+  justify-content: center;
+  padding: 2em 0;
+}
