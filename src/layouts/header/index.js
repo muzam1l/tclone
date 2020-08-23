@@ -12,8 +12,8 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons/faHashtag'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
 
 import { NavLink, Link } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 
-import './Header.css'
 function Header(props) {
     let logo = {
         href: "/home",
@@ -67,38 +67,35 @@ function Header(props) {
 
     ]
     return (
-        <div className="Header">
-            <div className="column">
-                <div className="logo">
-                    <Link className='btn' to={logo.href}>
-                        <FontAwesomeIcon icon={logo.icon} />
-                    </Link>
-                </div>
-                <div className="list">
-                    {list.map(itm => {
-                        return (
-                            <div key={itm.name} className="item">
-                                <NavLink
-                                    to={itm.href}
-                                    className="btn"
-                                    activeClassName="active">
-
-                                    <FontAwesomeIcon icon={itm.icon} />
-                                    <span className="name">{itm.name}</span>
-                                </NavLink>
-                            </div>
-                        )
-                    })}
-                </div>
-
-                <Link className="btn" id="compose" to="/compose/tweet">
-                    <div className="fill">
-                        <span>{compose.name}</span>
-                    </div>
-                    <FontAwesomeIcon icon={compose.icon} />
+        <Col className="px-lg-3 d-flex flex-column">
+            <div className="mt-2 ml-n2">
+                <Link
+                    className='btn text-primary btn-naked-primary rounded-circle p-2'
+                    to={logo.href}>
+                    <FontAwesomeIcon size="2x" icon={logo.icon} />
                 </Link>
             </div>
-        </div>
+            <div className="ml-n2 d-flex flex-column mb-2">
+                {list.map(itm => {
+                    return (
+                        <NavLink
+                            key={itm.name}
+                            to={itm.href}
+                            className="p-0 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
+                            activeClassName="active"
+                        >
+                            <FontAwesomeIcon className="m-3 mx-sm-auto m-xl-3" size="lg" icon={itm.icon} />
+                            <span className="d-none d-xl-block">{itm.name}</span>
+                        </NavLink>
+                    )
+                })}
+            </div>
+
+            <Link className="d-flex btn btn-primary font-weight-bold p-xl-3 rounded-pill w-100 mx-auto" id="compose" to="/compose/tweet">
+                <span className="d-none d-xl-block mx-auto">{compose.name}</span>
+                <FontAwesomeIcon className="d-xl-none mx-auto" size="2x" icon={compose.icon} />
+            </Link>
+        </Col>
     )
 }
 

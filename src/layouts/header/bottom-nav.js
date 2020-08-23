@@ -1,11 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
+
+import { NavLink, Link } from 'react-router-dom'
+import { } from 'react-bootstrap'
 
 function Nav() {
     let props = { active: 'Home' } //for now
@@ -31,52 +33,24 @@ function Nav() {
             icon: faEnvelope
         }
     ]
-    let style = {
-        Nav: {
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            width: '100%',
-            backgroundColor: 'white',
-            zIndex: 30,
-            borderTop: '1px solid rgb(230, 236, 240)',
-        },
-        list: {
-            display: 'flex',
-            flexDirection: 'row',
-        },
-        item: {
-            padding: '.75em',
-            width: '25%',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            // borderRadius: '10em',
-        },
-        svg: {
-            color: 'inherit'
-        }
-    }
     return (
-        <div style={style.Nav}>
-            <div style={style.list}>
-                {list.map(item => {
-                    let cls = (props.active === item.name) ? 'btn active' : 'btn';
-                    return (
-                        <Link
-                            key={item.name}
-                            to={item.href}
-                            className={cls}
-                            style={style.item}>
-                            <FontAwesomeIcon
-                                style={style.svg}
-                                icon={item.icon}
-                                size='lg'
-                            />
-                        </Link>
-                    )
-                })}
-            </div>
+        <div className="fixed-bottom bg-white d-flex justify-content-around border">
+            {list.map(item => {
+                {/* let active = (props.active === item.name) ? ' active' : ''; */ }
+                return (
+                    <NavLink
+                        key={item.name}
+                        to={item.href}
+                        activeClassName="active"
+                        className='btn btn-naked-primary rounded-pill p-3 px-5'
+                    >
+                        <FontAwesomeIcon
+                            icon={item.icon}
+                            size='lg'
+                        />
+                    </NavLink>
+                )
+            })}
         </div>
     )
 }

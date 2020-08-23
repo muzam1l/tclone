@@ -1,8 +1,8 @@
 import React from 'react'
-import './auth.css'
 import { Link } from 'react-router-dom'
-import { filterInput } from '../../utils/helpers'
-import { AuthContext } from '../../utils/context/auth'
+import { filterInput } from 'utils/helpers'
+import { AuthContext } from 'utils/context/auth'
+import { Figure, Form, Col } from 'react-bootstrap'
 
 class Login extends React.Component {
     static contextType = AuthContext;
@@ -55,46 +55,65 @@ class Login extends React.Component {
         }
     }
     render() {
-        let disabled = this.state.disabled ? "disabled" : ""
+        let disabled = this.state.disabled;
         return (
-            <>
-                <div className="thumb">
-                    <img src="img/login-thumb-vector.svg" alt="people vector" />
-                    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by pikisuperstar - www.freepik.com</a>
-                </div>
-                <div style={{}} className="title">
+            <Col style={{ maxWidth: "350px" }} className="mx-auto border px-3 pb-3">
+                <Figure>
+                    <Figure.Image
+                        width={250}
+                        height={250}
+                        src="img/login-thumb-vector.svg"
+                        alt="people vector"
+                    />
+                    <Figure.Caption as="a" href="https://www.freepik.com/free-photos-vectors/people">
+                        <small className="text-muted text-wrap">People vector created by pikisuperstar - www.freepik.com</small>
+                    </Figure.Caption>
+                </Figure>
+                <h5 className="font-weight-bolder">
                     See what’s happening in the fake_world right now
-                </div>
-                <form action='/login' className={`auth ${disabled}`}
-                    onSubmit={this.handleSubmit} method="POST">
-                    <div className="group">
-                        <div className="label">Username</div>
-                        <input onChange={this.handleChange} value={this.state.username} type="text" name="username" autoCapitalize="off" />
-                    </div>
-                    <div className="group">
-                        <div className="label">Password</div>
-                        <input onChange={this.handleChange} value={this.state.password} autoCorrect="off" type="password" name="password" id="" />
-                    </div>
-                    <div className="links">
-                        <Link to="/help">Forgot password?</Link>
-                    </div>
-                    <div className="error">
-                        {this.state.error}
-                    </div>
-                    <div className="buttons">
-                        <button
-                            type="submit"
-                            className="btn active">
-                            <span>Log in</span>
+                </h5>
+                <fieldset disabled={disabled}>
+                    <Form onSubmit={this.handleSubmit} >
+                        <Form.Group controlId="username">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                onChange={this.handleChange}
+                                value={this.state.username}
+                                type="text"
+                                name="username"
+                                autoCapitalize="off"
+                            ></Form.Control>
+                        </Form.Group>
+                        <Form.Group className="mb-0" controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                onChange={this.handleChange}
+                                value={this.state.password}
+                                autoCorrect="off"
+                                type="password"
+                                name="password"
+                            ></Form.Control>
+                        </Form.Group>
+                        <p>
+                            <small><Link to="/help">Forgot password?</Link></small>
+                            <br />
+                            <small className="text-danger">{this.state.error}</small>
+                        </p>
+                        <div className="d-flex flex-column align-items-center">
+                            <button type="submit" className="btn btn-outline-primary btn-block rounded-pill font-weight-bold">
+                                Log in
                         </button>
-                        <div className="seperator"><span>or</span></div>
-                        <Link to="/signup"
-                            className="btn passive">
-                            <span>Sign up</span>
+                            <small className="text-muted m-2">or</small>
+                            <Link
+                                to="/signup"
+                                className="btn btn-primary btn-block rounded-pill font-weight-bold"
+                            >
+                                Sign up
                         </Link>
-                    </div>
-                </form>
-            </>
+                        </div>
+                    </Form>
+                </fieldset>
+            </Col>
         )
     }
 }

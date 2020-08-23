@@ -1,25 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './Sidebar.css'
-const Trends = React.lazy(() => import('../../../comps/Trends'))
+import { Card } from 'react-bootstrap'
+
+const Trends = React.lazy(() => import('comps/Trends'))
 
 function TrendingCard(props) {
     let footer = {
         href: "/explore"
     }
+    let { className } = props;
     return (
-        <div className="card" >
-            <div className="header">
-                <span className="title">{props.title}</span>
-                {/* <a className="btn" href={header.href}> <FontAwesomeIcon icon={header.icon} /></a> */}
-            </div>
-
+        <Card className={className}>
+            <Card.Header>{props.title}</Card.Header>
+            {/* ListGroup */}
             <Trends length={4} />
-
-            <div className="footer">
-                <Link to={footer.href}>Show more</Link>
-            </div>
-        </div>
+            <Card.Footer>
+                <Card.Link as={Link} to={footer.href}>Show more</Card.Link>
+            </Card.Footer>
+            {/* <Link to={footer.href}>Show more</Link> */}
+        </Card>
     )
 }
 export default TrendingCard;

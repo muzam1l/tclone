@@ -1,0 +1,102 @@
+/* make the customizations */
+$primary: rgb(29, 161, 242);
+$secondary: rgb(26, 145, 218);
+$dark: rgb(20, 23, 26);
+$body-color: $dark;
+$bg-color: rgb(245,248,250);
+
+$card-bg: $bg-color;
+$card-border-radius: 1em;
+$card-border-width: 0;
+$card-cap-bg: $card-bg;
+$list-group-bg: transparent;
+$list-group-hover-bg: lighten($primary, 43.5%);
+
+$input-bg: $bg-color;
+$input-border-width: 0;
+$input-btn-focus-width: 0;
+$input-padding-y: .15rem;
+$input-padding-x: .15rem;
+$input-font-size: 1.1em;
+$input-font-size-sm: .95em;
+$input-border-radius: 0;
+$input-group-addon-border-width: 0;
+
+$btn-font-size-lg: 1.15rem;
+
+$btn-disabled-opacity: .5;
+
+$font-weight-bolder: 800;
+$overflows: auto, hidden visible;
+$grid-gutter-width: 0;
+$enable-responsive-font-sizes: true;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1180px
+);
+$theme-colors: (
+  "black": black,
+  "border-color": rgb(222,226,230),
+  "bg-color": $bg-color
+);
+
+$spinner-width: 1.75rem;
+$spinner-border-width: .2em;
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+
+$input-group-addon-bg: $gray-300;
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value, $secondary);
+  }
+  .btn-outline-#{$color} {
+    @include button-variant(white, $value, lighten($value, 40%), $value, lighten($value, 37.5%), $value);
+    color: $value !important;
+    // @include button-outline-variant($value, $value, lighten($value, 40%));
+    // &:not(:disabled):not(.disabled):active {
+    //   color: $value;
+    // }
+  }
+  // custom button with no outline or fill
+  .btn-naked-#{$color} {
+    @include button-variant(white, transparent, lighten($value, 42.5%), transparent, lighten($value, 40%));
+    border: none;
+    background: transparent;
+    &:hover {
+      color: $value;
+    }
+    &:focus:not(:hover) {
+      color: $value;
+      background: transparent;
+    }
+    &:not(:disabled):not(.disabled):active {
+      color: $value;
+    }
+    &:not(:disabled):not(.disabled):not(:hover).active {
+      background-color: transparent;
+    }
+  }
+}
+@each $value in $overflows {
+  .overflow-y-#{$value} { overflow-y: $value !important; }
+  .overflow-x-#{$value} { overflow-x: $value !important; }
+}
+
+// // Option B: Include parts of Bootstrap
+
+// // Required
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
+
+// // Optional
+// @import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/code";
+// @import "~bootstrap/scss/grid";

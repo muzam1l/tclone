@@ -30,7 +30,7 @@ function filterInput(input, type = 'custom', {
     }
     if (reg) {
         if (!reg.test(input)) {
-            throw Error(`${type} must match ${reg}`)
+            throw Error(`${type} must match regex: ${reg}`)
         }
     }
     //else custom

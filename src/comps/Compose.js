@@ -7,10 +7,11 @@ import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
 import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 
-import { AuthContext } from '../utils/context/auth'
+import { AuthContext } from 'utils/context/auth'
 import { withRouter } from 'react-router-dom'
 
-import './Compose.css'
+import { Media, Row } from 'react-bootstrap'
+
 class Compose extends React.Component {
     static contextType = AuthContext;
     state = {
@@ -19,15 +20,14 @@ class Compose extends React.Component {
         active: false,
     }
     handleChange(e) {
+        let ta = e.target
         this.setState({
-            editor_text: e.target.value
+            editor_text: ta.value,
+            active: ta.value.length > 0
         })
-        let newlines = this.count(e.target.value, '\n');
-        //seperate one for maybe performance
-        this.setState({
-            lines: newlines + 1,
-            active: e.target.value.length > 0
-        })
+        // for auto resizing of text area
+        ta.style.height = 'auto';
+        ta.style.height = (ta.scrollHeight) + 'px';
     }
     handleChange = this.handleChange.bind(this);
     handleSubmit = async (click) => {
@@ -63,60 +63,51 @@ class Compose extends React.Component {
     }
     render() {
         let user = this.context.user;
-        // console.log(user);
+        let { className } = this.props;
         return (
-            <div className="Compose">
-                <div className="media">
-                    <div className="img">
-                        <img src={user.default_profile_image ?
-                            'img/default-profile-vector.svg' :
-                            this.context.user.profile_image_url_https} alt="" />
-                    </div>
-                </div>
-                <div className="container">
-                    {/* editor */}
-                    <div className="editor">
+            <div className={"p-2 " + className}>
+                <Media>
+                    <img
+                        className="rounded-circle"
+                        src={user.default_profile_image ? 'img/default-profile-vector.svg' : this.context.user.profile_image_url_https}
+                        alt=""
+                        width={50}
+                        height={50}
+                    />
+                    <Media.Body>
                         <textarea
+                            className="w-100 p-2"
+                            style={{ fontSize: "1.25em", fontWeight: "400" }}
                             name="text"
                             onChange={this.handleChange}
                             onKeyPress={this.handleLine}
                             value={this.state.editor_text}
                             placeholder="What's happening?"
-                            rows={this.state.lines}>
+                        >
                         </textarea>
-                    </div>
-                    <div className="belower">
-                        <div className="left">
-                            <button className="btn">
-                                <FontAwesomeIcon icon={faImage} />
-                            </button>
-                            <button className="btn">
-                                <FontAwesomeIcon icon={faImages} />
-                            </button>
-                            <button className="btn">
-                                <FontAwesomeIcon icon={faSmile} />
-                            </button>
-                        </div>
-                        <div className="right">
-                            <span
-                                style={!this.state.active ? { display: 'none' } : null}
-                                className="progress">
-                                <FontAwesomeIcon icon={faCircle} size="lg" />
-                            </span>
-                            <button
-                                style={!this.state.active ? { display: 'none' } : null}
-                                className="btn">
-                                <FontAwesomeIcon icon={faPlus} />
-                            </button>
-                            <button
-                                onClick={this.handleSubmit}
-                                style={!this.state.active ? { opacity: .5 } : null}
-                                className="btn submit">
-                                Tweet
+                        <div className="border-top d-flex justify-content-between align-items-center pt-2">
+                            <div style={{ fontSize: "1.5em" }}>
+                                <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
+                                    <FontAwesomeIcon size="lg" icon={faImage} />
                                 </button>
+                                <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
+                                    <FontAwesomeIcon size="lg" icon={faImages} />
+                                </button>
+                                <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
+                                    <FontAwesomeIcon size="lg" icon={faSmile} />
+                                </button>
+                            </div>
+                            <div className="right">
+                                <button
+                                    onClick={this.handleSubmit}
+                                    disabled={!this.state.active}
+                                    className="btn btn-primary rounded-pill px-3 py-2 font-weight-bold">
+                                    Tweet
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </Media.Body>
+                </Media>
             </div>
         )
     }

@@ -1,25 +1,31 @@
 import React from 'react';
-import Main from '../layouts/main'
-import './App.css';
+import Main from 'layouts/main'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
+import { Row, Col, Container } from 'react-bootstrap'
 //import { render } from '@testing-library/react';
 
-const Header = React.lazy(() => import('../layouts/header'))
+const Header = React.lazy(() => import('layouts/header'))
 function App() {
   return (
     <Router>
-      <div className="App">
-        {/* (min-width: 576px) and (mix-height: 500px) */}
-        <MediaQuery minWidth={576} minHeight={500}>
-          <Header></Header>
-        </MediaQuery>
-        <Switch>
-          <Route path='/' >
-            <Main />
-          </Route>
-        </Switch>
-      </div>
+      <Container>
+        <Row>
+          {/* (min-width: 576px) and (mix-height: 500px) */}
+          <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top h-100">
+            <MediaQuery minWidth={576} minHeight={500}>
+              <Header></Header>
+            </MediaQuery>
+          </Col>
+          <Col sm="11" xl="10">
+            <Switch>
+              <Route path='/' >
+                <Main />
+              </Route>
+            </Switch>
+          </Col>
+        </Row>
+      </Container>
     </Router>
   );
 }

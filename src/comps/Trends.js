@@ -1,9 +1,8 @@
 import React from 'react'
-import TryAgain from './tools/TryAgain'
-import Spinner from './tools/Spinner'
-import { withRouter } from 'react-router-dom'
-
-import './Trends.css'
+import TryAgain from './TryAgain'
+import Spinner from './Spinner'
+import { withRouter, Link } from 'react-router-dom'
+import { ListGroup } from 'react-bootstrap'
 
 class TrendingCard extends React.Component {
     state = {
@@ -41,11 +40,9 @@ class TrendingCard extends React.Component {
             )
         }
         return (
-            <div className="Trends">
+            <ListGroup variant="flush">
                 {(!this.state.trends && !this.state.doneFetching) ?
-                    <div className="spinner">
-                        <Spinner />
-                    </div>
+                    <Spinner />
                     : (
                         !this.state.trends ?
                             <div className="message">
@@ -53,21 +50,22 @@ class TrendingCard extends React.Component {
                             </div>
                             : this.state.trends.slice(0, this.props.length).map(itm => {
                                 return (
-                                    <div
+                                    <ListGroup.Item
+                                        as={Link}
+                                        action
                                         key={itm.name}
-                                        className="content"
-                                        onClick={() => { this.props.history.push(`/search?q=${itm.query}`) }}>
-                                        <div className="main">
-                                            <div className="detail">{itm.name}</div>
-                                            <div className="hashtag">{itm.name}</div>
-                                            <div className="ntweets">{itm.tweet_volume + ' Tweets'} </div>
-                                        </div>
-                                    </div>
+                                        to={`/search?q=${itm.query}`}
+                                    >
+                                        <small className="text-muted">{itm.name}</small>
+                                        <p className="mb-1 text-dark font-weight-bold text-capitalize">{itm.name}</p>
+                                        <em className="">{itm.tweet_volume + ' Tweets'} </em>
+                                    </ListGroup.Item>
+
                                 )
                             })
                     )
                 }
-            </div>
+            </ListGroup>
         )
     }
 }
