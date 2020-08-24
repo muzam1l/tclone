@@ -1,0 +1,19 @@
+[build]
+    publish = "build/"
+    command = "npm run build"
+[[redirects]]
+    from = "/api/*"
+    to = "https://tclone-api.herokuapp.com/api/:splat"
+    status = 200
+[[redirects]]
+    from = "/auth/*"
+    to = "https://tclone-api.herokuapp.com/auth/:splat"
+    status = 200
+[[redirects]]
+    from = "/img/*"
+    to = "https://tclone-api.herokuapp.com/img/:splat"
+    status = 200
+[[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200

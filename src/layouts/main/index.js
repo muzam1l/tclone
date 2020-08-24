@@ -4,7 +4,7 @@ import Sidebar from './sidebar'
 import Nav from '../header/bottom-nav'
 import MediaQuery from 'react-responsive'
 
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { AuthContext } from 'utils/context/auth'
 
 import { Row, Col } from 'react-bootstrap'

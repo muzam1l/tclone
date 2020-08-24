@@ -43,7 +43,7 @@ class Users extends React.Component {
     }
     fetchUsers = this.fetchUsers.bind(this);
     render() {
-        let { className, url, length, message } = this.props;
+        let { className, length, message } = this.props;
         if (this.state.errorFetching) {
             return (
                 <div className="card">

@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 
 function MM(props) {
-    let { entities, extended_entities } = props;
+    let { entities } = props;
     // returns just thumb for now
     //TODO make it work for all
     if (entities.media && entities.media.length)
