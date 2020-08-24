@@ -122,7 +122,7 @@ class Posts extends React.Component {
                                         width={50}
                                         height={50}
                                         src={(post.user.default_profile_image) ? 'img/default-profile-vector.svg' : post.user.profile_image_url_https}
-                                        alt="user profile"
+                                        alt="user"
                                     />
                                 </Link>
                                 <Media.Body>
