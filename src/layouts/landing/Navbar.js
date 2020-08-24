@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import Search from 'comps/Search'
 import { Link } from 'react-router-dom'
-import MediaQuery from 'react-responsive'
 import { Navbar, Row, Container } from 'react-bootstrap'
 
 class Navigationbar extends React.Component {

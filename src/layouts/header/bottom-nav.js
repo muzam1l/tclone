@@ -6,11 +6,10 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
 
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { } from 'react-bootstrap'
 
 function Nav() {
-    let props = { active: 'Home' } //for now
     let list = [
         {
             name: "Home",
@@ -36,7 +35,6 @@ function Nav() {
     return (
         <div className="fixed-bottom bg-white d-flex justify-content-around border">
             {list.map(item => {
-                {/* let active = (props.active === item.name) ? ' active' : ''; */ }
                 return (
                     <NavLink
                         key={item.name}

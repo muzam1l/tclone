@@ -4,13 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons/faImage'
 import { faSmile } from '@fortawesome/free-regular-svg-icons/faSmile'
 import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
-import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 
 import { AuthContext } from 'utils/context/auth'
 import { withRouter } from 'react-router-dom'
 
-import { Media, Row } from 'react-bootstrap'
+import { Media } from 'react-bootstrap'
 
 class Compose extends React.Component {
     static contextType = AuthContext;

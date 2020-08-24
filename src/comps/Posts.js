@@ -14,10 +14,8 @@ import { AuthContext } from 'utils/context/auth'
 import { Link } from 'react-router-dom'
 
 import FollowCard from 'layouts/main/sidebar/FollowCard'
-import { Col, Media, Row, Card, ListGroup } from 'react-bootstrap'
+import { Media, Row, ListGroup } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
-
-import Users from './Users'
 
 class Posts extends React.Component {
     static contextType = AuthContext;
@@ -124,7 +122,7 @@ class Posts extends React.Component {
                                         width={50}
                                         height={50}
                                         src={(post.user.default_profile_image) ? 'img/default-profile-vector.svg' : post.user.profile_image_url_https}
-                                        alt="user profile image"
+                                        alt="user profile"
                                     />
                                 </Link>
                                 <Media.Body>
