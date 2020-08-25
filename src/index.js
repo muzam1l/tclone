@@ -41,7 +41,7 @@ function Root() {
   if (status === "loading")
     return <Spinner />
   else if (status === "error")
-    return <TryAgain fn={login} message='Something went wrong, check you connection and try again' />
+    return <TryAgain fn={() => { dispatch(login()) }} message='Something went wrong, check you connection and try again' />
   else if (isAuthenticated && user)
     return <App />
   return <Landing />

@@ -3,23 +3,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 export const login = createAsyncThunk(
     'auth/login',
     async (_, { dispatch }) => {
-        try {
-            let res = await fetch('/auth/login');
-            if (res.ok) {
-                let data = await res.json();
-                if (data.user) {
-                    dispatch(loggedIn(data.user))
-                }
+        let res = await fetch('/auth/login');
+        if (res.ok) {
+            let data = await res.json();
+            if (data.user) {
+                dispatch(loggedIn(data.user))
             }
-            else if (res.status >= 500) {
-                throw Error("Request Error")
-            }
-            else if (res.status >= 400) {
-                dispatch(loggedOut())
-            }
-        } finally {
-            return null
         }
+        else if (res.status >= 500) {
+            throw Error("Request Error")
+        }
+        else if (res.status >= 400) {
+            dispatch(loggedOut())
+        }
+        return null;
     }
 )
 export const logout = createAsyncThunk(
