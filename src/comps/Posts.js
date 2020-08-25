@@ -10,15 +10,15 @@ import { faRetweet } from '@fortawesome/free-solid-svg-icons/faRetweet'
 import { faShare } from '@fortawesome/free-solid-svg-icons/faShare'
 
 import { numFormatter } from 'utils/helpers'
-import { AuthContext } from 'utils/context/auth'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logout } from 'store/authSlice'
 
 import FollowCard from 'layouts/main/sidebar/FollowCard'
 import { Media, Row, ListGroup } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 
 class Posts extends React.Component {
-    static contextType = AuthContext;
     state = {
         posts: [],
         post_id_strs: [],
@@ -59,7 +59,7 @@ class Posts extends React.Component {
             let fetchRes = await fetch(url);
             if (!fetchRes.ok) {
                 if (fetchRes.status === 401) {
-                    this.context.logout()
+                    this.props.logout()
                 }
                 errorFetching = true
             }
@@ -142,7 +142,7 @@ class Posts extends React.Component {
                                             className="btn btn-naked-primary rounded-pill"
                                         >
                                             <FontAwesomeIcon icon={faComment} />
-                                            <span>{numFormatter(post.retweet_count)}</span>
+                                            <small className="text-muted m-1">{numFormatter(post.retweet_count)}</small>
                                         </button>
                                         <button
                                             className="btn btn-naked-success rounded-pill"
@@ -154,7 +154,7 @@ class Posts extends React.Component {
                                             className="btn btn-naked-danger rounded-pill"
                                         >
                                             <FontAwesomeIcon icon={faHeart} />
-                                            <span>{numFormatter(post.favorite_count)}</span>
+                                            <small className="text-muted m-1">{numFormatter(post.favorite_count)}</small>
                                         </button>
                                         <button
                                             className="btn btn-naked-primary rounded-pill"
@@ -179,7 +179,6 @@ class Posts extends React.Component {
                                 <div className="message text-info">
                                     No (more) posts to show!
                                 </div>
-                                {/* <Users url={this.props.url} message={' '} /> */}
                                 <FollowCard title='Follow (more) users to see their posts' length={7} />
                             </>
                             :
@@ -194,4 +193,4 @@ class Posts extends React.Component {
     }
 }
 
-export default Posts
+export default connect(null, { logout })(Posts)

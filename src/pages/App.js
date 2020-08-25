@@ -11,7 +11,6 @@ function App() {
     <Router>
       <Container>
         <Row>
-          {/* (min-width: 576px) and (mix-height: 500px) */}
           <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top h-100">
             <MediaQuery minWidth={576} minHeight={500}>
               <Header></Header>

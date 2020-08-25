@@ -3,6 +3,9 @@
 .active {
   color: $primary !important;
 }
+html {
+  font-size: 15px;
+}
 body {
   overflow-y: scroll;
   overflow-x: hidden;

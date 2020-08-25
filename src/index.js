@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import Spinner from './comps/Spinner'
 import TryAgain from './comps/TryAgain'
 import * as serviceWorker from './serviceWorker';
-import { AuthProvider, useAuth } from './utils/context/auth'
 
 import JavascriptTimeAgo from 'javascript-time-ago'
 // The desired locales.
 import en from 'javascript-time-ago/locale/en'
 import { useEffect } from 'react';
+
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import { login } from 'store/authSlice'
+import store from 'store/'
 
 import './styles/main.scss';
 // Initialize the desired locales.
@@ -19,24 +22,26 @@ const Landing = React.lazy(() => import('./pages/Landing'))
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
+    <Provider store={store}>
       <Suspense fallback={<Spinner />}>
         <Root />
       </Suspense>
-    </AuthProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 function Root() {
-  let { loading, error, isAuthenticated, user, logon } = useAuth();
+  const { status, isAuthenticated, user } = useSelector(state => state.auth)
+  const dispatch = useDispatch();
+  // let { loading, error, isAuthenticated, user, logon } = useAuth();
   useEffect(() => {
-    logon();
+    dispatch(login());
     // eslint-disable-next-line
   }, [])
-  if (loading)
+  if (status === "loading")
     return <Spinner />
-  else if (error)
-    return <TryAgain fn={logon} message='Something went wrong, check you connection and try again' />
+  else if (status === "error")
+    return <TryAgain fn={login} message='Something went wrong, check you connection and try again' />
   else if (isAuthenticated && user)
     return <App />
   return <Landing />

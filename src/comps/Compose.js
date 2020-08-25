@@ -5,13 +5,12 @@ import { faImage } from '@fortawesome/free-regular-svg-icons/faImage'
 import { faSmile } from '@fortawesome/free-regular-svg-icons/faSmile'
 import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
 
-import { AuthContext } from 'utils/context/auth'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { Media } from 'react-bootstrap'
 
 class Compose extends React.Component {
-    static contextType = AuthContext;
     state = {
         editor_text: '',
         lines: 1,
@@ -60,14 +59,13 @@ class Compose extends React.Component {
         return coun;
     }
     render() {
-        let user = this.context.user;
-        let { className } = this.props;
+        let { user, className } = this.props;
         return (
             <div className={"p-2 " + className}>
                 <Media>
                     <img
                         className="rounded-circle"
-                        src={user.default_profile_image ? 'img/default-profile-vector.svg' : this.context.user.profile_image_url_https}
+                        src={user.default_profile_image ? 'img/default-profile-vector.svg' : user.profile_image_url_https}
                         alt=""
                         width={50}
                         height={50}
@@ -110,4 +108,4 @@ class Compose extends React.Component {
         )
     }
 }
-export default withRouter(Compose)
+export default connect(state => state.auth, {})(withRouter(Compose))

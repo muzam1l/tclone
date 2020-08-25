@@ -1,6 +1,6 @@
 import React from 'react'
-import Login from 'comps/auth/Login'
-import Signup from 'comps/auth/Signup'
+import Login from 'layouts/landing/Login'
+import Signup from 'layouts/landing/Signup'
 import Navbar from 'layouts/landing/Navbar'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { Container, Col, Row } from 'react-bootstrap'

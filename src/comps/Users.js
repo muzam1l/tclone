@@ -2,12 +2,13 @@ import React from 'react'
 import TryAgain from './TryAgain'
 import Spinner from './Spinner'
 
-import { AuthContext } from 'utils/context/auth'
+import { connect } from 'react-redux'
+import { logout } from 'store/authSlice'
+
 import { withRouter, Link } from 'react-router-dom'
 import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 
 class Users extends React.Component {
-    static contextType = AuthContext
     state = {
         users: [],
         errorFetching: false,
@@ -28,7 +29,7 @@ class Users extends React.Component {
         let res = await fetch(this.props.url || '/api/users');
         if (!res.ok) {
             if (res.status === 401) {
-                this.context.logout();
+                this.props.logout();
             }
             this.setState({ errorFetching: true })
         }
@@ -79,7 +80,7 @@ class Users extends React.Component {
                                             />
                                             <Media.Body>
                                                 <Row>
-                                                    <Col className="pr-2" xs="8">
+                                                    <Col className="pr-4 pr-xl-2" xs="8">
                                                         <p className="text-dark mb-0 text-truncate text-capitalize font-weight-bold">{itm.name}</p>
                                                         <p className="text-muted text-truncate mb-1"> @{itm.screen_name}</p>
                                                     </Col>
@@ -102,4 +103,4 @@ class Users extends React.Component {
         )
     }
 }
-export default withRouter(Users)
+export default connect(null, { logout })(withRouter(Users))

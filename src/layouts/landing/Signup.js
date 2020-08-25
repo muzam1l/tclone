@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { filterInput } from 'utils/helpers'
-import { AuthContext } from 'utils/context/auth'
+import { connect } from 'react-redux'
+import { login } from 'store/authSlice'
 import { Figure, Form, Col } from 'react-bootstrap'
 
 class Signup extends React.Component {
-    static contextType = AuthContext;
     state = {
         disabled: false,
         error: null
@@ -39,7 +39,7 @@ class Signup extends React.Component {
             let data = await responce.json();
             console.log(data.message);
             this.setState({ disabled: false })
-            this.context.login(data.user);
+            this.props.login(data.user);
         } catch (error) {
             console.log(error.message);
             this.setState({ error: error.message, disabled: false })
@@ -113,4 +113,4 @@ class Signup extends React.Component {
         )
     }
 }
-export default Signup
+export default connect(null, { login })(Signup)

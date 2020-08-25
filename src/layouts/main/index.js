@@ -5,14 +5,12 @@ import Nav from '../header/bottom-nav'
 import MediaQuery from 'react-responsive'
 
 import { Route, Switch } from 'react-router-dom'
-import { AuthContext } from 'utils/context/auth'
 
 import { Row, Col } from 'react-bootstrap'
 
 const Explore = React.lazy(() => import('./Explore'))
 
 class Main extends React.Component {
-    static contextType = AuthContext;
     render() {
         return (
             <Row>
