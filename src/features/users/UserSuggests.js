@@ -17,7 +17,7 @@ export default props => {
     let { user_suggests_status: status } = useSelector(state => state.users)
     let users = useSelector(selectSuggests)
     useEffect(() => {
-        if (status === 'idle')
+        if (status === 'idle' && !users.length)
             dispatch(getUserSuggests())
         // eslint-disable-next-line
     }, [])

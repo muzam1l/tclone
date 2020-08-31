@@ -58,7 +58,7 @@ class Compose extends React.Component {
                 <Media>
                     <img
                         className="rounded-circle"
-                        src={user.default_profile_image ? 'img/default-profile-vector.svg' : user.profile_image_url_https}
+                        src={user.default_profile_image ? '/img/default-profile-vector.svg' : user.profile_image_url_https}
                         alt=""
                         width={50}
                         height={50}

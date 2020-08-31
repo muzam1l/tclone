@@ -49,7 +49,7 @@ export default function PostsList(props) {
                                     className="rounded-circle mr-2"
                                     width={50}
                                     height={50}
-                                    src={(post.user.default_profile_image) ? 'img/default-profile-vector.svg' : post.user.profile_image_url_https}
+                                    src={(post.user.default_profile_image) ? '/img/default-profile-vector.svg' : post.user.profile_image_url_https}
                                     alt="user"
                                 />
                             </Link>
