@@ -40,7 +40,7 @@ function Nav() {
                         key={item.name}
                         to={item.href}
                         activeClassName="active"
-                        className='btn btn-naked-primary rounded-pill p-3 px-5'
+                        className='btn btn-naked-primary rounded-pill p-3'
                     >
                         <FontAwesomeIcon
                             icon={item.icon}

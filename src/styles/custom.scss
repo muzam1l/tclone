@@ -1,7 +1,10 @@
 /* make the customizations */
-$primary: rgb(29, 161, 242);
-$secondary: rgb(26, 145, 218);
-$dark: rgb(20, 23, 26);
+// $primary: rgb(29, 161, 242);
+// $secondary: rgb(26, 145, 218);
+$primary: #55AFB0;
+// $dark: rgb(20, 23, 26);
+// $dark: rgb(64, 64, 64);
+$dark: rgb(53, 83, 87);
 $body-color: $dark;
 $bg-color: rgb(245,248,250);
 
@@ -10,7 +13,7 @@ $card-border-radius: 1em;
 $card-border-width: 0;
 $card-cap-bg: $card-bg;
 $list-group-bg: transparent;
-$list-group-hover-bg: lighten($primary, 43.5%);
+$list-group-hover-bg: lighten($primary, 45%);
 
 $input-bg: $bg-color;
 $input-border-width: 0;
@@ -51,21 +54,15 @@ $spinner-border-width: .2em;
 $input-group-addon-bg: $gray-300;
 
 @each $color, $value in $theme-colors {
-  .btn-#{$color} {
-    @include button-variant($value, $value, $secondary);
-  }
   .btn-outline-#{$color} {
     @include button-variant(white, $value, lighten($value, 40%), $value, lighten($value, 37.5%), $value);
     color: $value !important;
-    // @include button-outline-variant($value, $value, lighten($value, 40%));
-    // &:not(:disabled):not(.disabled):active {
-    //   color: $value;
-    // }
   }
   // custom button with no outline or fill
   .btn-naked-#{$color} {
     @include button-variant(white, transparent, lighten($value, 42.5%), transparent, lighten($value, 40%));
     border: none;
+    color: $dark;
     background: transparent;
     &:hover {
       color: $value;

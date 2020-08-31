@@ -24,6 +24,7 @@ export const logout = createAsyncThunk(
     async (_, { dispatch }) => {
         await fetch('/auth/logout');
         dispatch(loggedOut())
+        window.location = "/login";
     }
 )
 
@@ -39,7 +40,7 @@ const authSlice = createSlice({
             state.isAuthenticated = true
             state.user = action.payload
         },
-        loggedOut(state, action) {
+        loggedOut(state) {
             state.isAuthenticated = false
             state.user = null
         }

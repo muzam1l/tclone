@@ -1,5 +1,5 @@
 import React from 'react'
-import Search from 'comps/Search'
+import Search from 'comps/SearchBar'
 import FollowCard from './FollowCard'
 import TrendingCard from './TrendingCard'
 import { Col } from "react-bootstrap"
@@ -20,7 +20,7 @@ function Sidebar() {
             <footer className="m-2 mt-3 overflow-hidden">
                 <small>
                     <a
-                        className="text-muted text-dark"
+                        className="text-muted text-dark text-truncate d-block"
                         href='https://www.freepik.com/free-photos-vectors/people'
                     >People vector created by studiogstock - www.freepik.com</a>
                 </small>

@@ -13,21 +13,20 @@ import { Provider, useDispatch, useSelector } from 'react-redux'
 import { login } from 'store/authSlice'
 import store from 'store/'
 
+import App from 'pages/App'
 import './styles/main.scss';
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en)
 
-const App = React.lazy(() => import('./pages/App'))
+// const App = React.lazy(() => import('./pages/App'))
 const Landing = React.lazy(() => import('./pages/Landing'))
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Suspense fallback={<Spinner />}>
-        <Root />
-      </Suspense>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <Suspense fallback={<Spinner />}>
+      <Root />
+    </Suspense>
+  </Provider>,
   document.getElementById('root')
 );
 function Root() {

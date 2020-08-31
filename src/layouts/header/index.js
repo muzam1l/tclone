@@ -67,32 +67,32 @@ function Header(props) {
 
     ]
     return (
-        <Col className="px-lg-3 d-flex flex-column">
-            <div className="mt-2 ml-n2">
+        <Col className="d-flex flex-column align-items-end">
+            <div className="m-2 mr-xl-auto">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
                     to={logo.href}>
                     <FontAwesomeIcon size="2x" icon={logo.icon} />
                 </Link>
             </div>
-            <div className="ml-n2 d-flex flex-column mb-2">
+            <div className="ml-0 d-flex flex-column mb-2 align-items-start">
                 {list.map(itm => {
                     return (
                         <NavLink
                             key={itm.name}
                             to={itm.href}
-                            className="p-0 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
+                            className="px-xl-2 py-xl-1 p-1 mb-1 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
                             activeClassName="active"
                         >
-                            <FontAwesomeIcon className="m-3 mx-sm-auto m-xl-3" size="lg" icon={itm.icon} />
-                            <span className="d-none d-xl-block">{itm.name}</span>
+                            <FontAwesomeIcon className="m-2" size="lg" icon={itm.icon} />
+                            <span className="d-none d-xl-block mr-2">{itm.name}</span>
                         </NavLink>
                     )
                 })}
             </div>
 
-            <Link className="d-flex btn btn-primary font-weight-bold p-xl-3 rounded-pill w-100 mx-auto" id="compose" to="/compose/tweet">
-                <span className="d-none d-xl-block mx-auto">{compose.name}</span>
+            <Link className="d-flex btn btn-primary font-weight-bold p-xl-3 rounded-pill" id="compose" to="/compose/tweet">
+                <span className="d-none d-xl-block mx-auto px-5">{compose.name}</span>
                 <FontAwesomeIcon className="d-xl-none mx-auto" size="2x" icon={compose.icon} />
             </Link>
         </Col>

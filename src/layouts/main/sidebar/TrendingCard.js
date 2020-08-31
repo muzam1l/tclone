@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
-
-const Trends = React.lazy(() => import('comps/Trends'))
+import Trends from 'features/trends/Trends'
 
 function TrendingCard(props) {
     let footer = {
@@ -17,7 +16,6 @@ function TrendingCard(props) {
             <Card.Footer>
                 <Card.Link as={Link} to={footer.href}>Show more</Card.Link>
             </Card.Footer>
-            {/* <Link to={footer.href}>Show more</Link> */}
         </Card>
     )
 }

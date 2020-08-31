@@ -4,7 +4,7 @@
   color: $primary !important;
 }
 html {
-  font-size: 15px;
+  font-size: 17px;
 }
 body {
   overflow-y: scroll;
@@ -72,10 +72,11 @@ a {
 }
 .message {
   width: 100%;
-  color: $primary;
+  color: $info;
   display: flex;
   justify-content: center;
-  padding: 2em 0;
+  font-size: .9em;
+  padding: 1em 0;
 }
 .list-group {
   max-width: 600px;
@@ -100,4 +101,31 @@ input[type="password"] {
 }
 .card-footer {
   border-top: 1px solid $border-color !important;
+}
+.bg-clear {
+  background-color: transparent !important;
+}
+a:not(.stretched-link) {
+  z-index: 2;
+}
+.high-index {
+  z-index: 1000;
+}
+@keyframes slide {
+  0%{
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.list-group-item {
+  animation: slide .15s ease-out;
+}
+blockquote {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }

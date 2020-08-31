@@ -1,18 +1,29 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Image } from 'react-bootstrap'
 
 function MM(props) {
-    let { entities } = props;
-    // returns just thumb for now
-    //TODO make it work for all
+    let { entities, options = {}, className } = props;
+    let { expanded = false } = options
+    let style = {
+        card: {
+            maxHeight: !expanded ? "300px" : "fit-content",
+            overflow: "hidden"
+        }
+    }
+    let { media: [photo] = [] } = entities;
+    let content
+    if (photo) {
+        content = (<Image
+            fluid
+            rounded={true}
+            src={photo.media_url_https}
+            alt='media preview' />
+        )
+    }
     if (entities.media && entities.media.length)
         return (
-            <Card className="w-100">
-                {(entities.media[0].type === "photo") ? (
-                    <Card.Img
-                        src={entities.media[0].media_url_https}
-                        alt='media preview' />
-                ) : undefined}
+            <Card className={`${className} w-100`} style={style.card}>
+                {content}
             </Card>
         )
     else

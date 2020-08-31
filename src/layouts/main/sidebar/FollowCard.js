@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-
-const Users = React.lazy(() => import('comps/Users'))
+import Users from 'features/users/UserSuggests'
 
 function FollowCard(props) {
     let { isAuthenticated } = useSelector(state => state.auth)
@@ -15,7 +14,7 @@ function FollowCard(props) {
         <Card className={className}>
             <Card.Header>{props.title}</Card.Header>
             {isAuthenticated ?
-                <Users length={props.length} /> :
+                <Users length={props.length} compact /> :
                 <div className="message">Login to see users and their posts</div>
             }
             <Card.Footer>
