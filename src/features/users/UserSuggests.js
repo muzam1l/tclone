@@ -17,19 +17,19 @@ export default props => {
     let { user_suggests_status: status } = useSelector(state => state.users)
     let users = useSelector(selectSuggests)
     useEffect(() => {
-        if (status === 'idle' && !users.length)
+        if (status === 'idle')
             dispatch(getUserSuggests())
         // eslint-disable-next-line
     }, [])
     let { message } = props;
 
-    if (status === 'error')
+    if (status === 'error' && !users.length)
         return <TryAgain fn={() => { dispatch(getUserSuggests()) }} />
 
-    else if (status === 'loading')
+    else if (status === 'loading' && !users.length)
         return <Spinner />
 
-    if ((users && !users.length) || !users)
+    if (!users.length)
         return (
             <div className="message">
                 {message || 'No user suggestions for you RN'}

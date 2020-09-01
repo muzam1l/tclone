@@ -1,12 +1,12 @@
 /* make the customizations */
 // $primary: rgb(29, 161, 242);
 // $secondary: rgb(26, 145, 218);
-$primary: #55AFB0;
+$primary: #55afb0;
 // $dark: rgb(20, 23, 26);
 // $dark: rgb(64, 64, 64);
 $dark: rgb(53, 83, 87);
 $body-color: $dark;
-$bg-color: rgb(245,248,250);
+$bg-color: rgb(245, 248, 250);
 
 $card-bg: $bg-color;
 $card-border-radius: 1em;
@@ -18,35 +18,35 @@ $list-group-hover-bg: lighten($primary, 45%);
 $input-bg: $bg-color;
 $input-border-width: 0;
 $input-btn-focus-width: 0;
-$input-padding-y: .15rem;
-$input-padding-x: .15rem;
+$input-padding-y: 0.15rem;
+$input-padding-x: 0.15rem;
 $input-font-size: 1.1em;
-$input-font-size-sm: .95em;
+$input-font-size-sm: 0.95em;
 $input-border-radius: 0;
 $input-group-addon-border-width: 0;
 
 $btn-font-size-lg: 1.15rem;
 
-$btn-disabled-opacity: .5;
+$btn-disabled-opacity: 0.5;
 
 $font-weight-bolder: 800;
-$overflows: auto, hidden visible;
+$overflows: auto, hidden, visible;
 $grid-gutter-width: 0;
 $enable-responsive-font-sizes: true;
 $container-max-widths: (
   sm: 540px,
   md: 720px,
   lg: 960px,
-  xl: 1180px
+  xl: 1180px,
 );
 $theme-colors: (
   "black": black,
-  "border-color": rgb(222,226,230),
-  "bg-color": $bg-color
+  "border-color": rgb(222, 226, 230),
+  "bg-color": $bg-color,
 );
 
 $spinner-width: 1.75rem;
-$spinner-border-width: .2em;
+$spinner-border-width: 0.2em;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
@@ -80,8 +80,12 @@ $input-group-addon-bg: $gray-300;
   }
 }
 @each $value in $overflows {
-  .overflow-y-#{$value} { overflow-y: $value !important; }
-  .overflow-x-#{$value} { overflow-x: $value !important; }
+  .overflow-y-#{$value} {
+    overflow-y: $value !important;
+  }
+  .overflow-x-#{$value} {
+    overflow-x: $value !important;
+  }
 }
 
 // // Option B: Include parts of Bootstrap

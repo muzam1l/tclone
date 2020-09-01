@@ -12,8 +12,9 @@ import {
 import PostsList from 'comps/PostsList'
 import Heading from 'comps/Heading'
 import FollowButton from 'comps/FollowButton'
-import { Image, Row } from 'react-bootstrap'
+import { Row, Figure } from 'react-bootstrap'
 import ScrollToTop from 'comps/ScrollToTop'
+import { numFormatter } from 'utils/helpers'
 
 export default props => {
     let dispatch = useDispatch()
@@ -42,20 +43,26 @@ export default props => {
     return (<>
         <ScrollToTop />
         <Heading title={user.name} backButton />
-        <Image
-            src={user.profile_banner_url}
-            fluid
-        />
+        <Figure
+            className="bg-border-color"
+            style={{ height: "200px", width: "100%" }}
+        >
+            <Figure.Image
+                src={user.profile_banner_url}
+                className="w-100 h-100"
+            />
+        </Figure>
         <div className="p-3 border-bottom">
             <Row className="d-flex justify-content-between mt-n2 px-2 align-items-center w-100">
-                <Image
-                    className="mt-n5"
-                    thumbnail={true}
-                    roundedCircle={true}
-                    height={100}
-                    width={100}
-                    src={user.profile_image_url_https}
-                />
+                <Figure
+                    style={{ height: "100px", width: "100px" }}
+                    className="mt-n5 rounded-circle overflow-hidden bg-primary"
+                >
+                    <Figure.Image
+                        className="w-100 h-100"
+                        src={user.profile_image_url_https}
+                    />
+                </Figure>
                 <FollowButton
                     user={user}
                     followUser={() => { dispatch(followUser(user.screen_name)) }}
@@ -72,8 +79,8 @@ export default props => {
                 <span className="text-muted">Joined {new Date(user.created_at).toDateString()}</span>
             </Row>
             <Row className="d-flex my-2">
-                <em className="mr-2">{user.followers_count} <span className="text-muted">Followers</span></em>
-                <div className="mr-2">{user.friends_count} <span className="text-muted">Following</span></div>
+                <em className="mr-2">{numFormatter(user.followers_count)} <span className="text-muted">Followers</span></em>
+                <div className="mr-2">{numFormatter(user.friends_count)} <span className="text-muted">Following</span></div>
             </Row>
         </div>
         <h5 className="m-2 pb-2 border-bottom">{user.statuses_count} <span className="text-muted">Posts</span></h5>

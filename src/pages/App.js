@@ -11,7 +11,7 @@ import Header from 'layouts/header'
 function App() {
   return (
     <Router>
-      <Container>
+      <Container className="mb-5 mb-sm-1">
         <Row>
           <MediaQuery minWidth={576} minHeight={500}>
             <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top h-100">

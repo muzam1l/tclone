@@ -27,7 +27,7 @@ export default props => {
     return (<>
         <ScrollToTop />
         <Heading backButton title="Post" />
-        <Col className="p-3 d-flex flex-column mb-5 mb-sm-0">
+        <Col className="p-3 d-flex flex-column">
             <Row>
                 <Row>
                     <Link

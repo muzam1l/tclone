@@ -21,9 +21,9 @@ export default (props) => {
             dispatch(getTrends())
         // eslint-disable-next-line
     }, [])
-    if (status === 'loading')
+    if (status === 'loading' && (!trends || !trends.length))
         return <Spinner />
-    else if (status === 'error')
+    else if (status === 'error' && (!trends || !trends.length))
         return <TryAgain fn={() => { dispatch(getTrends) }} />
     if (!trends || !trends.length)
         return <div className="message">No Trends for you RN</div>

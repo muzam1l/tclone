@@ -7,7 +7,7 @@ import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
 
 import { connect } from 'react-redux'
 import { composePost } from 'features/posts/postsSlice'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import { Media } from 'react-bootstrap'
 
@@ -56,13 +56,18 @@ class Compose extends React.Component {
         return (
             <div className={"p-2 " + className}>
                 <Media>
-                    <img
+                    <Link
                         className="rounded-circle"
-                        src={user.default_profile_image ? '/img/default-profile-vector.svg' : user.profile_image_url_https}
-                        alt=""
-                        width={50}
-                        height={50}
-                    />
+                        to={`/user/${user.screen_name}`}
+                    >
+                        <img
+                            className="rounded-circle"
+                            src={user.default_profile_image ? '/img/default-profile-vector.svg' : user.profile_image_url_https}
+                            alt=""
+                            width={50}
+                            height={50}
+                        />
+                    </Link>
                     <Media.Body>
                         <textarea
                             className="w-100 p-2"
