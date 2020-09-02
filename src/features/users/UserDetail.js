@@ -9,7 +9,7 @@ import {
     getUserTimeline
 } from './usersSlice'
 
-import Spinner from 'comps/Spinner'
+// import Spinner from 'comps/Spinner'
 import PostsList from 'comps/PostsList'
 import Heading from 'comps/Heading'
 import FollowButton from 'comps/FollowButton'

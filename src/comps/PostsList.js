@@ -1,7 +1,6 @@
 import React from 'react'
 import { useEffect, useCallback } from 'react'
 import ReactTimeAgo from 'react-time-ago'
-import { numFormatter } from 'utils/helpers'
 import { Link } from 'react-router-dom'
 import { Media, Row, ListGroup } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'

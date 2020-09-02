@@ -8,9 +8,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectPostById, getPost } from './postsSlice'
 
 import { numFormatter } from 'utils/helpers'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
-import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import ScrollToTop from 'comps/ScrollToTop'
 import ReactionsBar from './ReactionsBar'
 
