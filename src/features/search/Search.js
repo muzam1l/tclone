@@ -17,8 +17,8 @@ export default () => {
     let dispatch = useDispatch()
     let { search } = location
     let { status, query } = useSelector(state => state.search)
-    let posts = useSelector(selectSearchPosts)
-    let users = useSelector(selectSearchUsers)
+    let posts = useSelector(state => selectSearchPosts(state, query))
+    let users = useSelector(state => selectSearchUsers(state, query))
     let urlq = new URLSearchParams(search).get('q')
     if (!urlq || !urlq.trim()) {
         return <Redirect to="/explore" />

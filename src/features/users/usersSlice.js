@@ -81,8 +81,8 @@ const usersSlice = createSlice({
             state.user_timeline_page = 0
             state.user_timeline_status = 'idle'
         },
-        userAdded: usersAdapter.addOne,
-        usersAdded: usersAdapter.addMany
+        userAdded: usersAdapter.upsertOne,
+        usersAdded: usersAdapter.upsertMany
     },
     extraReducers: {
         [getUserSuggests.rejected]: state => { state.user_suggests_status = 'error' },
@@ -115,4 +115,10 @@ export const selectSuggests = createSelector(
     usersSelectors.selectAll,
     users => users.filter(user => (user.following === false || user.new === true)).sort(usersComparer)
 )
+
+export const selectSearchUsers = createSelector(
+    [usersSelectors.selectAll, (state, query) => query],
+    (users, query) => users.filter(user => (user.searched === true && user.query === query))
+)
+
 export { selectUserPosts } from 'features/posts/postsSlice'

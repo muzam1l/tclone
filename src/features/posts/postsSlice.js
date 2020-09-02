@@ -6,7 +6,6 @@ import {
 } from '@reduxjs/toolkit'
 import { request } from 'api'
 import { usersAdded } from 'features/users/usersSlice'
-import { searchSelectors } from 'features/search/searchSlice'
 
 const postsAdapter = createEntityAdapter({
     selectId: post => post.id_str,
@@ -36,9 +35,15 @@ export const getFeed = createAsyncThunk(
         let data = await request(url, { dispatch })
         let posts = data.posts
         let users = posts.map(post => post.user)
-        // console.log(posts)
         dispatch(usersAdded(users))
         return posts;
+    }
+)
+export const likePost = createAsyncThunk(
+    'posts/likePost',
+    async (post, { dispatch }) => {
+        dispatch(postLiked(post))
+        await request(`/api/like/${post.id_str}`, { dispatch })
     }
 )
 
@@ -56,8 +61,18 @@ const postsSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        postsAdded: postsAdapter.addMany,
-        postAdded: postsAdapter.addOne
+        postsAdded: postsAdapter.upsertMany,
+        postAdded: postsAdapter.upsertOne,
+        postLiked: (state, action) => {
+            let post = action.payload;
+            postsAdapter.updateOne(state, {
+                id: post.id_str,
+                changes: {
+                    favorited: true,
+                    favorite_count: post.favorite_count + 1
+                }
+            })
+        }
     },
     extraReducers: {
         [getFeed.rejected]: state => { state.feed_status = 'error' },
@@ -80,7 +95,7 @@ const postsSlice = createSlice({
     }
 })
 const { reducer, actions } = postsSlice
-export const { postsAdded, postAdded } = actions
+export const { postsAdded, postAdded, postLiked } = actions
 export default reducer
 let feedFilter = post => {
     return post.user.following === true //may be more conditions in future
@@ -89,8 +104,8 @@ let feedFilter = post => {
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
 
 export const selectPostById = createSelector(
-    [postsSelectors.selectAll, searchSelectors.selectAll, (state, postId) => postId],
-    (feedPosts, searchPosts, postId) => [...feedPosts, ...searchPosts].find(post => (post.id_str === postId))
+    [postsSelectors.selectAll, (state, postId) => postId],
+    (posts, postId) => posts.find(post => (post.id_str === postId))
 )
 export const selectFeedPosts = createSelector(
     [postsSelectors.selectAll],
@@ -99,4 +114,9 @@ export const selectFeedPosts = createSelector(
 export const selectUserPosts = createSelector(
     [postsSelectors.selectAll, (state, username) => username],
     (posts, username) => posts.filter(post => post.user.screen_name === username)
+)
+
+export const selectSearchPosts = createSelector(
+    [postsSelectors.selectAll, (state, query) => query],
+    (posts, query) => posts.filter(post => (post.searched === true && post.query === query))
 )

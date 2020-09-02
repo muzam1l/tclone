@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom'
 import { Media, Row, ListGroup } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 import Spinner from 'comps/Spinner'
+import ReactionsBar from 'features/posts/ReactionsBar'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
-import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 export default function PostsList(props) {
@@ -69,18 +67,7 @@ export default function PostsList(props) {
                                         extented_entities={post.extented_entities} />
                                 </Row>
                                 <Row className="d-flex justify-content-end align-items-center mb-n3 position-static">
-                                    <button
-                                        className="btn btn-naked-primary rounded-pill bg-clear high-index"
-                                    >
-                                        <FontAwesomeIcon icon={faComment} />
-                                        <small className="text-muted m-1">{numFormatter(post.retweet_count)}</small>
-                                    </button>
-                                    <button
-                                        className="btn btn-naked-danger rounded-pill bg-clear high-index"
-                                    >
-                                        <FontAwesomeIcon icon={faHeart} />
-                                        <small className="text-muted m-1">{numFormatter(post.favorite_count)}</small>
-                                    </button>
+                                    <ReactionsBar post={post} />
                                 </Row>
                             </Media.Body>
                         </Media>

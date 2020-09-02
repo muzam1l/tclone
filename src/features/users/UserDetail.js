@@ -9,6 +9,7 @@ import {
     getUserTimeline
 } from './usersSlice'
 
+import Spinner from 'comps/Spinner'
 import PostsList from 'comps/PostsList'
 import Heading from 'comps/Heading'
 import FollowButton from 'comps/FollowButton'
@@ -32,7 +33,7 @@ export default props => {
         // eslint-disable-next-line
     }, [username])
     if (!user)
-        return <div className="message">User not found</div>
+        return <div className="message">Not found</div>
     let append = (<>
         <PostsList
             status={status}

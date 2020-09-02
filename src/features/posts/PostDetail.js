@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import ScrollToTop from 'comps/ScrollToTop'
+import ReactionsBar from './ReactionsBar'
 
 export default props => {
     let { match: { params: { postId } = {} } = {} } = props
@@ -79,18 +80,7 @@ export default props => {
                 </div>
             </Row>
             <Row className="d-flex justify-content-end align-items-center mt-2">
-                <button
-                    className="btn btn-naked-primary rounded-pill bg-clear"
-                >
-                    <FontAwesomeIcon icon={faComment} size="lg" />
-                    <small className="text-muted m-1">{numFormatter(post.retweet_count)}</small>
-                </button>
-                <button
-                    className="btn btn-naked-danger rounded-pill bg-clear"
-                >
-                    <FontAwesomeIcon icon={faHeart} size="lg" />
-                    <small className="text-muted m-1">{numFormatter(post.favorite_count)}</small>
-                </button>
+                <ReactionsBar post={post} />
             </Row>
         </Col>
     </>)

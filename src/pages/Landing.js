@@ -9,6 +9,7 @@ import MediaQuery from 'react-responsive'
 const Explore = React.lazy(() => import('layouts/main/Explore'))
 const Search = React.lazy(() => import('features/search/Search'))
 const PostDetail = React.lazy(() => import('features/posts/PostDetail'))
+const UserDetail = React.lazy(() => import('features/users/UserDetail'))
 class Landing extends React.Component {
     render() {
         return (
@@ -22,13 +23,14 @@ class Landing extends React.Component {
                                     <Switch>
                                         <Route path="/search" component={Search} />
                                         <Route path='/post/:postId' component={PostDetail} />
+                                        <Route path='/user/:username' component={UserDetail} />
                                         <Route path="/">
                                             <Explore noSearchBar />
                                         </Route>
                                     </Switch>
                                 </MediaQuery>
                             </Col>
-                            <Col className="mx-auto  h-100 sticky-top" xs lg="5">
+                            <Col className="mx-auto vh-100 sticky-top overflow-y-auto hide-scroll" xs lg="5">
                                 <Switch>
                                     <Route path="/signup">
                                         <Signup />

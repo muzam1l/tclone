@@ -29,7 +29,7 @@ export default (props) => {
                 </MediaQuery>
                 <Heading title="Trends near you" />
                 <Figure className="d-flex flex-column align-items-end">
-                    <Figure.Image src="img/explore-thumb-vector.svg" alt="" />
+                    <Figure.Image src="/img/explore-thumb-vector.svg" alt="" />
                     <Figure.Caption><small><a className="text-muted font-weight-lighter" href="https://www.freepik.com/free-photos-vectors/brochure">Brochure vector created by katemangostar - www.freepik.com</a></small></Figure.Caption>
                 </Figure>
                 <Trends />

@@ -6,16 +6,17 @@ import {
 } from '@reduxjs/toolkit'
 import { request } from 'api'
 import { usersAdded } from 'features/users/usersSlice'
+import { postsAdded } from 'features/posts/postsSlice'
 
-const searchAdapter = createEntityAdapter({
-    selectId: postOrUser => postOrUser.id_str,
-    // sortComparer: (a, b) => (b.created_at.localeCompare(a.created_at))
-})
-const initialState = searchAdapter.getInitialState({
-    status: 'idle', // || 'loading', 'error', 'done'
-    page: 0, //page currently on, page to fetch is next one
-    query: '',
-})
+// const searchAdapter = createEntityAdapter({
+//     selectId: postOrUser => postOrUser.id_str,
+//     // sortComparer: (a, b) => (b.created_at.localeCompare(a.created_at))
+// })
+// const initialState = searchAdapter.getInitialState({
+//     status: 'idle', // || 'loading', 'error', 'done'
+//     page: 0, //page currently on, page to fetch is next one
+//     query: '',
+// })
 
 export const trySearch = () => async (dispatch, getState) => {
     let { search: { status } } = getState()
@@ -29,11 +30,15 @@ export const getSearch = createAsyncThunk(
         let { search: { page: p, query: q } } = getState()
         if (!q || !q.trim())
             throw Error('No Query')
-        q = encodeURIComponent(q)
-        let url = `/api/search?q=${q}&p=${p + 1}`
-        let { posts, users } = await request(url, { dispatch });
-        dispatch(usersAdded(posts.map(post => post.user))) //TEMP
-        return { posts, users }
+        let query = encodeURIComponent(q)
+        let url = `/api/search?q=${query}&p=${p + 1}`
+        let { posts = [], users = [] } = await request(url, { dispatch });
+        posts = posts.map(post => ({ ...post, searched: true, query: q }))
+        users = users.map(user => ({ ...user, searched: true, query: q }))
+        // dispatch(usersAdded(posts.map(post => post.user)))
+        dispatch(usersAdded(users))
+        dispatch(postsAdded(posts))
+        return posts.length
     }
 )
 export const changeQuery = createAsyncThunk(
@@ -46,7 +51,11 @@ export const changeQuery = createAsyncThunk(
 
 const searchSlice = createSlice({
     name: 'search',
-    initialState,
+    initialState: {
+        status: 'idle', // || 'loading', 'error', 'done'
+        page: 0, //page currently on, page to fetch is next one
+        query: '',
+    },
     reducers: {
         queryChanged: (state, action) => {
             state.query = action.payload
@@ -57,12 +66,12 @@ const searchSlice = createSlice({
         [getSearch.rejected]: state => { state.status = 'error' },
         [getSearch.pending]: state => { state.status = 'loading' },
         [getSearch.fulfilled]: (state, action) => {
-            let { users = [], posts = [] } = action.payload
-            if (state.page === 0)
-                searchAdapter.setAll(state, users.concat(posts))
-            else
-                searchAdapter.addMany(state, users.concat(posts))
-            if (posts.length) {
+            let length = action.payload
+            // if (state.page === 0)
+            //     searchAdapter.setAll(state, users.concat(posts))
+            // else
+            //     searchAdapter.addMany(state, users.concat(posts))
+            if (length) {
                 state.status = 'idle'
                 state.page += 1
             }
@@ -75,13 +84,16 @@ const { actions, reducer } = searchSlice
 export default reducer
 export const { queryChanged } = actions
 
-export const searchSelectors = searchAdapter.getSelectors(state => state.search)
+// export const searchSelectors = searchAdapter.getSelectors(state => state.search)
 
-export const selectSearchPosts = createSelector(
-    [searchSelectors.selectAll],
-    search => search.filter(obj => !obj.screen_name)
-)
-export const selectSearchUsers = createSelector(
-    [searchSelectors.selectAll],
-    search => search.filter(obj => obj.screen_name)
-)
+// export const selectSearchPosts = createSelector(
+//     [searchSelectors.selectAll],
+//     search => search.filter(obj => !obj.screen_name)
+// )
+// export const selectSearchUsers = createSelector(
+//     [searchSelectors.selectAll],
+//     search => search.filter(obj => obj.screen_name)
+// )
+
+export { selectSearchUsers } from 'features/users/usersSlice'
+export { selectSearchPosts } from 'features/posts/postsSlice'

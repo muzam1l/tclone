@@ -59,12 +59,12 @@ class Login extends React.Component {
     render() {
         let disabled = this.state.disabled;
         return (
-            <Col style={{ maxWidth: "350px" }} className="mx-auto border px-3 pb-3">
+            <Col style={{ maxWidth: "400px" }} className="mx-auto border px-3 pb-3">
                 <Figure>
                     <Figure.Image
                         width={250}
                         height={250}
-                        src="img/login-thumb-vector.svg"
+                        src="/img/login-thumb-vector.svg"
                         alt="people vector"
                     />
                     <Figure.Caption as="a" href="https://www.freepik.com/free-photos-vectors/people">
