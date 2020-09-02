@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { likePost } from './postsSlice'
+import { likePost, unlikePost } from './postsSlice'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
@@ -19,7 +19,7 @@ export default props => {
             <small className="text-muted m-1">{numFormatter(post.retweet_count)}</small>
         </button>
         <button
-            onClick={() => !post.favorited && dispatch(likePost(post))}
+            onClick={() => post.favorited ? dispatch(unlikePost(post)) : dispatch(likePost(post))}
             className="btn btn-naked-danger rounded-pill bg-clear high-index"
         >
             {post.favorited ? (

@@ -32,8 +32,8 @@ ReactDOM.render(
 function Root() {
   const { status, isAuthenticated, user } = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  // let { loading, error, isAuthenticated, user, logon } = useAuth();
   useEffect(() => {
+    // console.log(document.cookie)
     dispatch(login());
     // eslint-disable-next-line
   }, [])

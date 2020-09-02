@@ -46,6 +46,13 @@ export const likePost = createAsyncThunk(
         await request(`/api/like/${post.id_str}`, { dispatch })
     }
 )
+export const unlikePost = createAsyncThunk(
+    'posts/unlikePost',
+    async (post, { dispatch }) => {
+        dispatch(postUnliked(post))
+        await request(`/api/unlike/${post.id_str}`, { dispatch })
+    }
+)
 
 export const composePost = createAsyncThunk(
     'posts/composePost',
@@ -72,6 +79,16 @@ const postsSlice = createSlice({
                     favorite_count: post.favorite_count + 1
                 }
             })
+        },
+        postUnliked: (state, action) => {
+            let post = action.payload;
+            postsAdapter.updateOne(state, {
+                id: post.id_str,
+                changes: {
+                    favorited: false,
+                    favorite_count: post.favorite_count - 1
+                }
+            })
         }
     },
     extraReducers: {
@@ -95,7 +112,7 @@ const postsSlice = createSlice({
     }
 })
 const { reducer, actions } = postsSlice
-export const { postsAdded, postAdded, postLiked } = actions
+export const { postsAdded, postAdded, postLiked, postUnliked } = actions
 export default reducer
 let feedFilter = post => {
     return post.user.following === true //may be more conditions in future
