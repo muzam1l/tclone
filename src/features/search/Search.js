@@ -11,6 +11,7 @@ import {
 } from './searchSlice'
 import { followUser, unFollowUser } from 'features/users/usersSlice'
 import { useEffect } from 'react'
+import Spinner from 'comps/Spinner'
 
 export default () => {
     let location = useLocation()
@@ -27,16 +28,18 @@ export default () => {
         if (query !== urlq)
             dispatch(changeQuery(urlq))
     })
+    if (status === 'loading')
+        return <Spinner />
     return (<>
-        {users && <UsersList
+        <UsersList
             users={users}
             followUser={username => { dispatch(followUser(username)) }}
             unFollowUser={username => { dispatch(unFollowUser(username)) }}
-        />}
-        {posts && posts.length && <PostsList
+        />
+        {posts.length ? <PostsList
             posts={posts}
             status={status}
             getPosts={() => { dispatch(trySearch()) }}
-        />}
+        /> : <div className="message">No posts matching your query</div>}
     </>)
 }

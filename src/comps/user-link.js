@@ -47,7 +47,7 @@ export const UserPopover = React.forwardRef(
                 </Row>
                 <div className="flex flex-column">
                     <b>{user.name}</b>
-                    <div className="text-muted mb-2 mt-n1">{user.screen_name}</div>
+                    <div className="text-muted mb-2 mt-0">{user.screen_name}</div>
                 </div>
                 <blockquote className="">{user.description}</blockquote>
                 <Row className="d-flex flex-column">

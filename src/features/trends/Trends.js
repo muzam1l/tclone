@@ -23,13 +23,13 @@ export default (props) => {
     }, [])
     if (status === 'loading' && (!trends || !trends.length))
         return <Spinner />
-    else if (status === 'error' && (!trends || !trends.length))
-        return <TryAgain fn={() => { dispatch(getTrends) }} />
+    if (status === 'error' && (!trends || !trends.length))
+        return <TryAgain fn={() => { dispatch(getTrends()) }} />
     if (!trends || !trends.length)
         return <div className="message">No Trends for you RN</div>
     return (
         <ListGroup variant="flush">
-            {(trends && trends.slice(0, props.length).map(itm => {
+            {(trends.slice(0, props.length).map(itm => {
                 return (
                     <ListGroup.Item
                         as={Link}

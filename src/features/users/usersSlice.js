@@ -79,7 +79,6 @@ const usersSlice = createSlice({
         },
         resetTimelinePage: state => {
             state.user_timeline_page = 0
-            state.user_timeline_status = 'idle'
         },
         userAdded: usersAdapter.upsertOne,
         usersAdded: usersAdapter.upsertMany

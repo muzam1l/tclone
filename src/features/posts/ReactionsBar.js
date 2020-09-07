@@ -33,7 +33,7 @@ export default props => {
                 ) : <FontAwesomeIcon icon={faComment} />}
                 <small className="m-1">{numFormatter(post.retweet_count)}</small>
             </Dropdown.Toggle>
-            <Dropdown.Menu alignRight className="higher-index">
+            <Dropdown.Menu alignRight className="higher-index rounded-0">
                 <Dropdown.Item
                     className="high-index"
                     as='button'

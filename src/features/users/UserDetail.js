@@ -16,6 +16,7 @@ import FollowButton from 'comps/FollowButton'
 import { Row, Figure } from 'react-bootstrap'
 import ScrollToTop from 'comps/ScrollToTop'
 import { numFormatter } from 'utils/helpers'
+import Spinner from 'comps/Spinner'
 
 export default props => {
     let dispatch = useDispatch()
@@ -32,6 +33,8 @@ export default props => {
         dispatch(getUserTimeline(username))
         // eslint-disable-next-line
     }, [username])
+    if (status === 'loading' && !user)
+        return <Spinner />
     if (!user)
         return <div className="message">Not found</div>
     let append = (<>

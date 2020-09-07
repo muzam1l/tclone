@@ -14,7 +14,6 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 export default function PostsList(props) {
     let { posts = [], status, getPosts } = props;
-    let bottomRef = React.createRef();
     useEffect(useCallback(() => {
         if (status === 'idle' && !posts.length) {
             getPosts()
@@ -27,16 +26,12 @@ export default function PostsList(props) {
             console.log('loading more posts, status:', status)
         }
     }, [status, posts, getPosts]), 500)
+    if (status === 'loading' && !posts.length)
+        return <Spinner />
     return (
         <ListGroup variant="flush" className="border-bottom">
-            {(posts && posts.length > 0) ? posts.map(post => {
-                let retweeted = false;
-                let retweeted_by = null
-                if (post.retweeted_status) {
-                    retweeted = true
-                    retweeted_by = post.user
-                    post = post.retweeted_status
-                }
+            {(posts.length > 0) ? posts.map(post => {
+                let { retweeted_by, is_retweeted_status } = post
                 return (
                     <ListGroup.Item
                         className="px-3"
@@ -46,7 +41,7 @@ export default function PostsList(props) {
                         key={post.id_str + (retweeted_by && retweeted_by.id_str)}
                     >
                         <Row className="d-flex px-3 pb-1 mt-n2">
-                            {retweeted && (
+                            {is_retweeted_status && retweeted_by && (
                                 <UserLink
                                     user={retweeted_by}
                                     className="text-muted"
@@ -104,9 +99,7 @@ export default function PostsList(props) {
             }) : (
                     <div className="message">No posts for you right now</div>
                 )}
-            <div ref={bottomRef} >
-                {status === 'loading' ? <Spinner /> : <br />}
-            </div>
+            {status === 'loading' ? <Spinner /> : <br />}
         </ListGroup>
     )
 }

@@ -37,7 +37,6 @@ export default props => {
     let [progress, setProgress] = useState(10)
 
     let dirtyProgress = () => {
-        console.log("I was called")
         if (progress < 90)
             setTimeout(() => { setProgress(90) }, 200)
         return true

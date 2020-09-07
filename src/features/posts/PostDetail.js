@@ -13,32 +13,30 @@ import ReactionsBar from './ReactionsBar'
 import PostText from 'comps/PostText'
 import QuotedPost from 'comps/quoted-post'
 import UserLink from 'comps/user-link'
+import Spinner from 'comps/Spinner'
 
 export default props => {
     let { match: { params: { postId } = {} } = {} } = props
     let dispatch = useDispatch()
     let post = useSelector(state => selectPostById(state, postId))
+    let { post_detail_status: status } = useSelector(state => state.posts)
     useEffect(() => {
         if (!post)
             dispatch(getPost(postId))
     }, [post, postId, dispatch])
+    console.log(status)
+    if (status === 'loading')
+        return <Spinner />
     if (!post) {
         return <div className="message">Not Found</div>
     }
-
-    let retweeted = false;
-    let retweeted_by = null
-    if (post.retweeted_status) {
-        retweeted = true
-        retweeted_by = post.user
-        post = post.retweeted_status
-    }
+    let { retweeted_by, is_retweeted_status } = post
     return (<>
         <ScrollToTop />
         <Heading backButton title="Post" />
         <Col className="p-3 d-flex flex-column">
             <Row className="d-flex px-3 pb-1 mt-n2">
-                {retweeted && (
+                {is_retweeted_status && (
                     <UserLink
                         user={retweeted_by}
                         className="text-muted"

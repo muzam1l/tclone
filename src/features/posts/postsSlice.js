@@ -14,7 +14,8 @@ const postsAdapter = createEntityAdapter({
 const initialState = postsAdapter.getInitialState({
     feed_status: 'idle', // || 'loading', 'error', 'done'
     feed_page: 0, //page currently on, page to fetch is next one
-    compose_status: 'idle', // || 'pending', 'error'
+    compose_status: 'idle', // || 'pending', 'error',
+    post_detail_status: 'idle'
 })
 
 export const getPost = createAsyncThunk(
@@ -30,13 +31,20 @@ export const getPost = createAsyncThunk(
 export const getFeed = createAsyncThunk(
     'posts/getFeed',
     async (_, { dispatch, getState }) => {
-        let { posts: { feed_page: p } } = getState()
-        let url = `/api/home_timeline?p=${p + 1}`
-        let data = await request(url, { dispatch })
-        let posts = data.posts
-        let users = posts.map(post => post.user)
-        dispatch(usersAdded(users))
-        return posts;
+        try {
+            let { posts: { feed_page: p } } = getState()
+            let url = `/api/home_timeline?p=${p + 1}`
+            let data = await request(url, { dispatch })
+            let posts = data.posts
+            posts = posts.filter(post => post)
+            let users = posts.map(post => post.user)
+            dispatch(usersAdded(users))
+            dispatch(postsAdded(posts))
+            return posts.length;
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
     }
 )
 export const likePost = createAsyncThunk(
@@ -72,9 +80,9 @@ export const composePost = createAsyncThunk(
     'posts/composePost',
     async (body, { dispatch }) => {
         let { post } = await request('/api/post', { body, dispatch })
-        if (post)
-            post.user.following = true //work around till server shows this correctly on all posts/users
-        return post
+        // if (post)
+        //     post.user.following = true //work around till server shows this correctly on all posts/users
+        return dispatch(postAdded(post))
     }
 )
 
@@ -82,8 +90,35 @@ const postsSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        postsAdded: postsAdapter.upsertMany,
-        postAdded: postsAdapter.upsertOne,
+        postsAdded: (state, action) => {
+            let posts = action.payload;
+            posts = posts.map(post => {
+                if (!post)
+                    return null
+                let { retweeted_status } = post
+                if (retweeted_status)
+                    return ({
+                        ...retweeted_status,
+                        is_retweeted_status: true,
+                        retweeted_by: post.user
+                    })
+                return post
+            }).filter(Boolean)
+            postsAdapter.upsertMany(state, posts)
+        },
+        postAdded: (state, action) => {
+            let post = action.payload;
+            if (!post)
+                return
+            let { retweeted_status } = post
+            if (retweeted_status)
+                post = ({
+                    ...retweeted_status,
+                    is_retweeted_status: true,
+                    retweeted_by: post.user
+                })
+            postsAdapter.upsertOne(state, post)
+        },
         postLiked: (state, action) => {
             let post = action.payload;
             postsAdapter.updateOne(state, {
@@ -129,8 +164,8 @@ const postsSlice = createSlice({
         [getFeed.rejected]: state => { state.feed_status = 'error' },
         [getFeed.pending]: state => { state.feed_status = 'loading' },
         [getFeed.fulfilled]: (state, action) => {
-            postsAdapter.addMany(state, action.payload)
-            if (action.payload.length > 0) {
+            let length = action.payload
+            if (length > 0) {
                 state.feed_status = 'idle'
                 state.feed_page += 1
             }
@@ -139,10 +174,18 @@ const postsSlice = createSlice({
         },
         [composePost.pending]: state => { state.compose_status = 'pending' },
         [composePost.rejected]: state => { state.compose_status = 'error' },
-        [composePost.fulfilled]: (state, action) => {
+        [composePost.fulfilled]: state => {
             state.compose_status = 'idle'
-            postsAdapter.addOne(state, action.payload)
-        }
+        },
+        [getPost.pending]: state => {
+            state.post_detail_status = 'loading'
+        },
+        [getPost.fulfilled]: state => {
+            state.post_detail_status = 'idle'
+        },
+        [getPost.rejected]: state => {
+            state.post_detail_status = 'error'
+        },
     }
 })
 const { reducer, actions } = postsSlice
@@ -156,7 +199,7 @@ export const {
 } = actions
 export default reducer
 let feedFilter = post => {
-    return (post.user.following === true)
+    return (post.user.following === true) || (post.is_retweeted_status && post.retweeted_by.following === true)
 }
 
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
