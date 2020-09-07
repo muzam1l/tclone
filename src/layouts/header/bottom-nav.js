@@ -5,8 +5,9 @@ import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { } from 'react-bootstrap'
 
 function Nav() {
@@ -29,18 +30,33 @@ function Nav() {
         {
             name: "Messages",
             href: "/messages",
-            icon: faEnvelope
+            icon: faEnvelope,
+            disabled: true
         }
     ]
+    let compose = {
+        name: "Tweet",
+        icon: faPlusCircle,
+        href: '/compose/post',
+        style: {
+            right: '.5em',
+            bottom: '4em',
+            fontSize: '1.1em'
+        }
+    }
     return (
         <div className="fixed-bottom bg-white d-flex justify-content-around border">
+            <Link style={compose.style} to={compose.href} className="btn btn-primary rounded-circle position-absolute">
+                <FontAwesomeIcon className="" size="2x" icon={compose.icon} />
+            </Link>
             {list.map(item => {
+                let vis = item.disabled ? 'disabled' : ''
                 return (
                     <NavLink
                         key={item.name}
                         to={item.href}
                         activeClassName="active"
-                        className='btn btn-naked-primary rounded-pill p-3'
+                        className={`${vis} btn btn-naked-primary rounded-pill p-3`}
                     >
                         <FontAwesomeIcon
                             icon={item.icon}

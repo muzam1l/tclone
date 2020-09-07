@@ -21,11 +21,11 @@ export default (props) => {
         <Switch>
             <Route path='/explore/users'>
                 <Heading title="Users" />
-                <Users />
+                <Users noPop />
             </Route>
             <Route path='/'>
                 <MediaQuery maxWidth={992}>
-                    <FollowCard title='Follow more users to see their posts' length={4} />
+                    <FollowCard noPop title='Follow more users to see their posts' length={4} />
                 </MediaQuery>
                 <Heading title="Trends near you" />
                 <Figure className="d-flex flex-column align-items-end">

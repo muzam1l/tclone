@@ -19,7 +19,7 @@ export async function request(url, { dispatch, body, headers } = {}) {
     if (res.ok) {
         return res.json()
     }
-    else if (res.satus === 401) {
+    else if (res.status === 401) {
         await dispatch(logout())
         throw Error('Not Authorised')
     }

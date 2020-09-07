@@ -19,7 +19,7 @@ export default (props) => {
     else if (status === 'done')
         append = (<>
             <div className="message text-info">You have reached the end!</div>
-            <FollowCard length={7} title='Follow (more) users to see their posts' />
+            <FollowCard noPop length={7} title='Follow (more) users to see their posts' />
         </>)
     return (<>
         {/* <ScrollManager scrollKey="feed-screen" /> */}

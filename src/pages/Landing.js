@@ -18,30 +18,33 @@ class Landing extends React.Component {
                     <Navbar />
                     <Container>
                         <Row>
-                            <Col lg="7">
-                                <MediaQuery minWidth={992} >
-                                    <Switch>
-                                        <Route path="/search" component={Search} />
-                                        <Route path='/post/:postId' component={PostDetail} />
-                                        <Route path='/user/:username' component={UserDetail} />
-                                        <Route path="/">
+                            <Col xs="12" lg="7">
+                                <Switch>
+                                    <Route path="/signup">
+                                        <MediaQuery maxWidth={992}>
+                                            <Signup />
+                                        </MediaQuery>
+                                        <MediaQuery minWidth={993}>
                                             <Explore noSearchBar />
-                                        </Route>
-                                    </Switch>
-                                </MediaQuery>
+                                        </MediaQuery>
+                                    </Route>
+                                    <Route path="/search" component={Search} />
+                                    <Route path='/post/:postId' component={PostDetail} />
+                                    <Route path='/user/:username' component={UserDetail} />
+                                    <Route path="/">
+                                        <MediaQuery maxWidth={992}>
+                                            <Login />
+                                        </MediaQuery>
+                                        <MediaQuery minWidth={993}>
+                                            <Explore noSearchBar />
+                                        </MediaQuery>
+                                    </Route>
+                                </Switch>
                             </Col>
                             <Col className="mx-auto vh-100 sticky-top overflow-y-auto hide-scroll" xs lg="5">
                                 <Switch>
                                     <Route path="/signup">
                                         <Signup />
-                                    </Route>
-                                    <Route path="/search">
-                                        <MediaQuery maxWidth={992}>
-                                            <Search />
-                                        </MediaQuery>
-                                        <MediaQuery minWidth={992}>
-                                            <Login />
-                                        </MediaQuery>
                                     </Route>
                                     <Route path="/">
                                         {/* <Redirect to="/" /> */}

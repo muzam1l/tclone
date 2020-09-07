@@ -9,12 +9,12 @@ function FollowCard(props) {
     let footer = {
         href: "/explore/users"
     }
-    let { className } = props;
+    let { className, ...rest } = props;
     return (
         <Card className={className}>
             <Card.Header>{props.title}</Card.Header>
             {isAuthenticated ?
-                <Users length={props.length} compact /> :
+                <Users length={props.length} {...rest} /> :
                 <div className="message">Login to see users and their posts</div>
             }
             <Card.Footer>

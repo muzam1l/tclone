@@ -1,10 +1,7 @@
 @import "custom";
 
-.active {
-  color: $primary !important;
-}
 html {
-  font-size: 17px;
+  font-size: 16px;
 }
 body {
   overflow-y: scroll;
@@ -13,7 +10,8 @@ body {
 a {
   color: $primary;
   text-decoration: none;
-  & > img:hover {
+  & img:hover,
+  & figure:hover {
     box-shadow: 0px 0px 5px 0px var(--primary);
   }
   svg {
@@ -24,7 +22,7 @@ a {
   font-family: inherit;
   // font-weight: inherit;
   // font-size: inherit;
-  padding: .5em;
+  padding: 0.5em;
   > svg {
     float: left;
   }
@@ -43,6 +41,8 @@ textarea {
   border: none;
   background-color: transparent;
   outline: none;
+  font-size: 1.25em;
+  font-weight: 400;
   &:active:focus:hover {
     background-color: transparent;
     outline: none;
@@ -75,7 +75,7 @@ a {
   color: $info;
   display: flex;
   justify-content: center;
-  font-size: .9em;
+  font-size: 0.9em;
   padding: 1em 0;
 }
 .list-group {
@@ -84,12 +84,12 @@ a {
 .form-group {
   background-color: $input-bg;
   border-bottom: 2px solid $gray-600;
-  padding: .25em;
+  padding: 0.25em;
 }
 label.form-label {
   margin-bottom: 0;
   color: $text-muted;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 input[type="password"] {
   background-color: darken($input-bg, 5%) !important;
@@ -106,26 +106,44 @@ input[type="password"] {
   background-color: transparent !important;
 }
 a:not(.stretched-link) {
-  z-index: 2;
+  z-index: 500;
 }
 .high-index {
   z-index: 1000;
 }
+.higher-index {
+  z-index: 2000;
+}
 @keyframes slide {
-  0%{
+  0% {
     opacity: 0;
     transform: translateY(-50px);
   }
-  100%{
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 .list-group-item {
-  animation: slide .15s ease-out;
+  animation: slide 0.15s ease-out;
 }
 blockquote {
+  font: inherit;
   white-space: pre-wrap !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
+  z-index: 300;
+}
+#user-popover {
+  box-shadow: 0 0 1rem rgba($dark, 0.35);
+}
+@media (max-width: 576px), (max-height: 500px) {
+  .modal-dialog {
+    max-width: $modal-lg;
+    margin: 0 auto;
+  }
+  .modal-content {
+    border-radius: 0;
+    height: 100vh;
+  }
 }

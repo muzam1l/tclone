@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import Heading from 'comps/Heading'
 import { Link } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Figure } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectPostById, getPost } from './postsSlice'
@@ -10,6 +10,9 @@ import { selectPostById, getPost } from './postsSlice'
 import { numFormatter } from 'utils/helpers'
 import ScrollToTop from 'comps/ScrollToTop'
 import ReactionsBar from './ReactionsBar'
+import PostText from 'comps/PostText'
+import QuotedPost from 'comps/quoted-post'
+import UserLink from 'comps/user-link'
 
 export default props => {
     let { match: { params: { postId } = {} } = {} } = props
@@ -22,26 +25,53 @@ export default props => {
     if (!post) {
         return <div className="message">Not Found</div>
     }
+
+    let retweeted = false;
+    let retweeted_by = null
+    if (post.retweeted_status) {
+        retweeted = true
+        retweeted_by = post.user
+        post = post.retweeted_status
+    }
     return (<>
         <ScrollToTop />
         <Heading backButton title="Post" />
         <Col className="p-3 d-flex flex-column">
+            <Row className="d-flex px-3 pb-1 mt-n2">
+                {retweeted && (
+                    <UserLink
+                        user={retweeted_by}
+                        className="text-muted"
+                        to={`/user/${retweeted_by.screen_name}`}
+                    >
+                        <small>{retweeted_by.name} retweeted</small>
+                    </UserLink>
+                )}
+            </Row>
             <Row>
                 <Row>
-                    <Link
+                    <UserLink
+                        user={post.user}
                         className="rounded-circle"
                         to={`/user/${post.user.screen_name}`}
                     >
-                        <img
-                            className="rounded-circle mr-2"
-                            width={50}
-                            height={50}
-                            src={(post.user.default_profile_image) ? '/img/default-profile-vector.svg' : post.user.profile_image_url_https}
-                            alt="user"
-                        />
-                    </Link>
+                        <Figure
+                            className="bg-border-color rounded-circle mr-2 overflow-hidden"
+                            style={{ height: "50px", width: "50px" }}
+                        >
+                            <Figure.Image
+                                src={(post.user.default_profile_image) ? '/img/default-profile-vector.svg' : post.user.profile_image_url_https}
+                                className="w-100 h-100"
+                            />
+                        </Figure>
+                    </UserLink>
                     <Col className="d-flex flex-column">
-                        <Link to={`/user/${post.user.screen_name}`} className="text-dark font-weight-bold mr-1">{post.user.name}</Link>
+                        <UserLink
+                            user={post.user}
+                            to={`/user/${post.user.screen_name}`}
+                            className="text-dark font-weight-bold mr-1">
+                            {post.user.name}
+                        </UserLink>
                         {/* tick */}
                         <span className="text-muted mr-1">@{post.user.screen_name}</span>
                     </Col>
@@ -50,14 +80,15 @@ export default props => {
             </Row>
             <Row><blockquote
                 style={{ whiteSpace: "pre-wrap", fontSize: "1.5em" }}
-                className="text-break my-2"
-            >{post.text}</blockquote></Row>
+                className="text-break my-2">
+                <PostText post={post} />
+            </blockquote></Row>
             <Row className="mb-2">
                 <MultiMedia
-                    entities={post.entities}
-                    extented_entities={post.extented_entities}
-                    options={{ expanded: true }}
+                    expanded
+                    post={post}
                 />
+                <QuotedPost className="mt-2" post={post.quoted_status} />
             </Row>
             <Row>
                 <span className="text-muted pb-2">

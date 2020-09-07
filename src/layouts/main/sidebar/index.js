@@ -13,7 +13,7 @@ function Sidebar() {
             <Search className="sticky-top my-2" />
 
             {!(location.pathname === '/explore/users') ?
-                <FollowCard className="my-3" length={5} title='Who to follow' /> : undefined}
+                <FollowCard compact className="my-3" length={5} title='Who to follow' /> : undefined}
             {/* <br /> */}
             {!(location.pathname === '/explore') ?
                 <TrendingCard className="my-3" title='Trends for you' /> : undefined}

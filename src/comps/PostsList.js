@@ -2,10 +2,13 @@ import React from 'react'
 import { useEffect, useCallback } from 'react'
 import ReactTimeAgo from 'react-time-ago'
 import { Link } from 'react-router-dom'
-import { Media, Row, ListGroup } from 'react-bootstrap'
+import { Media, Row, ListGroup, Figure } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 import Spinner from 'comps/Spinner'
 import ReactionsBar from 'features/posts/ReactionsBar'
+import PostText from 'comps/PostText'
+import QuotedPost from 'comps/quoted-post'
+import UserLink from 'comps/user-link'
 
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
@@ -27,45 +30,71 @@ export default function PostsList(props) {
     return (
         <ListGroup variant="flush" className="border-bottom">
             {(posts && posts.length > 0) ? posts.map(post => {
+                let retweeted = false;
+                let retweeted_by = null
+                if (post.retweeted_status) {
+                    retweeted = true
+                    retweeted_by = post.user
+                    post = post.retweeted_status
+                }
                 return (
                     <ListGroup.Item
                         className="px-3"
                         action
                         as={"div"}
-                        // onClick={(e) => { e.target === '' }}
                         // to={`/post/${post.id_str}`}
-                        key={post.id_str}
+                        key={post.id_str + (retweeted_by && retweeted_by.id_str)}
                     >
+                        <Row className="d-flex px-3 pb-1 mt-n2">
+                            {retweeted && (
+                                <UserLink
+                                    user={retweeted_by}
+                                    className="text-muted"
+                                    to={`/user/${retweeted_by.screen_name}`}
+                                ><small>{retweeted_by.name} retweeted</small>
+                                </UserLink>
+                            )}
+                        </Row>
                         <Link className="stretched-link" to={`/post/${post.id_str}`}></Link>
-                        <Media>
-                            <Link
+                        <Media className="mb-n2 overflow-auto w-100">
+                            <UserLink
+                                user={post.user}
                                 className="rounded-circle"
                                 to={`/user/${post.user.screen_name}`}
                             >
-                                <img
-                                    className="rounded-circle mr-2"
-                                    width={50}
-                                    height={50}
-                                    src={(post.user.default_profile_image) ? '/img/default-profile-vector.svg' : post.user.profile_image_url_https}
-                                    alt="user"
-                                />
-                            </Link>
-                            <Media.Body>
+                                <Figure
+                                    className="bg-border-color rounded-circle mr-2 overflow-hidden"
+                                    style={{ height: "50px", width: "50px" }}
+                                >
+                                    <Figure.Image
+                                        src={(post.user.default_profile_image) ? '/img/default-profile-vector.svg' : post.user.profile_image_url_https}
+                                        className="w-100 h-100"
+                                    />
+                                </Figure>
+                            </UserLink>
+                            <Media.Body className="w-50">
                                 <Row className="d-flex align-items-center">
-                                    <Link to={`/user/${post.user.screen_name}`} className="text-dark font-weight-bold mr-1">{post.user.name}</Link>
+                                    <UserLink
+                                        user={post.user}
+                                        to={`/user/${post.user.screen_name}`}
+                                        className="text-dark font-weight-bold mr-1">
+                                        {post.user.name}
+                                    </UserLink>
                                     {/* tick */}
                                     <span className="text-muted mr-1">@{post.user.screen_name}</span>
                                     <pre className="m-0 text-muted">{" - "}</pre>
                                     <span className="text-muted"><ReactTimeAgo date={Date.parse(post.created_at)} timeStyle="twitter" /></span>
                                 </Row>
-                                <Row className="mb-n3"><blockquote className="mb-1">{post.text}</blockquote></Row>
+                                <Row className="mb-n1 mt-1"><blockquote className="mb-1 w-100">
+                                    <PostText post={post} />
+                                </blockquote></Row>
                                 <Row>
                                     <MultiMedia
-                                        className="mt-3"
-                                        entities={post.entities}
-                                        extented_entities={post.extented_entities} />
+                                        className="mt-2"
+                                        post={post} />
+                                    <QuotedPost className="mt-2" post={post.quoted_status} />
                                 </Row>
-                                <Row className="d-flex justify-content-end align-items-center mb-n3 position-static">
+                                <Row className="d-flex justify-content-end align-items-center position-static">
                                     <ReactionsBar post={post} />
                                 </Row>
                             </Media.Body>

@@ -71,7 +71,7 @@ class Compose extends React.Component {
                     <Media.Body>
                         <textarea
                             className="w-100 p-2"
-                            style={{ fontSize: "1.25em", fontWeight: "400" }}
+                            style={{ maxHeight: "80vh" }}
                             name="text"
                             onChange={this.handleChange}
                             onKeyPress={this.handleLine}

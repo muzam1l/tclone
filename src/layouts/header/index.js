@@ -42,32 +42,37 @@ function Header(props) {
         {
             name: "Messages",
             href: "/messages",
-            icon: faEnvelope
+            icon: faEnvelope,
+            disabled: true
         },
         {
             name: "Bookmarks",
             href: "/bookmarks",
-            icon: faBookmark
+            icon: faBookmark,
+            disabled: true
         },
         {
             name: "Lists",
             href: "/lists",
-            icon: faListAlt
+            icon: faListAlt,
+            disabled: true
         },
         {
             name: "Profile",
             href: "/profile",
-            icon: faUser
+            icon: faUser,
+            disabled: true
         },
         {
             name: "More",
             href: "/more",
-            icon: faEllipsisH
+            icon: faEllipsisH,
+            disabled: true
         }
 
     ]
     return (
-        <Col className="d-flex flex-column align-items-end">
+        <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto">
             <div className="m-2 mr-xl-auto">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
@@ -77,11 +82,12 @@ function Header(props) {
             </div>
             <div className="ml-0 d-flex flex-column mb-2 align-items-start">
                 {list.map(itm => {
+                    let vis = itm.disabled ? "disabled" : ""
                     return (
                         <NavLink
                             key={itm.name}
                             to={itm.href}
-                            className="px-xl-2 py-xl-1 p-1 mb-1 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center"
+                            className={`${vis} px-xl-2 py-xl-1 p-1 mb-1 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center`}
                             activeClassName="active"
                         >
                             <FontAwesomeIcon className="m-2" size="lg" icon={itm.icon} />
@@ -91,7 +97,7 @@ function Header(props) {
                 })}
             </div>
 
-            <Link className="d-flex btn btn-primary font-weight-bold p-xl-3 rounded-pill" id="compose" to="/compose/tweet">
+            <Link className="d-flex btn btn-primary font-weight-bold p-xl-3 rounded-pill" id="compose" to="/compose/post">
                 <span className="d-none d-xl-block mx-auto px-5">{compose.name}</span>
                 <FontAwesomeIcon className="d-xl-none mx-auto" size="2x" icon={compose.icon} />
             </Link>

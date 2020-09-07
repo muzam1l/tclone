@@ -13,8 +13,8 @@ function App() {
     <Router>
       <Container className="mb-5 mb-sm-1">
         <Row>
-          <MediaQuery minWidth={576} minHeight={500}>
-            <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top h-100">
+          <MediaQuery minWidth={576}>
+            <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top vh-100">
               <Header></Header>
             </Col>
           </MediaQuery>
@@ -26,7 +26,7 @@ function App() {
             </Switch>
           </Col>
         </Row>
-        <MediaQuery minHeight={500} maxWidth={576}>
+        <MediaQuery maxWidth={576}>
           <Nav />
         </MediaQuery>
       </Container>

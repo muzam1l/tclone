@@ -2,9 +2,9 @@
 // $primary: rgb(29, 161, 242);
 // $secondary: rgb(26, 145, 218);
 $primary: #55afb0;
-// $dark: rgb(20, 23, 26);
+$dark: rgb(20, 23, 26);
 // $dark: rgb(64, 64, 64);
-$dark: rgb(53, 83, 87);
+// $dark: rgb(53, 83, 87);
 $body-color: $dark;
 $bg-color: rgb(245, 248, 250);
 
@@ -13,7 +13,8 @@ $card-border-radius: 1em;
 $card-border-width: 0;
 $card-cap-bg: $card-bg;
 $list-group-bg: transparent;
-$list-group-hover-bg: lighten($primary, 45%);
+$list-group-hover-bg: lighten($primary, 47%);
+$list-group-action-active-bg: lighten($primary, 45%);
 
 $input-bg: $bg-color;
 $input-border-width: 0;
@@ -24,6 +25,26 @@ $input-font-size: 1.1em;
 $input-font-size-sm: 0.95em;
 $input-border-radius: 0;
 $input-group-addon-border-width: 0;
+
+$popover-border-width: 0;
+$popover-border-radius: 1em;
+$popover-max-width: 325px;
+
+$modal-content-border-width: 0;
+$modal-content-border-radius: 1em;
+$modal-header-border-width: 1px;
+$modal-dialog-margin-y-sm-up: 3em;
+$modal-dialog-margin: 0;
+$modal-md: 550px;
+$modal-lg: 650px;
+
+$border-radius: 1em;
+
+$alert-border-radius: 0;
+$alert-color-level: -10;
+$alert-bg-level: -2;
+
+$progress-height: 3px;
 
 $btn-font-size-lg: 1.15rem;
 
@@ -36,8 +57,8 @@ $enable-responsive-font-sizes: true;
 $container-max-widths: (
   sm: 540px,
   md: 720px,
-  lg: 960px,
-  xl: 1180px,
+  lg: 990px,
+  xl: 1200px,
 );
 $theme-colors: (
   "black": black,
@@ -45,8 +66,12 @@ $theme-colors: (
   "bg-color": $bg-color,
 );
 
-$spinner-width: 1.75rem;
-$spinner-border-width: 0.2em;
+$spinner-width: 1.5rem;
+$spinner-border-width: 0.15em;
+
+$line-height-base: 1.3;
+
+// $link-color: blue;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";

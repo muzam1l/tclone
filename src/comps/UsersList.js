@@ -2,9 +2,17 @@ import React from 'react'
 import FollowButton from 'comps/FollowButton'
 import { Link } from 'react-router-dom'
 import { ListGroup, Media, Row, Col } from 'react-bootstrap'
+import UserLink from 'comps/user-link'
 
 export default props => {
-    let { users, followUser, unFollowUser, className, length, compact } = props
+    let { users,
+        followUser,
+        unFollowUser,
+        className,
+        length,
+        compact,
+        noPop
+    } = props
     return (<>
         <ListGroup className={"border-bottom " + className} variant="flush">
             {users && users.slice(0, length).map(user => {
@@ -12,7 +20,8 @@ export default props => {
                     className="px-1"
                     action
                     key={user.screen_name}
-                    as={Link}
+                    as={noPop ? Link : UserLink}
+                    user={user}
                     to={`/user/${user.screen_name}`}
                 >
                     <Media>

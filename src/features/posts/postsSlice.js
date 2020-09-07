@@ -50,7 +50,21 @@ export const unlikePost = createAsyncThunk(
     'posts/unlikePost',
     async (post, { dispatch }) => {
         dispatch(postUnliked(post))
-        await request(`/api/unlike/${post.id_str}`, { dispatch })
+        return request(`/api/unlike/${post.id_str}`, { dispatch })
+    }
+)
+export const repostPost = createAsyncThunk(
+    'posts/repostPost',
+    async (post, { dispatch }) => {
+        dispatch(postReposted(post))
+        return request(`/api/repost`, { body: post, dispatch })
+    }
+)
+export const unRepostPost = createAsyncThunk(
+    'posts/unRepostPost',
+    async (post, { dispatch }) => {
+        dispatch(postUnReposted(post))
+        return request(`/api/unrepost`, { body: post, dispatch })
     }
 )
 
@@ -89,6 +103,26 @@ const postsSlice = createSlice({
                     favorite_count: post.favorite_count - 1
                 }
             })
+        },
+        postReposted: (state, action) => {
+            let post = action.payload;
+            postsAdapter.updateOne(state, {
+                id: post.id_str,
+                changes: {
+                    retweet_count: post.retweet_count + 1,
+                    retweeted: true
+                }
+            })
+        },
+        postUnReposted: (state, action) => {
+            let post = action.payload;
+            postsAdapter.updateOne(state, {
+                id: post.id_str,
+                changes: {
+                    retweet_count: post.retweet_count - 1,
+                    retweeted: false,
+                }
+            })
         }
     },
     extraReducers: {
@@ -112,10 +146,17 @@ const postsSlice = createSlice({
     }
 })
 const { reducer, actions } = postsSlice
-export const { postsAdded, postAdded, postLiked, postUnliked } = actions
+export const {
+    postsAdded,
+    postAdded,
+    postLiked,
+    postUnliked,
+    postReposted,
+    postUnReposted
+} = actions
 export default reducer
 let feedFilter = post => {
-    return post.user.following === true //may be more conditions in future
+    return (post.user.following === true)
 }
 
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
