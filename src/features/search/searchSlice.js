@@ -23,7 +23,7 @@ export const getSearch = createAsyncThunk(
         let { posts = [], users = [] } = await request(url, { dispatch });
         posts = posts.map(post => ({ ...post, searched: true, query: q }))
         users = users.map(user => ({ ...user, searched: true, query: q }))
-        // dispatch(usersAdded(posts.map(post => post.user)))
+        dispatch(usersAdded(posts.map(post => post.user)))
         dispatch(usersAdded(users))
         dispatch(postsAdded(posts))
         return posts.length

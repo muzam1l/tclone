@@ -5,7 +5,7 @@ import {
     createSelector
 } from '@reduxjs/toolkit'
 import { request } from 'api'
-import { usersAdded } from 'features/users/usersSlice'
+import { usersAdded, usersSelectors } from 'features/users/usersSlice'
 
 const postsAdapter = createEntityAdapter({
     selectId: post => post.id_str,
@@ -80,8 +80,8 @@ export const composePost = createAsyncThunk(
     'posts/composePost',
     async (body, { dispatch }) => {
         let { post } = await request('/api/post', { body, dispatch })
-        // if (post)
-        //     post.user.following = true //work around till server shows this correctly on all posts/users
+        if (post)
+            post.user.following = true //work around till server shows this correctly on all posts/users
         return dispatch(postAdded(post))
     }
 )
@@ -104,6 +104,11 @@ const postsSlice = createSlice({
                     })
                 return post
             }).filter(Boolean)
+                .map(post => ({
+                    ...post,
+                    user: post.user.screen_name,
+                    retweeted_by: post.retweeted_by && post.retweeted_by.screen_name
+                }))
             postsAdapter.upsertMany(state, posts)
         },
         postAdded: (state, action) => {
@@ -117,6 +122,8 @@ const postsSlice = createSlice({
                     is_retweeted_status: true,
                     retweeted_by: post.user
                 })
+            post.user = post.user.id_str
+            post.retweeted_by = post.retweeted_by && post.retweeted_by.screen_name
             postsAdapter.upsertOne(state, post)
         },
         postLiked: (state, action) => {
@@ -199,25 +206,35 @@ export const {
 } = actions
 export default reducer
 let feedFilter = post => {
-    return (post.user.following === true) || (post.is_retweeted_status && post.retweeted_by.following === true)
+    return (post.user.following === true)
+        // || (post.user.new)
+        || (post.is_retweeted_status && post.retweeted_by.following === true)
 }
 
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
 
+export const selectAllPosts = state => {
+    return postsSelectors.selectAll(state).map(post => ({
+        ...post,
+        user: usersSelectors.selectById(state, post.user),
+        retweeted_by: post.retweeted_by && usersSelectors.selectById(state, post.retweeted_by)
+    })).filter(Boolean)
+}
+
 export const selectPostById = createSelector(
-    [postsSelectors.selectAll, (state, postId) => postId],
+    [selectAllPosts, (state, postId) => postId],
     (posts, postId) => posts.find(post => (post.id_str === postId))
 )
 export const selectFeedPosts = createSelector(
-    [postsSelectors.selectAll],
+    [selectAllPosts],
     posts => posts.filter(feedFilter)
 )
 export const selectUserPosts = createSelector(
-    [postsSelectors.selectAll, (state, username) => username],
+    [selectAllPosts, (state, username) => username],
     (posts, username) => posts.filter(post => post.user.screen_name === username)
 )
 
 export const selectSearchPosts = createSelector(
-    [postsSelectors.selectAll, (state, query) => query],
+    [selectAllPosts, (state, query) => query],
     (posts, query) => posts.filter(post => (post.searched === true && post.query === query))
 )

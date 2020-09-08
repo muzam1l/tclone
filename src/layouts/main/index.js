@@ -11,6 +11,7 @@ import Search from 'features/search/Search'
 import UserDetail from 'features/users/UserDetail'
 import Compose from 'features/posts/compose-modal'
 import Notifies from 'features/notifies/notify-page'
+import Settings from 'features/settings/settings-page.js'
 
 class Main extends React.Component {
     render() {
@@ -24,6 +25,7 @@ class Main extends React.Component {
                             <Route path='/post/:postId' component={PostDetail} />
                             <Route path='/user/:username' component={UserDetail} />
                             <Route path='/notifications' component={Notifies} />
+                            <Route path='/settings' component={Settings} />
                             <Route path='/' component={Home} />
                         </Switch>
                         <Route path='/compose/post' component={Compose} />

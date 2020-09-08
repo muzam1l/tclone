@@ -64,10 +64,9 @@ function Header(props) {
             disabled: true
         },
         {
-            name: "More",
-            href: "/more",
-            icon: faEllipsisH,
-            disabled: true
+            name: "Settings",
+            href: "/settings",
+            icon: faEllipsisH
         }
 
     ]

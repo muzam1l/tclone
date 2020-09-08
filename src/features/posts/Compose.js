@@ -81,14 +81,14 @@ class Compose extends React.Component {
                         </textarea>
                         <div className="border-top d-flex justify-content-between align-items-center pt-2">
                             <div style={{ fontSize: "1.5em" }}>
+                                <Link className="text-primary btn btn-lg rounded-circle btn-naked-primary p-2" to="/compose/post">
+                                    <FontAwesomeIcon size="lg" icon={faSmile} />
+                                </Link>
                                 <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
                                     <FontAwesomeIcon size="lg" icon={faImage} />
                                 </button>
                                 <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
                                     <FontAwesomeIcon size="lg" icon={faImages} />
-                                </button>
-                                <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
-                                    <FontAwesomeIcon size="lg" icon={faSmile} />
                                 </button>
                             </div>
                             <div className="right">

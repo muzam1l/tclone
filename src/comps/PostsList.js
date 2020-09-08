@@ -51,7 +51,7 @@ export default function PostsList(props) {
                             )}
                         </Row>
                         <Link className="stretched-link" to={`/post/${post.id_str}`}></Link>
-                        <Media className="mb-n2 overflow-auto w-100">
+                        <Media className="mb-n2 w-100">
                             <UserLink
                                 user={post.user}
                                 className="rounded-circle"

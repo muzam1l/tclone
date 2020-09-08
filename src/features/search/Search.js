@@ -28,7 +28,7 @@ export default () => {
         if (query !== urlq)
             dispatch(changeQuery(urlq))
     })
-    if (status === 'loading')
+    if (status === 'loading' && !(posts.length || users.length))
         return <Spinner />
     return (<>
         <UsersList

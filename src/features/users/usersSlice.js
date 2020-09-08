@@ -2,7 +2,9 @@ import {
     createSlice, createAsyncThunk, createEntityAdapter, createSelector
 } from '@reduxjs/toolkit'
 import { request } from 'api'
-import { getFeed, postsAdded, selectUserPosts } from 'features/posts/postsSlice'
+import {
+    getFeed, postsAdded, selectUserPosts
+} from 'features/posts/postsSlice'
 
 
 let usersComparer = (a, b) => (b.followers_count - a.followers_count)

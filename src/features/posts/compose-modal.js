@@ -130,7 +130,7 @@ export default props => {
                     </Alert>
                 )}
                 <Modal.Body className="pt-1 pb-0">
-                    <Media className='h-100'>
+                    <Media className='h-100 w-100'>
                         <img
                             className="rounded-circle"
                             src={user.default_profile_image ? '/img/default-profile-vector.svg' : user.profile_image_url_https}
@@ -138,7 +138,7 @@ export default props => {
                             width={50}
                             height={50}
                         />
-                        <Media.Body className="h-100">
+                        <Media.Body className="h-100 w-50">
                             <textarea
                                 ref={ta}
                                 className="w-100 p-2 pb-5"

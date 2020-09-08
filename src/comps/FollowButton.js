@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 export default props => {
-    let { isAuthenticated, user: authUser } = useSelector(state => state.auth)
+    let { isAuthenticated } = useSelector(state => state.auth)
     let { followUser, user, unFollowUser } = props
     let { following } = user;
     let [hoverText, setHoverText] = React.useState('')
@@ -28,7 +28,7 @@ export default props => {
     }
     let text = !following ? "Follow" : "Following"
     let variant = following ? "primary" : "outline-primary"
-    if (!isAuthenticated || authUser.screen_name === user.screen_name)
+    if (!isAuthenticated)
         return <></>
     return (<>
         <Button
