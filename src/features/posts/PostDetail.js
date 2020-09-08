@@ -24,7 +24,6 @@ export default props => {
         if (!post)
             dispatch(getPost(postId))
     }, [post, postId, dispatch])
-    console.log(status)
     if (status === 'loading')
         return <Spinner />
     if (!post) {

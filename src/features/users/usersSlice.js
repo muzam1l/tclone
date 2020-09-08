@@ -40,6 +40,7 @@ export const getUserTimeline = createAsyncThunk(
         if (user) {
             dispatch(userAdded(user))
         }
+        dispatch(usersAdded(posts.map(post => post.user)))
         dispatch(postsAdded(posts))
         return posts.length;
     }

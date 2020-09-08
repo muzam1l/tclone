@@ -5,7 +5,7 @@ import {
     createSelector
 } from '@reduxjs/toolkit'
 import { request } from 'api'
-import { usersAdded, usersSelectors } from 'features/users/usersSlice'
+import { usersAdded, usersSelectors, userAdded } from 'features/users/usersSlice'
 
 const postsAdapter = createEntityAdapter({
     selectId: post => post.id_str,
@@ -24,6 +24,7 @@ export const getPost = createAsyncThunk(
         let { post } = await request(`/api/post/${postId}`, { dispatch })
         if (!post)
             throw Error("Post not available")
+        dispatch(userAdded(post.user))
         dispatch(postAdded(post))
     }
 )
@@ -37,8 +38,7 @@ export const getFeed = createAsyncThunk(
             let data = await request(url, { dispatch })
             let posts = data.posts
             posts = posts.filter(post => post)
-            let users = posts.map(post => post.user)
-            dispatch(usersAdded(users))
+            dispatch(usersAdded(posts.map(post => post.user)))
             dispatch(postsAdded(posts))
             return posts.length;
         } catch (err) {
@@ -82,6 +82,7 @@ export const composePost = createAsyncThunk(
         let { post } = await request('/api/post', { body, dispatch })
         if (post)
             post.user.following = true //work around till server shows this correctly on all posts/users
+        dispatch(userAdded(post.user))
         return dispatch(postAdded(post))
     }
 )
@@ -122,7 +123,7 @@ const postsSlice = createSlice({
                     is_retweeted_status: true,
                     retweeted_by: post.user
                 })
-            post.user = post.user.id_str
+            post.user = post.user.screen_name
             post.retweeted_by = post.retweeted_by && post.retweeted_by.screen_name
             postsAdapter.upsertOne(state, post)
         },

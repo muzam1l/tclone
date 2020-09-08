@@ -40,6 +40,11 @@ function Header(props) {
             icon: faBell
         },
         {
+            name: "Settings",
+            href: "/settings",
+            icon: faEllipsisH
+        },
+        {
             name: "Messages",
             href: "/messages",
             icon: faEnvelope,
@@ -62,11 +67,6 @@ function Header(props) {
             href: "/profile",
             icon: faUser,
             disabled: true
-        },
-        {
-            name: "Settings",
-            href: "/settings",
-            icon: faEllipsisH
         }
 
     ]
