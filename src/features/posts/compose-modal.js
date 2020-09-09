@@ -62,6 +62,10 @@ export default props => {
             setHeight(height + 'px')
         }
     }, [editor_text])
+    useEffect(() => {
+        if (ta.current)
+            ta.current.focus()
+    }, [])
     let handleChange = e => {
         resizeTa()
         let ta = e.target

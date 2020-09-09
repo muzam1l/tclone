@@ -3,7 +3,7 @@ import {
 } from '@reduxjs/toolkit'
 import { request } from 'api'
 import {
-    getFeed, postsAdded, selectUserPosts
+    getFeed, parsePosts, selectUserPosts
 } from 'features/posts/postsSlice'
 
 
@@ -40,8 +40,7 @@ export const getUserTimeline = createAsyncThunk(
         if (user) {
             dispatch(userAdded(user))
         }
-        dispatch(usersAdded(posts.map(post => post.user)))
-        dispatch(postsAdded(posts))
+        dispatch(parsePosts(posts))
         return posts.length;
     }
 )
@@ -84,7 +83,8 @@ const usersSlice = createSlice({
             state.user_timeline_page = 0
         },
         userAdded: usersAdapter.upsertOne,
-        usersAdded: usersAdapter.upsertMany
+        usersAdded: usersAdapter.upsertMany,
+        usersAddedDontUpdate: usersAdapter.addMany
     },
     extraReducers: {
         [getUserSuggests.rejected]: state => { state.user_suggests_status = 'error' },
@@ -109,7 +109,12 @@ const usersSlice = createSlice({
 })
 const { actions, reducer } = usersSlice
 export default reducer
-export const { followingChanged, userAdded, usersAdded, resetTimelinePage } = actions
+export const { followingChanged,
+    userAdded,
+    usersAdded,
+    resetTimelinePage,
+    usersAddedDontUpdate
+} = actions
 
 export const usersSelectors = usersAdapter.getSelectors(state => state.users)
 

@@ -41,17 +41,19 @@ class Landing extends React.Component {
                                     </Route>
                                 </Switch>
                             </Col>
-                            <Col className="mx-auto vh-100 sticky-top overflow-y-auto hide-scroll" xs lg="5">
-                                <Switch>
-                                    <Route path="/signup">
-                                        <Signup />
-                                    </Route>
-                                    <Route path="/">
-                                        {/* <Redirect to="/" /> */}
-                                        <Login />
-                                    </Route>
-                                </Switch>
-                            </Col>
+                            <MediaQuery minWidth={993}>
+                                <Col className="mx-auto vh-100 sticky-top overflow-y-auto hide-scroll" xs lg="5">
+                                    <Switch>
+                                        <Route path="/signup">
+                                            <Signup />
+                                        </Route>
+                                        <Route path="/">
+                                            {/* <Redirect to="/" /> */}
+                                            <Login />
+                                        </Route>
+                                    </Switch>
+                                </Col>
+                            </MediaQuery>
                         </Row>
                     </Container>
                 </>

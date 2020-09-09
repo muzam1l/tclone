@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
 
 import { NavLink, Link } from 'react-router-dom'
 import { } from 'react-bootstrap'
@@ -18,7 +18,7 @@ function Nav() {
             icon: faHome
         },
         {
-            name: "Search",
+            name: "Explore",
             href: "/explore",
             icon: faSearch
         },
@@ -28,10 +28,9 @@ function Nav() {
             icon: faBell
         },
         {
-            name: "Messages",
-            href: "/messages",
-            icon: faEnvelope,
-            disabled: true
+            name: "Settings",
+            href: "/settings",
+            icon: faEllipsisH
         }
     ]
     let compose = {

@@ -5,7 +5,7 @@ import {
     createSelector
 } from '@reduxjs/toolkit'
 import { request } from 'api'
-import { usersAdded, usersSelectors, userAdded } from 'features/users/usersSlice'
+import { usersAdded, usersAddedDontUpdate, usersSelectors } from 'features/users/usersSlice'
 
 const postsAdapter = createEntityAdapter({
     selectId: post => post.id_str,
@@ -18,14 +18,68 @@ const initialState = postsAdapter.getInitialState({
     post_detail_status: 'idle'
 })
 
+export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_users = false } = {}) => dispatch => {
+    try {
+        posts = posts.filter(Boolean)
+        if (!posts.length)
+            return
+        let users = posts.map(post => post.user)
+        let users1 = posts.map(post => post.retweeted_status && post.retweeted_status.user)
+            .filter(Boolean)
+        users.push(...users1)
+
+        // extract retweeted status, if any
+        posts = posts.map(post => {
+            let { retweeted_status } = post
+            if (retweeted_status) {
+                return ({
+                    ...retweeted_status,
+                    is_retweeted_status: true,
+                    retweeted_by: post.user,
+                    created_at: post.created_at
+                })
+            }
+            return post
+        }).filter(Boolean)
+
+        // replace users with their screen_name (selectId)
+        posts = posts.map(post => ({
+            ...post,
+            user: post.user.screen_name,
+            retweeted_by: post.retweeted_by && post.retweeted_by.screen_name,
+            backup_user: post.user,
+            backup_retweeted_by: post.retweeted_by
+        }))
+
+        // parse quoted posts recursively
+        posts = posts.map(post => {
+            if (post.quoted_status) {
+                let [quote] = dispatch(parsePosts([post.quoted_status], { dont_dispatch_posts: true, dont_update_users: true }))
+                post.quoted_status = quote
+            }
+            return post
+        })
+
+        if (!dont_dispatch_posts)
+            dispatch(postsAdded(posts))
+        if (dont_update_users)
+            dispatch(usersAddedDontUpdate(users))
+        else
+            dispatch(usersAdded(users))
+        return posts
+    } catch (err) {
+        console.log('error parsing', err);
+        throw err
+    }
+}
+
 export const getPost = createAsyncThunk(
     'posts/getPost',
     async (postId, { dispatch }) => {
         let { post } = await request(`/api/post/${postId}`, { dispatch })
         if (!post)
             throw Error("Post not available")
-        dispatch(userAdded(post.user))
-        dispatch(postAdded(post))
+        return dispatch(parsePosts([post]))
     }
 )
 
@@ -37,9 +91,7 @@ export const getFeed = createAsyncThunk(
             let url = `/api/home_timeline?p=${p + 1}`
             let data = await request(url, { dispatch })
             let posts = data.posts
-            posts = posts.filter(post => post)
-            dispatch(usersAdded(posts.map(post => post.user)))
-            dispatch(postsAdded(posts))
+            dispatch(parsePosts(posts))
             return posts.length;
         } catch (err) {
             console.log(err)
@@ -82,8 +134,7 @@ export const composePost = createAsyncThunk(
         let { post } = await request('/api/post', { body, dispatch })
         if (post)
             post.user.following = true //work around till server shows this correctly on all posts/users
-        dispatch(userAdded(post.user))
-        return dispatch(postAdded(post))
+        return dispatch(parsePosts([post]))
     }
 )
 
@@ -91,42 +142,8 @@ const postsSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        postsAdded: (state, action) => {
-            let posts = action.payload;
-            posts = posts.map(post => {
-                if (!post)
-                    return null
-                let { retweeted_status } = post
-                if (retweeted_status)
-                    return ({
-                        ...retweeted_status,
-                        is_retweeted_status: true,
-                        retweeted_by: post.user
-                    })
-                return post
-            }).filter(Boolean)
-                .map(post => ({
-                    ...post,
-                    user: post.user.screen_name,
-                    retweeted_by: post.retweeted_by && post.retweeted_by.screen_name
-                }))
-            postsAdapter.upsertMany(state, posts)
-        },
-        postAdded: (state, action) => {
-            let post = action.payload;
-            if (!post)
-                return
-            let { retweeted_status } = post
-            if (retweeted_status)
-                post = ({
-                    ...retweeted_status,
-                    is_retweeted_status: true,
-                    retweeted_by: post.user
-                })
-            post.user = post.user.screen_name
-            post.retweeted_by = post.retweeted_by && post.retweeted_by.screen_name
-            postsAdapter.upsertOne(state, post)
-        },
+        postsAdded: postsAdapter.upsertMany,
+        postAdded: postsAdapter.upsertOne,
         postLiked: (state, action) => {
             let post = action.payload;
             postsAdapter.updateOne(state, {
@@ -206,20 +223,27 @@ export const {
     postUnReposted
 } = actions
 export default reducer
+
 let feedFilter = post => {
     return (post.user.following === true)
-        // || (post.user.new)
-        || (post.is_retweeted_status && post.retweeted_by.following === true)
+        // || (post.user.new) // Can be customizable in settings someday
+        || (post.retweeted_by && post.retweeted_by.following === true)
 }
 
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
 
+export const populatePost = (post, state) => ({
+    ...post,
+    user: usersSelectors.selectById(state, post.user) || post.backup_user,
+    retweeted_by: (post.retweeted_by && usersSelectors.selectById(state, post.retweeted_by)) || post.backup_retweeted_by,
+    quoted_status: (post.quoted_status && populatePost(post.quoted_status, state))
+})
+
 export const selectAllPosts = state => {
-    return postsSelectors.selectAll(state).map(post => ({
-        ...post,
-        user: usersSelectors.selectById(state, post.user),
-        retweeted_by: post.retweeted_by && usersSelectors.selectById(state, post.retweeted_by)
-    })).filter(Boolean)
+    return postsSelectors
+        .selectAll(state)
+        .map(post => populatePost(post, state))
+        .filter(Boolean)
 }
 
 export const selectPostById = createSelector(
