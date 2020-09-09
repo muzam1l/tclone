@@ -71,8 +71,8 @@ function Header(props) {
 
     ]
     return (
-        <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto">
-            <div className="m-2 mr-xl-auto">
+        <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto mr-sm-n3 mr-md-0 hide-scroll">
+            <div className="m-2 mr-xl-auto ml-xl-4">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
                     to={logo.href}>

@@ -142,7 +142,7 @@ export default props => {
                             width={50}
                             height={50}
                         />
-                        <Media.Body className="h-100 w-50">
+                        <Media.Body className="h-100 w-50" style={{ minHeight: '175px' }}>
                             <textarea
                                 ref={ta}
                                 className="w-100 p-2 pb-5"

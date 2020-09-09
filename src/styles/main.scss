@@ -136,13 +136,16 @@ blockquote {
 #user-popover {
   box-shadow: 0 0 1rem rgba($dark, 0.35);
 }
-@media (max-width: 576px), (max-height: 500px) {
+@media (max-width: 576px) {
   .modal-dialog {
     max-width: $modal-lg;
     margin: 0 auto;
+    height: 100vh;
   }
   .modal-content {
     border-radius: 0;
-    height: 100vh;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
   }
 }

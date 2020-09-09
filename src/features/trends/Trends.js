@@ -37,7 +37,7 @@ export default (props) => {
                         key={itm.name}
                         to={`/search?q=${itm.query}`}
                     >
-                        <small className="text-muted">Tending {location.name}</small>
+                        <small className="text-muted">Trending {location.name}</small>
                         <p className="mb-1 text-dark font-weight-bold text-capitalize">{itm.name}</p>
                         <em className="">{itm.tweet_volume + ' Tweets'} </em>
                     </ListGroup.Item>
