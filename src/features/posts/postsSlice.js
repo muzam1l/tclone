@@ -91,6 +91,9 @@ export const getFeed = createAsyncThunk(
             let url = `/api/home_timeline?p=${p + 1}`
             let data = await request(url, { dispatch })
             let posts = data.posts
+            posts = posts
+                .filter(Boolean)
+                .map(post => ({ ...post, is_feed_post: true }))
             dispatch(parsePosts(posts))
             return posts.length;
         } catch (err) {
@@ -228,6 +231,7 @@ let feedFilter = post => {
     return (post.user.following === true)
         // || (post.user.new) // Can be customizable in settings someday
         || (post.retweeted_by && post.retweeted_by.following === true)
+        || post.is_feed_post
 }
 
 export const postsSelectors = postsAdapter.getSelectors(state => state.posts)
@@ -256,7 +260,7 @@ export const selectFeedPosts = createSelector(
 )
 export const selectUserPosts = createSelector(
     [selectAllPosts, (state, username) => username],
-    (posts, username) => posts.filter(post => post.user.screen_name === username)
+    (posts, username) => posts.filter(post => post.user.screen_name === username || post.retweeted)
 )
 
 export const selectSearchPosts = createSelector(
