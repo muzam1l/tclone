@@ -29,6 +29,7 @@ $input-group-addon-border-width: 0;
 $popover-border-width: 0;
 $popover-border-radius: 1em;
 $popover-max-width: 325px;
+$popover-min-width: 275px;
 
 $modal-content-border-width: 0;
 $modal-content-border-radius: 1em;
@@ -82,6 +83,9 @@ $input-group-addon-bg: $gray-300;
   .btn-outline-#{$color} {
     @include button-variant(white, $value, lighten($value, 40%), $value, lighten($value, 37.5%), $value);
     color: $value !important;
+  }
+  .btn-outline {
+    @include button-variant(white, $value, lighten($value, 40%), $value, lighten($value, 37.5%), $value);
   }
   // custom button with no outline or fill
   .btn-naked-#{$color} {

@@ -5,6 +5,7 @@ import { request } from 'api'
 import {
     getFeed, parsePosts, selectUserPosts
 } from 'features/posts/postsSlice'
+import { userUpdated as authUserUpdated } from 'store/authSlice'
 
 
 let usersComparer = (a, b) => (b.followers_count - a.followers_count)
@@ -15,8 +16,20 @@ const usersAdapter = createEntityAdapter({
 const initialState = usersAdapter.getInitialState({
     user_suggests_status: 'idle',
     user_timeline_status: 'idle',
+    user_update_status: 'idle',
     user_timeline_page: 0,
 })
+
+export const updateUserDetails = createAsyncThunk(
+    'users/updateUserDetails',
+    async (body, { dispatch }) => {
+        let { user } = await request('/api/updateuser', { body, dispatch })
+        if (!user)
+            throw Error("User feild nill in responce")
+        dispatch(authUserUpdated(user))
+        return dispatch(userAdded(user))
+    }
+)
 
 export const getUserSuggests = createAsyncThunk(
     'users/getUserSuggests',
@@ -105,6 +118,9 @@ const usersSlice = createSlice({
             else
                 state.user_timeline_status = 'done'
         },
+        [updateUserDetails.rejected]: state => { state.user_update_status = 'error' },
+        [updateUserDetails.pending]: state => { state.user_update_status = 'pending' },
+        [updateUserDetails.fulfilled]: state => { state.user_update_status = 'idle' }
     }
 })
 const { actions, reducer } = usersSlice

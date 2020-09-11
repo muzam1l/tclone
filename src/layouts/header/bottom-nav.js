@@ -5,7 +5,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
+import { faUser } from '@fortawesome/free-regular-svg-icons/faUser'
 
 import { NavLink, Link } from 'react-router-dom'
 import { } from 'react-bootstrap'
@@ -28,9 +28,9 @@ function Nav() {
             icon: faBell
         },
         {
-            name: "Settings",
-            href: "/settings",
-            icon: faEllipsisH
+            name: "Profile",
+            href: "/user/0",
+            icon: faUser,
         }
     ]
     let compose = {

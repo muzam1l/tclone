@@ -35,6 +35,11 @@ function Header(props) {
             icon: faHashtag
         },
         {
+            name: "Profile",
+            href: "/user/0",
+            icon: faUser,
+        },
+        {
             name: "Notifications",
             href: "/notifications",
             icon: faBell
@@ -60,12 +65,6 @@ function Header(props) {
             name: "Lists",
             href: "/lists",
             icon: faListAlt,
-            disabled: true
-        },
-        {
-            name: "Profile",
-            href: "/profile",
-            icon: faUser,
             disabled: true
         }
 

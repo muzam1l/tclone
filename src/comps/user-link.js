@@ -49,7 +49,7 @@ export const UserPopover = React.forwardRef(
                     <b>{user.name}</b>
                     <div className="text-muted mb-2 mt-0">{user.screen_name}</div>
                 </div>
-                <blockquote className="">{user.description}</blockquote>
+                <blockquote style={{ maxHeight: '150px' }} className="text-truncate">{user.description}</blockquote>
                 <Row className="d-flex flex-column">
                     <span className="text-muted">{user.location}</span>
                     <span className="text-muted">Joined {new Date(user.created_at).toDateString()}</span>

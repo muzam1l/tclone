@@ -15,28 +15,33 @@ function numFormatter(num) {
  * @param type - one of name, username, password, custom
  * @param {Object} opts optional setings with sig { min_length, max_length, regex }
  */
-function filterInput(input, type = 'custom', {
+function filterInput(input = '', type = 'custom', {
     min_length: min = 1,
     max_length: max = 70,
-    regex: reg = null
+    regex: reg = null,
+    identifier = null
 } = {}) {
+    identifier = identifier || `input {${type}}`
+    input = input.toString()
     let regexes = {
         username: RegExp(`^[_a-zA-Z0-9]{${min},${max}}$`),
         password: RegExp(`^\\S{${min},${max}}$`),
-        name: RegExp(`.{${min},${max}}`),
+        name: RegExp(`^.{${min},${max}}$`),
     }
     if (!reg) {
         reg = regexes[type]
     }
     if (reg) {
         if (!reg.test(input)) {
-            throw Error(`${type} must match regex: ${reg}`)
+            throw Error(`${identifier} must match regex: ${reg} (range between ${min} and ${max} characters)`)
         }
     }
     //else custom
     else if (input.length > max || input.length < min) {
-        throw Error(`inputs must be minimum ${min} and maximum ${max} characters`)
+        throw Error(`${identifier} must be minimum ${min} and maximum ${max} characters`)
     }
+    if (input.includes('\n')) // long text, strip of multiple newlines etc
+        input = input.replaceAll(/\n+/g, '\n').trim('')
     return input;
 }
 

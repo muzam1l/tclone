@@ -17,12 +17,13 @@ export default props => {
         <ListGroup className={"border-bottom " + className} variant="flush">
             {users && users.slice(0, length).map(user => {
                 return (<ListGroup.Item
-                    className="px-1"
+                    className="px-1 text-truncate"
                     action
                     key={user.screen_name}
                     as={noPop ? Link : UserLink}
                     user={user}
                     to={`/user/${user.screen_name}`}
+                    style={{ maxHeight: '250px' }}
                 >
                     <Media>
                         <img

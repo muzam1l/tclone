@@ -1,6 +1,6 @@
 import React from 'react';
 import Main from 'layouts/main'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { Row, Col, Container } from 'react-bootstrap'
 import Nav from 'layouts/header/bottom-nav'
@@ -20,6 +20,9 @@ function App() {
           </MediaQuery>
           <Col sm="11" xl="10">
             <Switch>
+              <Route path='/login'>
+                <Redirect to="/" />
+              </Route>
               <Route path='/' >
                 <Main />
               </Route>
