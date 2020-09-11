@@ -31,7 +31,6 @@ export default props => {
     let user = useSelector(state => usersSelectors.selectById(state, username))
     let { user: authUser } = useSelector(state => state.auth)
     let posts = useSelector(state => selectUserPosts(state, user && user.screen_name))
-    let { user: AuthUser } = useSelector(state => state.auth)
     let { user_timeline_status: status } = useSelector(state => state.users)
     useEffect(() => {
         if ((!user || !posts.length) && status !== 'loading')
@@ -42,7 +41,7 @@ export default props => {
         dispatch(getUserTimeline(username))
         // eslint-disable-next-line
     }, [username])
-    if (username === '0')
+    if (username === '0' && authUser)
         return <Redirect to={`/user/${authUser.screen_name}`} />
     if (status === 'loading' && !user)
         return <Spinner />
@@ -79,7 +78,7 @@ export default props => {
                         src={user.profile_image_url_https}
                     />
                 </Figure>
-                {AuthUser.screen_name === user.screen_name ? (
+                {authUser && authUser.screen_name === user.screen_name ? (
                     <Link
                         className="btn btn-outline-primary px-3 rounded-pill font-weight-bold"
                         to='/settings/profile'
