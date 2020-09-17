@@ -152,3 +152,8 @@ blockquote {
 .popover {
   min-width: $popover-min-width;
 }
+a + span.badge {
+  left: -10px;
+  top: -7.5px;
+  // content: attr(data-count);
+}

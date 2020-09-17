@@ -6,9 +6,12 @@ import FollowButton from 'comps/FollowButton'
 import { useDispatch } from 'react-redux'
 import { followUser, unFollowUser } from '../features/users/usersSlice'
 
+import { truncateText } from 'utils/helpers'
 export default ({ user, ...props }) => {
     // A dirty hack to force showing of popover when popover itself is hovered
     let [show, setShow] = React.useState(undefined)
+    if (!props.hasOwnProperty('to'))
+        props.to = `/user/${user.screen_name}`
     return (
         <OverlayTrigger show={show} placement="auto" delay="300"
             overlay={<UserPopover show={show} setShow={setShow} user={user} />}
@@ -49,7 +52,7 @@ export const UserPopover = React.forwardRef(
                     <b>{user.name}</b>
                     <div className="text-muted mb-2 mt-0">{user.screen_name}</div>
                 </div>
-                <blockquote style={{ maxHeight: '150px' }} className="text-truncate">{user.description}</blockquote>
+                <blockquote>{truncateText(user.description, 7)}</blockquote>
                 <Row className="d-flex flex-column">
                     <span className="text-muted">{user.location}</span>
                     <span className="text-muted">Joined {new Date(user.created_at).toDateString()}</span>

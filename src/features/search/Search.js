@@ -12,6 +12,7 @@ import {
 import { followUser, unFollowUser } from 'features/users/usersSlice'
 import { useEffect } from 'react'
 import Spinner from 'comps/Spinner'
+import TryAgain from 'comps/TryAgain'
 
 export default () => {
     let location = useLocation()
@@ -40,6 +41,7 @@ export default () => {
             posts={posts}
             status={status}
             getPosts={() => { dispatch(trySearch()) }}
-        /> : <div className="message">No posts matching your query</div>}
+        /> : <div className="message">No posts to show</div>}
+        {status === 'error' && <TryAgain fn={() => { dispatch(changeQuery(urlq)) }} />}
     </>)
 }

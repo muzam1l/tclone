@@ -6,9 +6,21 @@ import { Row, Col, Container } from 'react-bootstrap'
 import Nav from 'layouts/header/bottom-nav'
 import Header from 'layouts/header'
 
+
+import { useDispatch } from 'react-redux'
+import { initSocket, fetchNotifs } from 'features/notify/notifySlice'
+import { useEffect } from 'react'
+
 //import { render } from '@testing-library/react';
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initSocket())
+    dispatch(fetchNotifs())
+  }, [dispatch])
+
   return (
     <Router>
       <Container className="mb-5 mb-sm-1">

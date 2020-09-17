@@ -8,9 +8,13 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
 import { faUser } from '@fortawesome/free-regular-svg-icons/faUser'
 
 import { NavLink, Link } from 'react-router-dom'
-import { } from 'react-bootstrap'
+import { Badge } from 'react-bootstrap'
+
+import { useSelector } from 'react-redux'
+import { selectUnread } from 'features/notify/notifySlice'
 
 function Nav() {
+    let notifsCount = useSelector(selectUnread).length
     let list = [
         {
             name: "Home",
@@ -25,7 +29,8 @@ function Nav() {
         {
             name: "Notifications",
             href: "/notifications",
-            icon: faBell
+            icon: faBell,
+            count: notifsCount
         },
         {
             name: "Profile",
@@ -50,7 +55,8 @@ function Nav() {
             </Link>
             {list.map(item => {
                 let vis = item.disabled ? 'disabled' : ''
-                return (
+                let badge = item.count ? <><Badge className="position-absolute" variant="primary" style={{ top: 6, right: 6, left: 'unset' }}>{item.count}</Badge><span className="sr-only">new items</span></> : null
+                return (<div key={item.name} className="d-flex align-items-top position-relative">
                     <NavLink
                         key={item.name}
                         to={item.href}
@@ -62,7 +68,8 @@ function Nav() {
                             size='lg'
                         />
                     </NavLink>
-                )
+                    {badge}
+                </div>)
             })}
         </div>
     )

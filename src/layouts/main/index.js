@@ -10,7 +10,7 @@ import Explore from './Explore'
 import Search from 'features/search/Search'
 import UserDetail from 'features/users/UserDetail'
 import Compose from 'features/posts/compose-modal'
-import Notifies from 'features/notifies/notify-page'
+import Notifies from 'features/notify/notify-page'
 import Settings from 'features/settings/settings-page.js'
 
 import { useSelector } from 'react-redux'

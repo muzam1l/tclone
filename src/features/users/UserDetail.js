@@ -62,10 +62,10 @@ export default props => {
         <Figure
             style={{ height: "200px", width: "100%", backgroundColor: banner_color }}
         >
-            <Figure.Image
+            {!user.profile_banner_color && <Figure.Image
                 src={user.profile_banner_url}
                 className="w-100 h-100"
-            />
+            />}
         </Figure>
         <div className="p-3 border-bottom">
             <Row className="d-flex justify-content-between mt-n2 px-2 align-items-center w-100">
@@ -95,7 +95,7 @@ export default props => {
                 <h5 className="mb-0"><b>{user.name}</b></h5>
                 <div className="text-muted">@{user.screen_name}</div>
             </div>
-            <blockquote style={{ maxHeight: '300px' }} className="my-1 text-truncate"><WithUrls>{user.description}</WithUrls></blockquote>
+            <blockquote style={{ maxHeight: '300px' }} className="my-1 overflow-y-auto"><WithUrls>{user.description}</WithUrls></blockquote>
             <Row className="d-flex justify-content-between mt-2">
                 <Col sm="6" lg="4" className="px-2 mb-1">
                     <div className="d-flex text-muted align-items-top">

@@ -1,8 +1,12 @@
 import React from 'react'
 import WithUrls from 'comps/with-urls'
 
-export default ({ post }) => {
+import { truncateText } from 'utils/helpers'
+
+export default ({ post, expanded = false }) => {
     let { text } = post
+    if (!expanded)
+        text = truncateText(text, 5)
     // let text_parts = text.split(/#\w+/g)
     // let { user_mentions, hashtags } = post.entities
     // let hlen = hashtags.length;

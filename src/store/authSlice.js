@@ -24,25 +24,31 @@ export const logout = createAsyncThunk(
     async (_, { dispatch }) => {
         await fetch('/auth/logout');
         dispatch(loggedOut())
-        window.location = "/login";
+        // window.location = "/login";
     }
 )
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        isAuthenticated: false,
+        // isAuthenticated: false,
+        isAuthenticated: !!localStorage.getItem('loggedIn'),
         status: "idle", //or "loading", "error"
-        user: null
+        user: JSON.parse(localStorage.getItem('user')) || null
     },
     reducers: {
         loggedIn(state, action) {
+            let user = action.payload
             state.isAuthenticated = true
-            state.user = action.payload
+            state.user = user
+            localStorage.setItem('loggedIn', '1');
+            localStorage.setItem('user', JSON.stringify(user))
         },
         loggedOut(state) {
             state.isAuthenticated = false
             state.user = null
+            localStorage.setItem('loggedIn', '');
+            localStorage.removeItem('user')
         },
         userUpdated(state, action) {
             let user = action.payload

@@ -24,9 +24,10 @@ function Sidebar() {
                         href='https://www.freepik.com/free-photos-vectors/people'
                     >People vector created by studiogstock - www.freepik.com</a>
                 </small>
-                <p className="text-black font-weight-bold">
+                <p className="text-black font-weight-bold mb-0 mt-1">
                     <a className="text-monospace" href="https://github.com/muzam1l/tclone">Tclone, the twitter clone</a>
                 </p>
+                <div className="text-muted mb-1 mt-n1"><small>@1.2.8</small></div>
             </footer>
         </Col>
     )

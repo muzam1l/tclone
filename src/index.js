@@ -14,6 +14,7 @@ import { login } from 'store/authSlice'
 import store from 'store/'
 
 import App from 'pages/App'
+// import Landing from 'pages/Landing'
 import './styles/main.scss';
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en)
@@ -32,18 +33,19 @@ ReactDOM.render(
 function Root() {
   const { status, isAuthenticated, user } = useSelector(state => state.auth)
   const dispatch = useDispatch();
+  // console.log({ user, isAuthenticated, status })
   useEffect(() => {
-    // console.log(document.cookie)
     dispatch(login());
     // eslint-disable-next-line
   }, [])
-  if (status === "loading")
+  if (isAuthenticated && user)
+    return <App />
+  else if (status === "loading")
     return <Spinner />
   else if (status === "error")
     return <TryAgain fn={() => { dispatch(login()) }} message='Something went wrong, check you connection and try again' />
-  else if (isAuthenticated && user)
-    return <App />
-  return <Landing />
+  else if (!(isAuthenticated && user))
+    return <Landing />
 }
 
 

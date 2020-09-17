@@ -1,4 +1,19 @@
-function numFormatter(num) {
+/**
+ * truncates text after n newlines
+ * @param {String} text to trunaate 
+ * @param {Number} lines number of lines to have
+ */
+export const truncateText = (text, lines) => {
+    let n = 0, i = 0
+    let length = text.length
+    for (i = 0; i < length; i++)
+        if (text[i] === '\n')
+            if (n++ >= lines - 1)
+                break
+    return text.slice(0, i) + ((length > i + 1) ? ' ...' : '')
+}
+
+export function numFormatter(num) {
     if (num >= 1000 && num < 1000000) {
         return (num / 1000).toFixed(2) + 'K'; // convert to K for number from > 1000 < 1 million 
     } else if (num >= 1000000) {
@@ -15,7 +30,7 @@ function numFormatter(num) {
  * @param type - one of name, username, password, custom
  * @param {Object} opts optional setings with sig { min_length, max_length, regex }
  */
-function filterInput(input = '', type = 'custom', {
+export function filterInput(input = '', type = 'custom', {
     min_length: min = 1,
     max_length: max = 70,
     regex: reg = null,
@@ -44,5 +59,3 @@ function filterInput(input = '', type = 'custom', {
         input = input.replaceAll(/\n+/g, '\n').trim('')
     return input;
 }
-
-export { numFormatter, filterInput };

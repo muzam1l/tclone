@@ -12,9 +12,13 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons/faHashtag'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
 
 import { NavLink, Link } from 'react-router-dom'
-import { Col } from 'react-bootstrap'
+import { Col, Badge } from 'react-bootstrap'
+
+import { useSelector } from 'react-redux'
+import { selectUnread } from 'features/notify/notifySlice'
 
 function Header(props) {
+    let notifsCount = useSelector(selectUnread).length
     let logo = {
         href: "/home",
         icon: faTwitter
@@ -42,7 +46,8 @@ function Header(props) {
         {
             name: "Notifications",
             href: "/notifications",
-            icon: faBell
+            icon: faBell,
+            count: notifsCount
         },
         {
             name: "Settings",
@@ -70,7 +75,7 @@ function Header(props) {
 
     ]
     return (
-        <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto mr-sm-n3 mr-md-0 hide-scroll">
+        <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto mr-sm-n3 mr-md-0 mr-xl-3 hide-scroll">
             <div className="m-2 mr-xl-auto ml-xl-4">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
@@ -81,9 +86,9 @@ function Header(props) {
             <div className="ml-0 d-flex flex-column mb-2 align-items-start">
                 {list.map(itm => {
                     let vis = itm.disabled ? "disabled" : ""
-                    return (
+                    let badge = itm.count ? <><Badge className="position-absolute" variant="primary" style={{ top: 5, right: 5, left: 'unset' }}>{itm.count}</Badge><span className="sr-only">new items</span></> : null
+                    return (<div key={itm.name} className="d-flex align-items-top position-relative">
                         <NavLink
-                            key={itm.name}
                             to={itm.href}
                             className={`${vis} px-xl-2 py-xl-1 p-1 mb-1 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center`}
                             activeClassName="active"
@@ -91,7 +96,8 @@ function Header(props) {
                             <FontAwesomeIcon className="m-2" size="lg" icon={itm.icon} />
                             <span className="d-none d-xl-block mr-2">{itm.name}</span>
                         </NavLink>
-                    )
+                        {badge}
+                    </div>)
                 })}
             </div>
 
@@ -99,7 +105,7 @@ function Header(props) {
                 <span className="d-none d-xl-block mx-auto px-5">{compose.name}</span>
                 <FontAwesomeIcon className="d-xl-none mx-auto" size="2x" icon={compose.icon} />
             </Link>
-        </Col>
+        </Col >
     )
 }
 

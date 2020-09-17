@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 import UserLink from 'comps/user-link'
 
+import { truncateText } from 'utils/helpers'
+
 export default props => {
     let { users,
         followUser,
@@ -23,7 +25,6 @@ export default props => {
                     as={noPop ? Link : UserLink}
                     user={user}
                     to={`/user/${user.screen_name}`}
-                    style={{ maxHeight: '250px' }}
                 >
                     <Media>
                         <img
@@ -48,7 +49,7 @@ export default props => {
                                 </Col>
                             </Row>
                             <Row>
-                                {!compact && <blockquote className="mb-0 mt-n2">{user.description}</blockquote>}
+                                {!compact && <blockquote className="mb-0 mt-n2">{truncateText(user.description, 5)}</blockquote>}
                             </Row>
                         </Media.Body>
                     </Media>
