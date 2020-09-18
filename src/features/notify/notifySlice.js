@@ -15,7 +15,13 @@ const notifyAdapter = createEntityAdapter({
 /* TODO move to its own file for general purpose */
 const socket = io('/auth', {
     autoConnect: false,
-    reconnectionDelay: 15 * 1000
+    reconnectionDelay: 5 * 1000,
+
+    /*
+    * As netlify doesn't support socket proxying
+    * resorting to just polling, instead of using JWT now 
+    */
+    transports: ['polling']
 });
 
 
@@ -25,14 +31,14 @@ export const initSocket = createAsyncThunk(
     'notify/initSocket',
     async (_, { dispatch }) => {
         socket.on('connect', () => {
-            console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // true
+            // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // true
         });
 
         socket.on('disconnect', () => {
-            console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // false
+            // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // false
         });
         socket.on('error', err => {
-            console.log('Socket error: ', err)
+            // console.log('Socket error: ', err)
         })
 
         socket.on('notification', notification => dispatch(notificationAdded(notification)))

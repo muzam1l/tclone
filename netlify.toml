@@ -13,6 +13,13 @@
     from = "/img/*"
     to = "https://tclone-api.herokuapp.com/img/:splat"
     status = 200
+    
+[[redirects]]
+    from = "/socket.io/*"
+    to = "https://tclone-api.herokuapp.com/socket.io/:splat"
+    status = 200
+    force = true
+
 [[redirects]]
     from = "/*"
     to = "/index.html"
