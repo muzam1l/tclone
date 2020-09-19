@@ -10,8 +10,10 @@ import { composePost } from 'features/posts/postsSlice'
 import { withRouter, Link } from 'react-router-dom'
 
 import { Media } from 'react-bootstrap'
+import { AlertsContext } from 'features/alerts/alertsContext'
 
 class Compose extends React.Component {
+    static contextType = AlertsContext
     state = {
         editor_text: '',
         active: false,
@@ -42,6 +44,8 @@ class Compose extends React.Component {
         if (compose_status === "error") {
             alert('Post could not be submitted, try again')
         }
+        else
+            this.context.ensureNotifPermission()
     }
     resizeTa() {
         // for auto resizing of text area

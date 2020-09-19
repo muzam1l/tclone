@@ -24,6 +24,9 @@ export default props => {
 
     let [error, setError] = useState(null)
     let [progress, setProgress] = useState(10)
+
+    const redirected = new URLSearchParams(history.location.search).get("redirected");
+
     let dirtyProgress = () => {
         if (progress < 90)
             setTimeout(() => { setProgress(90) }, 250)
@@ -31,7 +34,6 @@ export default props => {
     }
 
     const handleClose = () => {
-        let redirected = new URLSearchParams(history.location.search).get("redirected");
         if (status !== 'error' && !error) {
             if (redirected === 'true')
                 history.push('/home')
@@ -87,7 +89,7 @@ export default props => {
             keyboard={false}
         >
             <Modal.Header closeButton className="py-2">
-                <Modal.Title><small className="font-weight-bold">Edit profile</small></Modal.Title>
+                <Modal.Title><small className="font-weight-bold">{!redirected ? 'Edit profile' : 'Complete your profile'} </small></Modal.Title>
             </Modal.Header>
             {status === 'pending' && (
                 dirtyProgress() &&

@@ -4,14 +4,17 @@ import { registerRoute } from 'workbox-routing';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 
+/**
+ * Offline and caching
+ */
+
+//index doc
 self.addEventListener('install', async (event) => {
     event.waitUntil(
         caches.open('index')
             .then((cache) => cache.add('/index.html'))
     );
 });
-
-//index doc
 registerRoute(
     ({ request }) => request.destination === 'document',
     async ({ event }) => {
