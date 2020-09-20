@@ -43,6 +43,8 @@ export default props => {
     }, [username])
     if (username === '0' && authUser)
         return <Redirect to={`/user/${authUser.screen_name}`} />
+    if (authUser && authUser.screen_name === username)
+        user = authUser
     if (status === 'loading' && !user)
         return <Spinner />
     if (!user)

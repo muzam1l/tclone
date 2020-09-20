@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { unsubscribeUser } from '../subscription'
 
 export const login = createAsyncThunk(
     'auth/login',
@@ -22,9 +23,9 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk(
     'auth/logout',
     async (_, { dispatch }) => {
-        await fetch('/auth/logout');
+        unsubscribeUser()
         dispatch(loggedOut())
-        // window.location = "/login";
+        await fetch('/auth/logout');
     }
 )
 

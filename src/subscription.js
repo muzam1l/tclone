@@ -1,3 +1,5 @@
+const convertedVapidKey = urlBase64ToUint8Array(process.env.REACT_APP_PUBLIC_VAPID_KEY)
+
 /**
  * conforms to both Apis (promise or callback)
  */
@@ -31,14 +33,11 @@ export function subscribeUserToPush() {
                     console.info('No subscription detected, make a request.')
                     const subscribeOptions = {
                         userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(
-                            'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U'
-                        )
+                        applicationServerKey: convertedVapidKey
                     };
                     registration.pushManager.subscribe(subscribeOptions).then(function (newSubscription) {
-                        console.log('New subscription added.', newSubscription)
+                        console.log('New subscription added.')
                         return newSubscription
-                        // sendSubscription(newSubscription)
                     }).catch(function (e) {
                         if (Notification.permission !== 'granted') {
                             console.info('Permission was not granted.')
@@ -50,14 +49,46 @@ export function subscribeUserToPush() {
                     console.info('Existing subscription detected.', existingSubscription)
                     return existingSubscription
                 }
+            }).then(function (subscription) {
+                console.log('sending subscription', subscription)
+                return sendSubscription(subscription)
             })
+        }).catch(function (e) {
+            console.error('An error ocurred during Service Worker registration.', e)
         })
-            .catch(function (e) {
-                console.error('An error ocurred during Service Worker registration.', e)
-            })
     }
 }
+export function unsubscribeUser() {
+    removeSubscription().then(function () {
+        navigator.serviceWorker.ready.then(function (registration) {
+            registration.pushManager.getSubscription()
+                .then(function (subscription) {
+                    if (subscription) {
+                        return subscription.unsubscribe();
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error unsubscribing', error);
+                })
+                .then(function () {
+                    console.info('User is unsubscribed.');
+                });
+        })
+    })
+}
+function removeSubscription() {
+    return fetch('api/notifications/unsubscribe')
+}
 
+function sendSubscription(subscription) {
+    return fetch('/api/notifications/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
 function urlBase64ToUint8Array(base64String) {
     const padding = "=".repeat((4 - base64String.length % 4) % 4)

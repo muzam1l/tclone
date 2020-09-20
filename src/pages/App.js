@@ -12,6 +12,8 @@ import { initSocket, fetchNotifs } from 'features/notify/notifySlice'
 import { useEffect } from 'react'
 import { AlertsPovider } from 'features/alerts/alertsContext'
 
+import { subscribeUserToPush } from '../subscription'
+
 //import { render } from '@testing-library/react';
 
 function App() {
@@ -21,6 +23,11 @@ function App() {
     dispatch(initSocket())
     dispatch(fetchNotifs())
   }, [dispatch])
+  useEffect(() => {
+    if (Notification.permission === 'granted')
+      subscribeUserToPush()
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Router>

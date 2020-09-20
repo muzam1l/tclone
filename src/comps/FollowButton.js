@@ -6,7 +6,14 @@ import { useAlerts } from 'features/alerts/alertsContext'
 
 export default props => {
     let { isAuthenticated } = useSelector(state => state.auth)
-    const { ensureNotifPermission } = useAlerts()
+    const alerts = useAlerts()
+    let ensureNotifPermission;
+    /**
+     * dirty fix, as in unauthenticated, this button wont be visble (hence no handleFollow call, below)
+     * but body still executes, giving error
+     */
+    if (alerts)
+        ensureNotifPermission = alerts.ensureNotifPermission
     let { followUser, user, unFollowUser } = props
     let { following } = user;
     let [hoverText, setHoverText] = React.useState('')
