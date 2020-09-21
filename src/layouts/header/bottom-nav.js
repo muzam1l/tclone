@@ -15,6 +15,7 @@ import { selectUnread } from 'features/notify/notifySlice'
 
 function Nav() {
     let notifsCount = useSelector(selectUnread).length
+    let { user: { screen_name } } = useSelector(state => state.auth)
     let list = [
         {
             name: "Home",
@@ -34,7 +35,7 @@ function Nav() {
         },
         {
             name: "Profile",
-            href: "/user/0",
+            href: `/user/${screen_name}`,
             icon: faUser,
         }
     ]

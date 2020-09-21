@@ -37,7 +37,7 @@ export function subscribeUserToPush() {
                     };
                     registration.pushManager.subscribe(subscribeOptions).then(function (newSubscription) {
                         console.log('New subscription added.')
-                        return newSubscription
+                        return sendSubscription(newSubscription)
                     }).catch(function (e) {
                         if (Notification.permission !== 'granted') {
                             console.info('Permission was not granted.')
@@ -46,15 +46,10 @@ export function subscribeUserToPush() {
                         }
                     })
                 } else {
-                    console.info('Existing subscription detected.', existingSubscription)
-                    return existingSubscription
+                    console.info('Existing subscription detected.')
+                    return sendSubscription(existingSubscription)
                 }
-            }).then(function (subscription) {
-                console.log('sending subscription', subscription)
-                return sendSubscription(subscription)
             })
-        }).catch(function (e) {
-            console.error('An error ocurred during Service Worker registration.', e)
         })
     }
 }
@@ -77,7 +72,7 @@ export function unsubscribeUser() {
     })
 }
 function removeSubscription() {
-    return fetch('api/notifications/unsubscribe')
+    return fetch('/api/notifications/unsubscribe')
 }
 
 function sendSubscription(subscription) {

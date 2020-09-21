@@ -1,7 +1,7 @@
 import React from 'react'
 import { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     usersSelectors,
     followUser,
@@ -33,18 +33,14 @@ export default props => {
     let posts = useSelector(state => selectUserPosts(state, user && user.screen_name))
     let { user_timeline_status: status } = useSelector(state => state.users)
     useEffect(() => {
-        if ((!user || !posts.length) && status !== 'loading')
+        if ((!user || !posts.length) && status === 'idle')
             dispatch(getUserTimeline(username))
         // eslint-disable-next-line
-    }, [username])
+    }, [username, status])
     let getPosts = useCallback(() => {
         dispatch(getUserTimeline(username))
         // eslint-disable-next-line
     }, [username])
-    if (username === '0' && authUser)
-        return <Redirect to={`/user/${authUser.screen_name}`} />
-    if (authUser && authUser.screen_name === username)
-        user = authUser
     if (status === 'loading' && !user)
         return <Spinner />
     if (!user)

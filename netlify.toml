@@ -1,24 +1,24 @@
 [build]
     publish = "build/"
-    command = "npm run build"
+    command = "sed -i s@API_PLACEHOLDER@${REACT_APP_API_SERVER}@g netlify.toml && npm run build"
 [[redirects]]
     from = "/api/*"
-    to = "https://tclone-api.herokuapp.com/api/:splat"
+    to = "API_PLACEHOLDER/api/:splat"
     status = 200
 [[redirects]]
     from = "/auth/*"
-    to = "https://tclone-api.herokuapp.com/auth/:splat"
+    to = "API_PLACEHOLDER/auth/:splat"
     status = 200
 [[redirects]]
     from = "/img/*"
-    to = "https://tclone-api.herokuapp.com/img/:splat"
+    to = "API_PLACEHOLDER/img/:splat"
     status = 200
     
-[[redirects]]
-    from = "/socket.io/*"
-    to = "https://tclone-api.herokuapp.com/socket.io/:splat"
-    status = 200
-    force = true
+#[[redirects]]
+#    from = "/socket.io/*"
+#    to = "API_PLACEHOLDER/socket.io/:splat"
+#    status = 200
+#    force = true
 
 [[redirects]]
     from = "/*"

@@ -9,6 +9,7 @@ import { ListGroup, Figure } from 'react-bootstrap'
 import QuotePost from 'comps/quoted-post'
 import Heading from 'comps/Heading'
 import UserLink from 'comps/user-link'
+import { fetchNotifs } from './notifySlice'
 
 export default props => {
     const dispatch = useDispatch()
@@ -16,6 +17,7 @@ export default props => {
     const { ensureNotifPermission } = useAlerts()
 
     useEffect(() => {
+        dispatch(fetchNotifs())
         ensureNotifPermission()
         // eslint-disable-next-line
     }, [])
