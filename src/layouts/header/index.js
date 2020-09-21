@@ -19,6 +19,7 @@ import { selectUnread } from 'features/notify/notifySlice'
 
 function Header(props) {
     let notifsCount = useSelector(selectUnread).length
+    let { user: { screen_name } } = useSelector(state => state.auth)
     let logo = {
         href: "/home",
         icon: faTwitter
@@ -40,7 +41,7 @@ function Header(props) {
         },
         {
             name: "Profile",
-            href: "/user/0",
+            href: `/user/${screen_name}`,
             icon: faUser,
         },
         {

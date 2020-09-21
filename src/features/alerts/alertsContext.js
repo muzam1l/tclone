@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+
 import Prompt from 'comps/prompt-modal'
 
 import { useSelector } from 'react-redux'
@@ -13,20 +14,20 @@ const AlertsPovider = ({ children, ...props }) => {
     /*Detect incomplete profile on basis of description */
     const { user: { description } } = useSelector(state => state.auth)
 
-    /*May be dont ask if it denied already, but lets just keep it for now */
-    const isNotificationPermitted = Notification.permission === 'granted'
-
     let [showNotifPermission, setNotifPermission] = useState(false)
 
     // checks if there are already modals active
-    const isAnyModal = () => {
-        if (showNotifPermission)  //similarly for other future modals
+    const isAnyModal = useCallback(() => {
+        if (showNotifPermission ||
+            history.location.pathname === '/settings/profile' ||
+            history.location.pathname === '/compose/post'
+        )  //similarly for others
             return true
         return false
-    }
+    }, [showNotifPermission, history.location.pathname])
     const handlePermission = (result) => {
         console.log('Permission result: ', result)
-        if (result === 'granted')
+        if (result === true)
             subscribeUserToPush()
     }
 
@@ -34,6 +35,8 @@ const AlertsPovider = ({ children, ...props }) => {
     const ensureNotifPermission = () => {
         const delay = 3000
         setTimeout(() => {
+            /*May be dont ask if it denied already, but lets just keep it for now (¬‿¬)*/
+            const isNotificationPermitted = Notification.permission === 'granted'
             if (!isAnyModal() && !isNotificationPermitted)
                 setNotifPermission(true)
         }, delay)

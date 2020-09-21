@@ -8,9 +8,11 @@ import Header from 'layouts/header'
 
 
 import { useDispatch } from 'react-redux'
-import { initSocket, fetchNotifs } from 'features/notify/notifySlice'
+import { fetchNotifs } from 'features/notify/notifySlice'
 import { useEffect } from 'react'
 import { AlertsPovider } from 'features/alerts/alertsContext'
+
+import { subscribeUserToPush } from '../subscription'
 
 //import { render } from '@testing-library/react';
 
@@ -18,9 +20,14 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initSocket())
     dispatch(fetchNotifs())
   }, [dispatch])
+
+  useEffect(() => {
+    if (Notification.permission === 'granted')
+      subscribeUserToPush()
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Router>

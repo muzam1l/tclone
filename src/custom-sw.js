@@ -31,7 +31,6 @@ registerRoute(
         return cachedResponse || networkResponsePromise;
     }
 )
-
 // images
 registerRoute(
     ({ request, url }) => request.destination === 'image' && url.origin === 'https://tclone-api.herokuapp.com',
@@ -52,7 +51,58 @@ registerRoute(
         cacheName: 'scripts',
     })
 );
-
 // fallback to precache
 precacheAndRoute(self.__WB_MANIFEST || [])
 
+/**
+ * Push n Notifications
+ */
+
+self.addEventListener('push', event => {
+    const data = event.data.json()
+    console.info('New notification', data)
+    const options = {
+        "icon": "./android-chrome-192x192.png",
+        "badge": "/favicon.ico",
+        "actions": [
+            {
+                "action": "open",
+                "title": "Open"
+            },
+            {
+                "action": "close",
+                "title": "Close"
+            }
+        ],
+        "data": {}, //server may send page field in this eg,{ page: `/post/2334`} 
+        ...data.options
+    }
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+})
+
+self.addEventListener('notificationclick', function (event) {
+    const clickedNotification = event.notification;
+    clickedNotification.close();
+    fetch(`/api/notification_read/${clickedNotification.data._id}`)
+    if (event.action === 'close')
+        return
+    else { //`open` action or just click anywhere on notification
+        const page = clickedNotification.data.page || '/notifications'
+        const url = new URL(page, self.location.origin).href;
+        const promiseChain = self.clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true
+        }).then((windowClients) => {
+            let matchingClient = windowClients[0];
+            if (matchingClient) {
+                return matchingClient.navigate(url).then(matchingClient => matchingClient.focus())
+            } else {
+                return self.clients.openWindow(url);
+            }
+        });
+
+        event.waitUntil(promiseChain);
+    }
+});

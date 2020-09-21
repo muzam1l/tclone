@@ -4,7 +4,7 @@ import {
     createEntityAdapter,
     createSelector
 } from '@reduxjs/toolkit'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import { request } from 'api'
 
 const notifyAdapter = createEntityAdapter({
@@ -12,42 +12,53 @@ const notifyAdapter = createEntityAdapter({
     sortComparer: (a, b) => (b.created_at.localeCompare(a.created_at))
 })
 
-/* TODO move to its own file for general purpose */
-const socket = io('/auth', {
-    autoConnect: false,
-    reconnectionDelay: 5 * 1000,
-
-    /*
-    * As netlify doesn't support socket proxying
-    * resorting to just polling, instead of using JWT now 
-    */
-    transports: ['polling']
-});
+// /* TODO move to its own file for general purpose */
+// const socket = io('/auth', {
+//     autoConnect: false,
+//     /*
+//     * As netlify doesn't support socket proxying
+//     * resorting to just polling, instead of using JWT now 
+//     */
+//     transports: ['polling']
+// });
 
 
-const initialState = notifyAdapter.getInitialState({})
 
-export const initSocket = createAsyncThunk(
-    'notify/initSocket',
-    async (_, { dispatch }) => {
-        socket.on('connect', () => {
-            // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // true
-        });
+// export const initSocket = createAsyncThunk(
+//     'notify/initSocket',
+//     async (_, { dispatch }) => {
+//         socket.on('connect', () => {
+//             // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // true
+//         });
 
-        socket.on('disconnect', () => {
-            // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // false
-        });
-        socket.on('error', err => {
-            // console.log('Socket error: ', err)
-        })
+//         socket.on('disconnect', () => {
+//             // console.log("Socket connected? ", socket.connected, ' id: ', socket.id); // false
+//         });
+//         socket.on('error', err => {
+//             // console.log('Socket error: ', err)
+//         })
 
-        socket.on('notification', notification => dispatch(notificationAdded(notification)))
-        socket.on('notifications', notifications => dispatch(notificationsAdded(notifications)))
-        socket.on('message', message => console.log('got message: ', message))
-        socket.open()
+//         socket.on('notification', notification => dispatch(notificationAdded(notification)))
+//         socket.on('notifications', notifications => dispatch(notificationsAdded(notifications)))
+//         socket.on('message', message => console.log('got message: ', message))
+//         // socket.open()
+//     }
+// )
+const interval = 15 * 1000
+var notifsInterval;
+export const fetchNotifs = () => async (dispatch, getState) => {
+    if (!notifsInterval) {
+        notifsInterval = setInterval(() => {
+            dispatch(fetchNotifs())
+        }, interval);
     }
-)
-export const fetchNotifs = createAsyncThunk(
+    const { notify: { status } } = getState()
+    if (status === 'loading')
+        return
+    dispatch(_fetchNotifs())
+}
+
+export const _fetchNotifs = createAsyncThunk(
     'notifs/fetchAll',
     async (_, { dispatch }) => {
         let { notifications } = await request('/api/notifications', { dispatch })
@@ -63,7 +74,9 @@ export const readNotif = createAsyncThunk(
         return request(`/api/notification_read/${notification._id}`, { dispatch })
     }
 )
-
+const initialState = notifyAdapter.getInitialState({
+    status: 'idle' // || 'loading'
+})
 const notifySlice = createSlice({
     name: 'notify',
     initialState,
@@ -77,6 +90,11 @@ const notifySlice = createSlice({
                 read: true
             })
         }
+    },
+    extraReducers: {
+        [fetchNotifs.pending]: state => { state.status = 'loading' },
+        [fetchNotifs.rejected]: state => { state.status = 'idle' },
+        [fetchNotifs.fulfilled]: state => { state.status = 'idle' }
     }
 })
 
