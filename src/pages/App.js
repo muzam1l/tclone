@@ -10,6 +10,7 @@ import Header from 'layouts/header'
 import { useDispatch } from 'react-redux'
 import { initSocket, fetchNotifs } from 'features/notify/notifySlice'
 import { useEffect } from 'react'
+import { AlertsPovider } from 'features/alerts/alertsContext'
 
 //import { render } from '@testing-library/react';
 
@@ -23,28 +24,30 @@ function App() {
 
   return (
     <Router>
-      <Container className="mb-5 mb-sm-1">
-        <Row>
-          <MediaQuery minWidth={576}>
-            <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top vh-100">
-              <Header></Header>
+      <AlertsPovider>
+        <Container className="mb-5 mb-sm-1">
+          <Row>
+            <MediaQuery minWidth={576}>
+              <Col sm="1" xl="2" className="d-flex flex-column align-items-end p-0 sticky-top vh-100">
+                <Header></Header>
+              </Col>
+            </MediaQuery>
+            <Col sm="11" xl="10">
+              <Switch>
+                <Route path='/login'>
+                  <Redirect to="/" />
+                </Route>
+                <Route path='/' >
+                  <Main />
+                </Route>
+              </Switch>
             </Col>
+          </Row>
+          <MediaQuery maxWidth={576}>
+            <Nav />
           </MediaQuery>
-          <Col sm="11" xl="10">
-            <Switch>
-              <Route path='/login'>
-                <Redirect to="/" />
-              </Route>
-              <Route path='/' >
-                <Main />
-              </Route>
-            </Switch>
-          </Col>
-        </Row>
-        <MediaQuery maxWidth={576}>
-          <Nav />
-        </MediaQuery>
-      </Container>
+        </Container>
+      </AlertsPovider>
     </Router>
   );
 }

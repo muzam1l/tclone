@@ -4,7 +4,7 @@ import Sidebar from './sidebar'
 import MediaQuery from 'react-responsive'
 import { Row, Col } from 'react-bootstrap'
 
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import PostDetail from 'features/posts/PostDetail'
 import Explore from './Explore'
 import Search from 'features/search/Search'
@@ -13,10 +13,15 @@ import Compose from 'features/posts/compose-modal'
 import Notifies from 'features/notify/notify-page'
 import Settings from 'features/settings/settings-page.js'
 
-import { useSelector } from 'react-redux'
+import { useAlerts } from 'features/alerts/alertsContext'
+import { useEffect } from 'react'
 
 export default props => {
-    const { user: { description } } = useSelector(state => state.auth)
+    const { ensureCompleteProfile } = useAlerts()
+    useEffect(() => {
+        ensureCompleteProfile()
+        // eslint-disable-next-line
+    }, [])
     return (
         <Row>
             <Col className="px-sm-4" sm="12" lg="8">
@@ -30,7 +35,6 @@ export default props => {
                         <Route path='/settings' component={Settings} />
                         <Route path='/' component={Home} />
                     </Switch>
-                    {!description && <Redirect to="/settings/profile?redirected=true" />}
                     <Route path='/compose/post' component={Compose} />
                 </Col>
             </Col>

@@ -1,6 +1,8 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { notifySelectors, readNotif } from './notifySlice'
+import { useAlerts } from 'features/alerts/alertsContext'
 
 import { Link } from 'react-router-dom'
 import { ListGroup, Figure } from 'react-bootstrap'
@@ -10,7 +12,14 @@ import UserLink from 'comps/user-link'
 
 export default props => {
     const dispatch = useDispatch()
-    let notifications = useSelector(notifySelectors.selectAll)
+    const notifications = useSelector(notifySelectors.selectAll)
+    const { ensureNotifPermission } = useAlerts()
+
+    useEffect(() => {
+        ensureNotifPermission()
+        // eslint-disable-next-line
+    }, [])
+
     const handleClick = n => {
         if (!n.read)
             dispatch(readNotif(n))

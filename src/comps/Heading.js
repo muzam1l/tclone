@@ -10,7 +10,6 @@ import { Row, Figure } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
-
 function Heading(props) {
     let dispatch = useDispatch()
     let history = useHistory()

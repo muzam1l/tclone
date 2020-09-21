@@ -2,9 +2,11 @@ import React from 'react'
 import { useCallback } from 'react'
 import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
+import { useAlerts } from 'features/alerts/alertsContext'
 
 export default props => {
     let { isAuthenticated } = useSelector(state => state.auth)
+    const { ensureNotifPermission } = useAlerts()
     let { followUser, user, unFollowUser } = props
     let { following } = user;
     let [hoverText, setHoverText] = React.useState('')
@@ -12,6 +14,7 @@ export default props => {
     let handleFollow = async e => {
         e.preventDefault()
         followUser(user.screen_name)
+        ensureNotifPermission()
     }
     let handleUnFollow = async e => {
         e.preventDefault()

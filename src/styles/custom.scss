@@ -8,6 +8,7 @@ $dark: rgb(20, 23, 26);
 $body-color: $dark;
 // $bg-color: rgb(245, 248, 250);
 $bg-color: lighten($primary, 39.5%);
+$text-muted: #657786;
 
 $card-bg: $bg-color;
 $card-border-radius: 1em;
@@ -37,6 +38,7 @@ $modal-content-border-radius: 1em;
 $modal-header-border-width: 1px;
 $modal-dialog-margin-y-sm-up: 3em;
 $modal-dialog-margin: 0;
+$modal-sm: 375px;
 $modal-md: 550px;
 $modal-lg: 650px;
 
