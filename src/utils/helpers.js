@@ -4,6 +4,8 @@
  * @param {Number} lines number of lines to have
  */
 export const truncateText = (text, lines) => {
+    if (!text)
+        return ''
     let n = 0, i = 0
     let length = text.length
     for (i = 0; i < length; i++)
