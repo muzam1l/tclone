@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Spinner from './comps/Spinner'
 import TryAgain from './comps/TryAgain'
 import * as serviceWorker from './serviceWorker';
+import { subscribeUserToPush } from './subscription'
 
 import JavascriptTimeAgo from 'javascript-time-ago'
 // The desired locales.
@@ -53,3 +54,4 @@ function Root() {
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+

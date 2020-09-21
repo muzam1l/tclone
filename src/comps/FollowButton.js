@@ -14,6 +14,7 @@ export default props => {
      */
     if (alerts)
         ensureNotifPermission = alerts.ensureNotifPermission
+
     let { followUser, user, unFollowUser } = props
     let { following } = user;
     let [hoverText, setHoverText] = React.useState('')
