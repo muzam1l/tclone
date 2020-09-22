@@ -15,9 +15,9 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 export default function PostsList(props) {
     let { posts = [], status, getPosts } = props;
     useEffect(useCallback(() => {
-        if (status === 'idle' && !posts.length) {
+        if ((status === 'idle' || status === 'done') && !posts.length) {
             getPosts()
-            console.log('fetching on first, status:', status)
+            console.log('fetching on posts load, status:', status)
         }
     }, [status, posts, getPosts]), [getPosts])
     useBottomScrollListener(useCallback(() => {
@@ -99,7 +99,7 @@ export default function PostsList(props) {
             }) : (
                     <div className="message">No posts for you right now</div>
                 )}
-            {status === 'loading' ? <Spinner /> : <br />}
+            {status === 'loading' ? <Spinner /> : null}
         </ListGroup>
     )
 }
