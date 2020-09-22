@@ -1,13 +1,20 @@
 import React from 'react'
+import { useEffect, useCallback } from 'react'
 import FollowButton from 'comps/FollowButton'
 import { Link } from 'react-router-dom'
 import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 import UserLink from 'comps/user-link'
+import Spinner from 'comps/Spinner'
+import TryAgain from './TryAgain'
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 import { truncateText } from 'utils/helpers'
 
 export default props => {
-    let { users,
+    let {
+        users,
+        status,
+        getUsers,
         followUser,
         unFollowUser,
         className,
@@ -15,9 +22,23 @@ export default props => {
         compact,
         noPop
     } = props
+    useEffect(useCallback(() => {
+        if ((status === 'idle' || status === 'done') && !users.length) {
+            getUsers()
+            console.log('fetching on users load, status:', status)
+        }
+    }, [status, users, getUsers]), [getUsers])
+    useBottomScrollListener(useCallback(() => {
+        if (status === "idle" && users.length) {
+            getUsers()
+            console.log('loading more user list, status:', status)
+        }
+    }, [status, users, getUsers]), 500)
+    if (status === 'loading' && !users.length)
+        return <Spinner />
     return (<>
         <ListGroup className={"border-bottom " + className} variant="flush">
-            {users && users.slice(0, length).map(user => {
+            {users && users.length ? users.slice(0, length).map(user => {
                 return (<ListGroup.Item
                     className="px-1 text-truncate"
                     action
@@ -54,7 +75,11 @@ export default props => {
                         </Media.Body>
                     </Media>
                 </ListGroup.Item>)
-            })}
+            }) : (status === 'idle' &&
+                <div className="message font-weight-bold">No users to show</div>
+                )}
+            {status === 'loading' ? <Spinner /> : null}
+            {status === 'error' && <TryAgain fn={getUsers} />}
         </ListGroup>
     </>)
 }

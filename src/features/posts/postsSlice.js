@@ -260,7 +260,10 @@ export const selectFeedPosts = createSelector(
 )
 export const selectUserPosts = createSelector(
     [selectAllPosts, (state, username) => username],
-    (posts, username) => posts.filter(post => post.user.screen_name === username || post.retweeted)
+    (posts, username) => posts.filter(post =>
+        post.user.screen_name === username ||
+        (post.retweeted_by && post.retweeted_by.screen_name === username)
+    )
 )
 
 export const selectSearchPosts = createSelector(

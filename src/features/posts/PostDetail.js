@@ -27,7 +27,7 @@ export default props => {
     if (status === 'loading')
         return <Spinner />
     if (!post) {
-        return <div className="message">Not Found</div>
+        return <div className="message font-weight-bold">Post not Found</div>
     }
     let { retweeted_by, is_retweeted_status } = post
     return (<>

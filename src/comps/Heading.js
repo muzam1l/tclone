@@ -11,11 +11,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
 function Heading(props) {
+    let { title, btnLogout, backButton, btnProfile } = props;
+
     let dispatch = useDispatch()
     let history = useHistory()
     const isMobile = useMediaQuery({ query: '(max-width: 576px)' })
     let { user: authUser, isAuthenticated } = useSelector(state => state.auth)
-    let { title, btnLogout, backButton, btnProfile } = props;
     let [btnTxt, setBtnTxt] = React.useState("Don't click")
     if (backButton)
         backButton = (<button

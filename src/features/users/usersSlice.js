@@ -11,12 +11,16 @@ import { userUpdated as authUserUpdated } from 'store/authSlice'
 let usersComparer = (a, b) => (b.followers_count - a.followers_count)
 const usersAdapter = createEntityAdapter({
     selectId: user => user.screen_name,
-    sortComparer: usersComparer
+    // sortComparer: usersComparer
 })
 const initialState = usersAdapter.getInitialState({
     user_suggests_status: 'idle',
     user_timeline_status: 'idle',
     user_update_status: 'idle',
+    user_friendlist_status: 'idle',
+    user_friendlist_page: 0,
+    user_followerlist_status: 'idle',
+    user_followerlist_page: 0,
     user_timeline_page: 0,
 })
 
@@ -77,6 +81,45 @@ export const unFollowUser = createAsyncThunk(
         return request(`/api/unfollow/${username}`, { dispatch });
     }
 )
+export const getFollowers = createAsyncThunk(
+    'users/getFollowers',
+    async (username, { dispatch, getState }) => {
+        let { users: { user_followerlist_page: p } } = getState()
+        let l = selectFollowers(getState(), username).length
+        if (!l) {
+            dispatch(resetFollowerlistPage())
+            p = 0
+        }
+        p = parseInt(p)
+        username = encodeURIComponent(username)
+        let { users = [] } = await request(`/api/followers/${username}?p=${p + 1}`, { dispatch })
+        console.log(users)
+        if (!users.length)
+            return
+        users = users.map(user => ({ ...user, follower_of: decodeURIComponent(username) }))
+        dispatch(usersAdded(users))
+        return users.length
+    }
+)
+export const getFriends = createAsyncThunk(
+    'users/getFriends',
+    async (username, { dispatch, getState }) => {
+        let { users: { user_friendlist_page: p } } = getState()
+        let l = selectFriends(getState(), username).length
+        if (!l) {
+            dispatch(resetFriendlistPage())
+            p = 0
+        }
+        p = parseInt(p)
+        username = encodeURIComponent(username)
+        let { users = [] } = await request(`/api/friends/${username}?p=${p + 1}`, { dispatch })
+        if (!users.length)
+            return
+        users = users.map(user => ({ ...user, friend_of: decodeURIComponent(username) }))
+        dispatch(usersAdded(users))
+        return users.length
+    }
+)
 
 const usersSlice = createSlice({
     name: 'users',
@@ -94,6 +137,12 @@ const usersSlice = createSlice({
         },
         resetTimelinePage: state => {
             state.user_timeline_page = 0
+        },
+        resetFollowerlistPage: state => {
+            state.user_followerlist_page = 0
+        },
+        resetFriendlistPage: state => {
+            state.user_friendlist_page = 0
         },
         userAdded: usersAdapter.upsertOne,
         usersAdded: usersAdapter.upsertMany,
@@ -120,7 +169,31 @@ const usersSlice = createSlice({
         },
         [updateUserDetails.rejected]: state => { state.user_update_status = 'error' },
         [updateUserDetails.pending]: state => { state.user_update_status = 'pending' },
-        [updateUserDetails.fulfilled]: state => { state.user_update_status = 'idle' }
+        [updateUserDetails.fulfilled]: state => { state.user_update_status = 'idle' },
+
+        [getFollowers.rejected]: state => { state.user_followerlist_status = 'error' },
+        [getFollowers.pending]: state => { state.user_followerlist_status = 'loading' },
+        [getFollowers.fulfilled]: (state, action) => {
+            const length = action.payload
+            if (length > 0) {
+                state.user_followerlist_status = 'idle'
+                state.user_followerlist_page += 1
+            }
+            else
+                state.user_followerlist_status = 'done'
+        },
+
+        [getFriends.rejected]: state => { state.user_friendlist_status = 'error' },
+        [getFriends.pending]: state => { state.user_friendlist_status = 'loading' },
+        [getFriends.fulfilled]: (state, action) => {
+            const length = action.payload
+            if (length > 0) {
+                state.user_friendlist_status = 'idle'
+                state.user_friendlist_page += 1
+            }
+            else
+                state.user_friendlist_status = 'done'
+        },
     }
 })
 const { actions, reducer } = usersSlice
@@ -129,6 +202,8 @@ export const { followingChanged,
     userAdded,
     usersAdded,
     resetTimelinePage,
+    resetFollowerlistPage,
+    resetFriendlistPage,
     usersAddedDontUpdate
 } = actions
 
@@ -142,6 +217,19 @@ export const selectSuggests = createSelector(
 export const selectSearchUsers = createSelector(
     [usersSelectors.selectAll, (state, query) => query],
     (users, query) => users.filter(user => (user.searched === true && user.query === query))
+)
+
+export const selectFriends = createSelector(
+    [usersSelectors.selectAll, (_, username) => username],
+    (users, username) => users
+        .filter(user => user.friend_of === username)
+        .filter(user => user.friend_of !== user.screen_name)
+)
+export const selectFollowers = createSelector(
+    [usersSelectors.selectAll, (_, username) => username],
+    (users, username) => users
+        .filter(user => user.follower_of === username)
+        .filter(user => user.follower_of !== user.screen_name)
 )
 
 export { selectUserPosts } from 'features/posts/postsSlice'
