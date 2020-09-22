@@ -112,8 +112,14 @@ export default props => {
                     </Col>
                 </Row>
                 <Row className="d-flex my-2">
-                    <em className="mr-2">{numFormatter(user.followers_count)} <span className="text-muted">Followers</span></em>
-                    <div className="mr-2">{numFormatter(user.friends_count)} <span className="text-muted">Following</span></div>
+                    <Link
+                        to={`/user/${user.screen_name}/followers`}
+                        className="text-muted mr-2"
+                    >{numFormatter(user.followers_count)} <span>Followers</span></Link>
+                    <Link
+                        to={`/user/${user.screen_name}/friends`}
+                        className="text-muted mr-2"
+                    >{numFormatter(user.friends_count)} <span>Following</span></Link>
                 </Row>
             </div>
             <h5 className="m-2 pb-2 border-bottom">{user.statuses_count} <span className="text-muted">Posts</span></h5>

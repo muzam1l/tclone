@@ -11,6 +11,7 @@ import QuotedPost from 'comps/quoted-post'
 import UserLink from 'comps/user-link'
 
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import TryAgain from './TryAgain'
 
 export default function PostsList(props) {
     let { posts = [], status, getPosts } = props;
@@ -96,10 +97,11 @@ export default function PostsList(props) {
                         </Media>
                     </ListGroup.Item>
                 )
-            }) : (
-                    <div className="message">No posts for you right now</div>
+            }) : (status === 'idle' &&
+                <div className="message">No posts for you right now</div>
                 )}
-            {status === 'loading' ? <Spinner /> : null}
+            {status === 'loading' && <Spinner />}
+            {status === 'error' && <TryAgain fn={getPosts} />}
         </ListGroup>
     )
 }

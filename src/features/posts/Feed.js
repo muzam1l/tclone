@@ -1,8 +1,7 @@
 import React from 'react'
-import TryAgain from 'comps/TryAgain'
+import { useCallback } from 'react'
 
 // import ScrollManager from 'comps/ScrollManager'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { getFeed, selectFeedPosts } from './postsSlice'
 
@@ -13,10 +12,14 @@ export default (props) => {
     let { feed_status: status } = useSelector(state => state.posts)
     let posts = useSelector(selectFeedPosts)
     let dispatch = useDispatch()
+    const getPosts = useCallback(() => {
+        dispatch(getFeed())
+        // eslint-disable-next-line
+    }, [])
+    // if (status === 'error')
+    //     append = <TryAgain fn={getPosts} />
     let append;
-    if (status === 'error')
-        append = <TryAgain fn={() => { dispatch(getFeed()) }} />
-    else if (status === 'done')
+    if (status === 'done')
         append = (<>
             <div className="message text-info">You have reached the end!</div>
             <FollowCard noPop length={7} title='Follow (more) users to see their posts' />
@@ -26,7 +29,7 @@ export default (props) => {
         <PostsList
             posts={posts}
             status={status}
-            getPosts={() => { dispatch(getFeed()) }}
+            getPosts={getPosts}
         />
         {append}
     </>)
