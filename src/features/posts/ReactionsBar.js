@@ -43,7 +43,7 @@ export default props => {
                     as={Link}
                     className="high-index"
                     to={`/compose/post?quote=${post.id_str}`}
-                >Repost with comment</Dropdown.Item>
+                >Quote this post</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
         <button

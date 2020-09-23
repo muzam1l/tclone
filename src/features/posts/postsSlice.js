@@ -5,7 +5,11 @@ import {
     createSelector
 } from '@reduxjs/toolkit'
 import { request } from 'api'
-import { usersAdded, usersAddedDontUpdate, usersSelectors } from 'features/users/usersSlice'
+import {
+    usersAdded,
+    usersAddedDontUpdate,
+    usersSelectors
+} from 'features/users/usersSlice'
 
 const postsAdapter = createEntityAdapter({
     selectId: post => post.id_str,
@@ -15,7 +19,7 @@ const initialState = postsAdapter.getInitialState({
     feed_status: 'idle', // || 'loading', 'error', 'done'
     feed_page: 0, //page currently on, page to fetch is next one
     compose_status: 'idle', // || 'pending', 'error',
-    post_detail_status: 'idle'
+    post_detail_status: 'idle',
 })
 
 export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_users = false } = {}) => dispatch => {
@@ -186,7 +190,7 @@ const postsSlice = createSlice({
                     retweeted: false,
                 }
             })
-        }
+        },
     },
     extraReducers: {
         [getFeed.rejected]: state => { state.feed_status = 'error' },
@@ -213,7 +217,7 @@ const postsSlice = createSlice({
         },
         [getPost.rejected]: state => {
             state.post_detail_status = 'error'
-        },
+        }
     }
 })
 const { reducer, actions } = postsSlice

@@ -12,8 +12,12 @@ import UserDetail from 'features/users/UserDetail'
 import Compose from 'features/posts/compose-modal'
 import Notifies from 'features/notify/notify-page'
 import Settings from 'features/settings/settings-page.js'
+
 import UserFriends from 'features/users/user-friends'
 import UserFollowers from 'features/users/user-followers'
+
+import PostLikes from 'features/users/post-likes'
+import PostReposts from 'features/users/post-reposts'
 
 import { useAlerts } from 'features/alerts/alertsContext'
 import { useEffect } from 'react'
@@ -31,10 +35,15 @@ export default props => {
                     <Switch>
                         <Route path='/explore' component={Explore} />
                         <Route path='/search' component={Search} />
+
+                        <Route path='/post/:postId/likes' component={PostLikes} />
+                        <Route path='/post/:postId/reposts' component={PostReposts} />
                         <Route path='/post/:postId' component={PostDetail} />
+
                         <Route path='/user/:username/friends' component={UserFriends} />
                         <Route path='/user/:username/followers' component={UserFollowers} />
                         <Route path='/user/:username' component={UserDetail} />
+
                         <Route path='/notifications' component={Notifies} />
                         <Route path='/settings' component={Settings} />
                         <Route path='/' component={Home} />
