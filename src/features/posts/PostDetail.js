@@ -96,12 +96,12 @@ export default props => {
             </Row>
             <Row className="border-top border-bottom d-flex p-2">
                 <div className="py-1 pr-3">
-                    <span className="font-weight-bold mr-1">{numFormatter(post.retweet_count)}</span>
-                    <Link to="#" className="text-muted">Retweets and Comments</Link>
+                    <span className="font-weight-bold mr-1">{numFormatter(post.favorite_count)}</span>
+                    <Link to={`/post/${post.id_str}/likes`} className="text-muted">Likes</Link>
                 </div>
                 <div className="py-1 pr-3">
-                    <span className="font-weight-bold mr-1">{numFormatter(post.favorite_count)}</span>
-                    <Link to="#" className="text-muted">Likes</Link>
+                    <span className="font-weight-bold mr-1">{numFormatter(post.retweet_count)}</span>
+                    <Link to={`/post/${post.id_str}/reposts`} className="text-muted">Reposts</Link>
                 </div>
             </Row>
             <Row className="d-flex justify-content-end align-items-center mt-2">

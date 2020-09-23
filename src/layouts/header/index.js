@@ -25,7 +25,7 @@ function Header(props) {
         icon: faTwitter
     }
     let compose = {
-        name: "Tweet",
+        name: "Post",
         icon: faPlusCircle
     }
     let list = [

@@ -16,12 +16,20 @@ const usersAdapter = createEntityAdapter({
 const initialState = usersAdapter.getInitialState({
     user_suggests_status: 'idle',
     user_timeline_status: 'idle',
+    user_timeline_page: 0,
+
     user_update_status: 'idle',
+
     user_friendlist_status: 'idle',
     user_friendlist_page: 0,
+
     user_followerlist_status: 'idle',
     user_followerlist_page: 0,
-    user_timeline_page: 0,
+
+    post_likes_status: 'idle',
+    post_likes_page: 0,
+    post_reposts_status: 'idle',
+    post_reposts_page: 0,
 })
 
 export const updateUserDetails = createAsyncThunk(
@@ -93,7 +101,6 @@ export const getFollowers = createAsyncThunk(
         p = parseInt(p)
         username = encodeURIComponent(username)
         let { users = [] } = await request(`/api/followers/${username}?p=${p + 1}`, { dispatch })
-        console.log(users)
         if (!users.length)
             return
         users = users.map(user => ({ ...user, follower_of: decodeURIComponent(username) }))
@@ -116,6 +123,47 @@ export const getFriends = createAsyncThunk(
         if (!users.length)
             return
         users = users.map(user => ({ ...user, friend_of: decodeURIComponent(username) }))
+        dispatch(usersAdded(users))
+        return users.length
+    }
+)
+export const getLikes = createAsyncThunk(
+    'users/getLikes',
+    async (postId, { dispatch, getState }) => {
+        try {
+            let { users: { post_likes_page: p } } = getState()
+            p = parseInt(p)
+            let l = selectLikes(getState(), postId).length
+            if (!l) {
+                dispatch(resetLikesPage())
+                p = 0
+            }
+            let { users = [] } = await request(`/api/post/${postId}/likes?p=${p + 1}`, { dispatch })
+            if (!users.length)
+                return
+            users = users.map(user => ({ ...user, liked_post: postId }))
+            dispatch(usersAdded(users))
+            return users.length
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
+    }
+)
+export const getReposts = createAsyncThunk(
+    'users/getReposts',
+    async (postId, { dispatch, getState }) => {
+        let { users: { post_reposts_page: p } } = getState()
+        p = parseInt(p)
+        let l = selectReposts(getState(), postId).length
+        if (!l) {
+            dispatch(resetRepostsPage())
+            p = 0
+        }
+        let { users = [] } = await request(`/api/post/${postId}/reposts?p=${p + 1}`, { dispatch })
+        if (!users.length)
+            return
+        users = users.map(user => ({ ...user, reposted_post: postId }))
         dispatch(usersAdded(users))
         return users.length
     }
@@ -143,6 +191,12 @@ const usersSlice = createSlice({
         },
         resetFriendlistPage: state => {
             state.user_friendlist_page = 0
+        },
+        resetLikesPage: state => {
+            state.post_likes_page = 0
+        },
+        resetRepostsPage: state => {
+            state.post_reposts_page = 0
         },
         userAdded: usersAdapter.upsertOne,
         usersAdded: usersAdapter.upsertMany,
@@ -194,6 +248,29 @@ const usersSlice = createSlice({
             else
                 state.user_friendlist_status = 'done'
         },
+        [getLikes.rejected]: state => { state.post_likes_status = 'error' },
+        [getLikes.pending]: state => { state.post_likes_status = 'loading' },
+        [getLikes.fulfilled]: (state, action) => {
+            const length = action.payload
+            if (length > 0) {
+                state.post_likes_status = 'idle'
+                state.post_likes_page += 1
+            }
+            else
+                state.post_likes_status = 'done'
+        },
+
+        [getReposts.rejected]: state => { state.post_reposts_status = 'error' },
+        [getReposts.pending]: state => { state.post_reposts_status = 'loading' },
+        [getReposts.fulfilled]: (state, action) => {
+            const length = action.payload
+            if (length > 0) {
+                state.post_reposts_status = 'idle'
+                state.post_reposts_page += 1
+            }
+            else
+                state.post_reposts_status = 'done'
+        },
     }
 })
 const { actions, reducer } = usersSlice
@@ -204,7 +281,9 @@ export const { followingChanged,
     resetTimelinePage,
     resetFollowerlistPage,
     resetFriendlistPage,
-    usersAddedDontUpdate
+    usersAddedDontUpdate,
+    resetLikesPage,
+    resetRepostsPage
 } = actions
 
 export const usersSelectors = usersAdapter.getSelectors(state => state.users)
@@ -230,6 +309,16 @@ export const selectFollowers = createSelector(
     (users, username) => users
         .filter(user => user.follower_of === username)
         .filter(user => user.follower_of !== user.screen_name)
+)
+export const selectLikes = createSelector(
+    [usersSelectors.selectAll, (_, postId) => postId],
+    (users, postId) => users
+        .filter(user => user.liked_post === postId)
+)
+export const selectReposts = createSelector(
+    [usersSelectors.selectAll, (_, postId) => postId],
+    (users, postId) => users
+        .filter(user => user.reposted_post === postId)
 )
 
 export { selectUserPosts } from 'features/posts/postsSlice'

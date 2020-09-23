@@ -28,7 +28,6 @@ export default props => {
             status={status}
             users={users}
             noPop
-            compact
         />
     </>)
 }
