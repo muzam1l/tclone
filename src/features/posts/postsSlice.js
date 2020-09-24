@@ -20,6 +20,9 @@ const initialState = postsAdapter.getInitialState({
     feed_page: 0, //page currently on, page to fetch is next one
     compose_status: 'idle', // || 'pending', 'error',
     post_detail_status: 'idle',
+
+    post_replies_status: 'idle',
+    post_replies_page: 0
 })
 
 export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_users = false } = {}) => dispatch => {
@@ -94,7 +97,7 @@ export const getFeed = createAsyncThunk(
             let { posts: { feed_page: p } } = getState()
             let url = `/api/home_timeline?p=${p + 1}`
             let data = await request(url, { dispatch })
-            let posts = data.posts
+            let posts = data.posts || []
             posts = posts
                 .filter(Boolean)
                 .map(post => ({ ...post, is_feed_post: true }))
@@ -106,6 +109,26 @@ export const getFeed = createAsyncThunk(
         }
     }
 )
+export const getReplies = createAsyncThunk(
+    'posts/getReplies',
+    async (postId, { dispatch, getState }) => {
+        let { posts: { post_replies_page: p } } = getState()
+        p = parseInt(p)
+        let l = selectReplies(getState(), postId).length
+        if (!l) {
+            dispatch(resetRepliesPage())
+            p = 0
+        }
+        let { posts } = await request(`/api/post/${postId}/replies?p=${p + 1}`, { dispatch })
+        posts = posts || [] //fix, only undefined gets default value in destructing
+        if (!posts.length)
+            return
+        // posts = posts.map(post => ({ ...post, reply_to: postId }))
+        dispatch(parsePosts(posts))
+        return posts.length;
+    }
+)
+
 export const likePost = createAsyncThunk(
     'posts/likePost',
     async (post, { dispatch }) => {
@@ -137,11 +160,16 @@ export const unRepostPost = createAsyncThunk(
 
 export const composePost = createAsyncThunk(
     'posts/composePost',
-    async (body, { dispatch }) => {
-        let { post } = await request('/api/post', { body, dispatch })
-        if (post)
-            post.user.following = true //work around till server shows this correctly on all posts/users
-        return dispatch(parsePosts([post]))
+    async ({ body, url = '/api/post' }, { dispatch }) => {
+        try {
+            let { post } = await request(url, { body, dispatch })
+            if (post)
+                post.user.following = true //work around till server shows this correctly on all posts/users
+            return dispatch(parsePosts([post]))
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
     }
 )
 
@@ -191,6 +219,9 @@ const postsSlice = createSlice({
                 }
             })
         },
+        resetRepliesPage: state => {
+            state.post_replies_page = 0
+        },
     },
     extraReducers: {
         [getFeed.rejected]: state => { state.feed_status = 'error' },
@@ -217,6 +248,17 @@ const postsSlice = createSlice({
         },
         [getPost.rejected]: state => {
             state.post_detail_status = 'error'
+        },
+        [getReplies.rejected]: state => { state.post_replies_status = 'error' },
+        [getReplies.pending]: state => { state.post_replies_status = 'loading' },
+        [getReplies.fulfilled]: (state, action) => {
+            let length = action.payload
+            if (length > 0) {
+                state.post_replies_status = 'idle'
+                state.post_replies_page += 1
+            }
+            else
+                state.post_replies_status = 'done'
         }
     }
 })
@@ -227,7 +269,8 @@ export const {
     postLiked,
     postUnliked,
     postReposted,
-    postUnReposted
+    postUnReposted,
+    resetRepliesPage
 } = actions
 export default reducer
 
@@ -267,6 +310,12 @@ export const selectUserPosts = createSelector(
     (posts, username) => posts.filter(post =>
         post.user.screen_name === username ||
         (post.retweeted_by && post.retweeted_by.screen_name === username)
+    )
+)
+export const selectReplies = createSelector(
+    [selectAllPosts, (state, postId) => postId],
+    (posts, postId) => posts.filter(post =>
+        post.in_reply_to_status_id_str === postId
     )
 )
 

@@ -9,6 +9,7 @@ import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
 import { faComment as commentSolid } from '@fortawesome/free-solid-svg-icons/faComment'
 import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
 import { faHeart as heartSolid } from '@fortawesome/free-solid-svg-icons/faHeart'
+import { faReply } from '@fortawesome/free-solid-svg-icons/faReply'
 import { numFormatter } from 'utils/helpers'
 
 export default props => {
@@ -22,10 +23,10 @@ export default props => {
         post.retweeted ? dispatch(unRepostPost(post)) : dispatch(repostPost(post))
     }
     let { post } = props
-    return (<>
+    return (<div className='d-flex align-items-center'>
         <Dropdown drop="up" className="bg-clear high-index">
             <Dropdown.Toggle
-                className="btn btn-naked-primary rounded-pill bg-clear"
+                className="btn btn-naked-primary rounded-pill"
                 id="comment-dropdown"
             >
                 {post.retweeted ? (
@@ -46,9 +47,17 @@ export default props => {
                 >Quote this post</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
+        {/* reply */}
+        <Link
+            to={`/compose/post?reply_to=${post.id_str}`}
+            className="btn btn-naked-secondary rounded-circle high-index"
+        >
+            <FontAwesomeIcon style={{ fontSize: '1.2em' }} className='mb-1 text-muted' icon={faReply} />
+        </Link>
+        {/* like */}
         <button
             onClick={handleLike}
-            className="btn btn-naked-danger rounded-pill bg-clear high-index"
+            className="btn btn-naked-danger rounded-pill high-index"
         >
             {post.favorited ? (
                 <FontAwesomeIcon icon={heartSolid} className="text-danger" />
@@ -56,5 +65,5 @@ export default props => {
 
             <small className="m-1">{numFormatter(post.favorite_count)}</small>
         </button>
-    </>)
+    </div>)
 }

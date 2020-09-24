@@ -9,12 +9,13 @@ import ReactionsBar from 'features/posts/ReactionsBar'
 import PostText from 'comps/PostText'
 import QuotedPost from 'comps/quoted-post'
 import UserLink from 'comps/user-link'
+import PostTag from 'comps/post-tag'
 
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import TryAgain from './TryAgain'
 
 export default function PostsList(props) {
-    let { posts = [], status, getPosts } = props;
+    let { posts = [], status, getPosts, no_reply_tag } = props;
     useEffect(useCallback(() => {
         if ((status === 'idle' || status === 'done') && !posts.length) {
             getPosts()
@@ -26,13 +27,13 @@ export default function PostsList(props) {
             getPosts()
             console.log('loading more posts, status:', status)
         }
-    }, [status, posts, getPosts]), 500)
+    }, [status, posts, getPosts]), 700, 200, null, true)
     if (status === 'loading' && !posts.length)
         return <Spinner />
     return (
         <ListGroup variant="flush" className="border-bottom">
             {(posts.length > 0) ? posts.map(post => {
-                let { retweeted_by, is_retweeted_status } = post
+                let { retweeted_by } = post
                 return (
                     <ListGroup.Item
                         className="px-3"
@@ -41,15 +42,8 @@ export default function PostsList(props) {
                         // to={`/post/${post.id_str}`}
                         key={post.id_str + (retweeted_by && retweeted_by.id_str)}
                     >
-                        <Row className="d-flex px-3 pb-1 mt-n2">
-                            {is_retweeted_status && retweeted_by && (
-                                <UserLink
-                                    user={retweeted_by}
-                                    className="text-muted"
-                                    to={`/user/${retweeted_by.screen_name}`}
-                                ><small>{retweeted_by.name} retweeted</small>
-                                </UserLink>
-                            )}
+                        <Row className="d-flex px-3 pb-1 mt-n2 text-muted">
+                            <PostTag no_reply_tag={no_reply_tag} post={post} />
                         </Row>
                         <Link className="stretched-link" to={`/post/${post.id_str}`}></Link>
                         <Media className="mb-n2 w-100">
@@ -81,14 +75,14 @@ export default function PostsList(props) {
                                     <pre className="m-0 text-muted">{" - "}</pre>
                                     <span className="text-muted"><ReactTimeAgo date={Date.parse(post.created_at)} timeStyle="twitter" /></span>
                                 </Row>
-                                <Row className="mb-n1 mt-1"><blockquote className="mb-1 w-100">
+                                <Row className="mb-n1 mt-1"><blockquote className="mb-1 mw-100">
                                     <PostText post={post} />
                                 </blockquote></Row>
                                 <Row>
                                     <MultiMedia
                                         className="mt-2"
                                         post={post} />
-                                    <QuotedPost className="mt-2" post={post.quoted_status} />
+                                    <QuotedPost className="mt-2" post={!no_reply_tag && post.quoted_status} />
                                 </Row>
                                 <Row className="d-flex justify-content-end align-items-center position-static">
                                     <ReactionsBar post={post} />

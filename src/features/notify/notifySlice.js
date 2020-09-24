@@ -47,11 +47,17 @@ const notifyAdapter = createEntityAdapter({
 const interval = 15 * 1000
 var notifsInterval;
 export const fetchNotifs = () => async (dispatch, getState) => {
-    if (!notifsInterval) {
-        notifsInterval = setInterval(() => {
-            dispatch(fetchNotifs())
-        }, interval);
+    const { auth: isAuthenticated } = getState()
+    if (isAuthenticated) {
+        if (!notifsInterval) {
+            notifsInterval = setInterval(() => {
+                dispatch(fetchNotifs())
+            }, interval);
+        }
     }
+    else
+        if (notifsInterval)
+            clearInterval(notifsInterval)
     const { notify: { status } } = getState()
     if (status === 'loading')
         return

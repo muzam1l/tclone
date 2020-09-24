@@ -101,6 +101,7 @@ export const getFollowers = createAsyncThunk(
         p = parseInt(p)
         username = encodeURIComponent(username)
         let { users = [] } = await request(`/api/followers/${username}?p=${p + 1}`, { dispatch })
+        users = users || []
         if (!users.length)
             return
         users = users.map(user => ({ ...user, follower_of: decodeURIComponent(username) }))
@@ -120,6 +121,7 @@ export const getFriends = createAsyncThunk(
         p = parseInt(p)
         username = encodeURIComponent(username)
         let { users = [] } = await request(`/api/friends/${username}?p=${p + 1}`, { dispatch })
+        users = users || []
         if (!users.length)
             return
         users = users.map(user => ({ ...user, friend_of: decodeURIComponent(username) }))
@@ -139,6 +141,7 @@ export const getLikes = createAsyncThunk(
                 p = 0
             }
             let { users = [] } = await request(`/api/post/${postId}/likes?p=${p + 1}`, { dispatch })
+            users = users || []
             if (!users.length)
                 return
             users = users.map(user => ({ ...user, liked_post: postId }))
@@ -161,6 +164,7 @@ export const getReposts = createAsyncThunk(
             p = 0
         }
         let { users = [] } = await request(`/api/post/${postId}/reposts?p=${p + 1}`, { dispatch })
+        users = users || []
         if (!users.length)
             return
         users = users.map(user => ({ ...user, reposted_post: postId }))

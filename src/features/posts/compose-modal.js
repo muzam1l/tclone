@@ -26,6 +26,9 @@ export default props => {
     let quoteId = new URLSearchParams(location.search).get("quote");
     let quotePost = useSelector(state => selectPostById(state, quoteId));
 
+    const replyId = new URLSearchParams(location.search).get("reply_to");
+    let replyPost = useSelector(state => selectPostById(state, replyId));
+
     let { compose_status: status } = useSelector(state => state.posts)
 
     let ta = useRef(null)
@@ -44,7 +47,6 @@ export default props => {
     const handleClose = () => {
         if (status !== 'error') {
             setText('')
-            setActive(false)
             history.goBack();
         }
     }
@@ -80,7 +82,11 @@ export default props => {
         let body = {
             "text": editor_text
         }
-        if (quotePost) {
+        let url;
+        if (replyId) {
+            url = `/api/post/${replyId}/reply`
+        }
+        else if (quotePost) {
             body = {
                 ...body,
                 is_quote_status: true,
@@ -89,7 +95,7 @@ export default props => {
                 quoted_status: quotePost._id
             }
         }
-        let action = await dispatch(composePost(body))
+        let action = await dispatch(composePost({ body, url }))
         setActive(true)
         if (action.type === 'posts/composePost/fulfilled')
             handleClose()
@@ -101,7 +107,7 @@ export default props => {
         <Popover id="popover-basic">
             <Picker
                 onSelect={addEmoji}
-                color="#55afb0"
+                color="#3eaaee"
                 sheetSize={32}
                 emoji='point_up'
                 title="Pick your emoji"
@@ -122,7 +128,9 @@ export default props => {
                 keyboard={false}
             >
                 <Modal.Header closeButton className="py-2">
-                    <Modal.Title><small className="font-weight-bold">Compose post</small></Modal.Title>
+                    <Modal.Title><small className="font-weight-bold">
+                        {replyId ? 'Post your reply' : 'Compose post'}
+                    </small></Modal.Title>
                 </Modal.Header>
                 {status === 'pending' && (
                     dirtyProgress() &&
@@ -155,7 +163,7 @@ export default props => {
                                 placeholder="What's happening?"
                             >
                             </textarea>
-                            <QuotedPost className="mb-2 mt-n5" post={quotePost} />
+                            <QuotedPost className="mb-2 mt-n5" post={replyPost || quotePost} />
                         </Media.Body>
                     </Media>
                 </Modal.Body>

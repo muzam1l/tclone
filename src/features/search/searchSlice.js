@@ -21,6 +21,8 @@ export const getSearch = createAsyncThunk(
         let query = encodeURIComponent(q)
         let url = `/api/search?q=${query}&p=${p + 1}`
         let { posts = [], users = [] } = await request(url, { dispatch });
+        posts = posts || []
+        users = users || []
         posts = posts.map(post => ({ ...post, searched: true, query: q }))
         users = users.map(user => ({ ...user, searched: true, query: q }))
         dispatch(usersAdded(users))

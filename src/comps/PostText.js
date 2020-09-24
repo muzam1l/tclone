@@ -5,18 +5,14 @@ import { truncateText } from 'utils/helpers'
 
 export default ({ post, expanded = false }) => {
     let { text } = post
+    text = text || ''
     if (!expanded)
         text = truncateText(text, 5)
-    // let text_parts = text.split(/#\w+/g)
-    // let { user_mentions, hashtags } = post.entities
-    // let hlen = hashtags.length;
+    text = text.replace(/@(\w+)/g, '<a href="/user/$1">$&</a>')
+    text = text.replace(/#(\w+)/g, match =>
+        (`<a href="/search?q=${encodeURIComponent(match)}">${match}</a>`)
+    )
     return (<>
-        {/* {text_parts.map((part, idx) => {
-            let txt = (idx < hlen) && hashtags[idx].text
-            return (<>
-                {part}{txt && <Link className="text-info" to={`/search?q=%23${txt}`}>#{txt}</Link>}
-            </>)
-        })} */}
-        <WithUrls>{text}</WithUrls>
+        <WithUrls className='high-index'>{text}</WithUrls>
     </>)
 }

@@ -35,9 +35,10 @@ class Compose extends React.Component {
             return;
         // some more checks
         this.setState({ active: false })
-        await this.props.composePost({
+        let body = {
             "text": this.state.editor_text
-        })
+        }
+        await this.props.composePost({ body })
         this.setState({ editor_text: '' })
         this.resizeTa()
         let { posts: { compose_status } } = this.props
