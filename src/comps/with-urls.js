@@ -12,6 +12,6 @@ export default ({ children }) => {
         })
     }
     return (<>
-        <div className='mw-100 d-flex' dangerouslySetInnerHTML={{ __html: text }}></div>
+        <div className='mw-100 d-flex flex-column' dangerouslySetInnerHTML={{ __html: text }}></div>
     </>)
 }
