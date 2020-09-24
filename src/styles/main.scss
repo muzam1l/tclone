@@ -128,6 +128,7 @@ a:not(.stretched-link) {
   animation: slide 0.15s ease-out;
 }
 blockquote {
+  z-index: 2;
   font: inherit;
   white-space: pre-wrap !important;
   word-break: break-word !important;

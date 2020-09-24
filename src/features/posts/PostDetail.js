@@ -1,11 +1,11 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import Heading from 'comps/Heading'
 import { Link } from 'react-router-dom'
 import { Row, Col, Figure } from 'react-bootstrap'
 import MultiMedia from 'comps/MultiMedia'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectPostById, getPost } from './postsSlice'
+import { selectPostById, getPost, selectReplies, getReplies } from './postsSlice'
 
 import { numFormatter } from 'utils/helpers'
 import ScrollToTop from 'comps/ScrollToTop'
@@ -14,36 +14,34 @@ import PostText from 'comps/PostText'
 import QuotedPost from 'comps/quoted-post'
 import UserLink from 'comps/user-link'
 import Spinner from 'comps/Spinner'
+import PostsList from 'comps/PostsList'
+import PostTag from 'comps/post-tag'
 
 export default props => {
     let { match: { params: { postId } = {} } = {} } = props
     let dispatch = useDispatch()
     let post = useSelector(state => selectPostById(state, postId))
-    let { post_detail_status: status } = useSelector(state => state.posts)
+    const replies = useSelector(state => selectReplies(state, postId))
+    let { post_detail_status: status, post_replies_status } = useSelector(state => state.posts)
     useEffect(() => {
         if (!post)
             dispatch(getPost(postId))
     }, [post, postId, dispatch])
+    const getPosts = useCallback(() => {
+        dispatch(getReplies(postId))
+    }, [dispatch, postId])
+
     if (status === 'loading')
         return <Spinner />
     if (!post) {
         return <div className="message font-weight-bold">Post not Found</div>
     }
-    let { retweeted_by, is_retweeted_status } = post
     return (<>
         <ScrollToTop />
         <Heading backButton title="Post" />
         <Col className="p-3 d-flex flex-column">
-            <Row className="d-flex px-3 pb-1 mt-n2">
-                {is_retweeted_status && (
-                    <UserLink
-                        user={retweeted_by}
-                        className="text-muted"
-                        to={`/user/${retweeted_by.screen_name}`}
-                    >
-                        <small>{retweeted_by.name} retweeted</small>
-                    </UserLink>
-                )}
+            <Row className="d-flex px-3 pb-1 mt-n2 text-muted">
+                <PostTag post={post} />
             </Row>
             <Row>
                 <Row>
@@ -104,9 +102,15 @@ export default props => {
                     <Link to={`/post/${post.id_str}/reposts`} className="text-muted">Reposts</Link>
                 </div>
             </Row>
-            <Row className="d-flex justify-content-end align-items-center mt-2">
+            <Row className="d-flex justify-content-end align-items-center mt-2 border-bottom">
                 <ReactionsBar post={post} />
             </Row>
+            <PostsList
+                no_reply_tag
+                posts={replies}
+                status={post_replies_status}
+                getPosts={getPosts}
+            />
         </Col>
     </>)
 }

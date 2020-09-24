@@ -41,13 +41,13 @@ const AlertsPovider = ({ children, ...props }) => {
                 setNotifPermission(true)
         }, delay)
     }
-    const ensureCompleteProfile = () => {
+    const ensureCompleteProfile = useCallback(() => {
         const delay = 500
         setTimeout(() => {
             if (!isAnyModal() && !description)
                 history.push('/settings/profile?redirected=true')
         }, delay);
-    }
+    }, [description, history, isAnyModal])
     return (<AlertsContext.Provider value={{
         ensureNotifPermission,
         ensureCompleteProfile

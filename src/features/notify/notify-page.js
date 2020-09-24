@@ -3,17 +3,19 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { notifySelectors, readNotif } from './notifySlice'
 import { useAlerts } from 'features/alerts/alertsContext'
+import { fetchNotifs } from './notifySlice'
 
 import { Link } from 'react-router-dom'
 import { ListGroup, Figure } from 'react-bootstrap'
 import QuotePost from 'comps/quoted-post'
 import Heading from 'comps/Heading'
-import UserLink from 'comps/user-link'
-import { fetchNotifs } from './notifySlice'
+// import UserLink from 'comps/user-link'
+import PostText from 'comps/PostText'
 
 export default props => {
     const dispatch = useDispatch()
     const notifications = useSelector(notifySelectors.selectAll)
+    const { user: authUser } = useSelector(state => state.auth)
     const { ensureNotifPermission } = useAlerts()
 
     useEffect(() => {
@@ -28,30 +30,59 @@ export default props => {
     }
     return (<>
         <Heading title='Notifications' btnProfile backButton />
-        <ListGroup variant="flush" className="min-vh-100">
+        <ListGroup variant="flush" className="">
             {notifications.length ? notifications.map(n => {
                 let active = n.read ? '' : 'bg-bg-color'
-                let post = n.body.post
-                let body, heading, anchor = '#'
-                if (post) {
-                    body = <QuotePost post={post} />
-                    anchor = `/post/${post.id_str}`
+                let post = n.body.post;
+                let user = n.body.user;
+                let body, heading, anchor = '', tag = n.title
+                switch (n.type) {
+                    case 'mentioned':
+                        anchor = `/post/${post.id_str}`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{post.user.screen_name}</b> mentioned you in post</p>
+                            <blockquote className="bg-light mt-n2 p-2"><PostText post={post} /></blockquote>
+                        </div>)
+                        break
+                    case 'replied':
+                        anchor = `/post/${post.id_str}`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{post.user.screen_name}</b> replied</p>
+                            <QuotePost post={post} />
+                        </div>)
+                        break
+                    case 'liked':
+                        anchor = `/post/${post.id_str}/likes`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{user.screen_name}</b> liked</p>
+                            <QuotePost post={post} />
+                        </div>)
+                        break
+                    case 'followed':
+                        anchor = `/user/${authUser.screen_name}/followers`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{user.screen_name}</b> started following you</p>
+                        </div>)
+                        break
+                    case 'unfollowed':
+                        anchor = `/user/${user.screen_name}`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{user.screen_name}</b> no longer follows you</p>
+                        </div>)
+                        break
+                    case 'reposted':
+                        anchor = `/post/${post.id_str}/reposts`
+                        body = (<div className='d-flex flex-column'>
+                            <p><b>@{user.screen_name}</b> reposted</p>
+                            <QuotePost post={post} />
+                        </div>)
+                        break
+                    default:
+                        anchor = '/notifications'
                 }
-                else if (n.type.endsWith('followed') && n.body.user) { //(un)followed
-                    let user = n.body.user
-                    anchor = `/user/${user.screen_name}`
-                    body = (<>
-                        <UserLink
-                            className='font-weight-bold text-dark'
-                            user={user}
-                        >{user.screen_name} </UserLink>
-                        {n.type} You
-                    </>)
-                }
-                if (n.body.user) {
-                    let user = n.body.user
+                if (user) {
                     heading = (<div className='d-flex'>
-                        <UserLink user={user}>
+                        <Link to={`/user/${user.screen_name}`}>
                             <Figure
                                 className="bg-border-color rounded-circle overflow-hidden mr-1 mb-2"
                                 style={{ height: "45px", width: "45px" }}
@@ -61,7 +92,7 @@ export default props => {
                                     className="w-100 h-100"
                                 />
                             </Figure>
-                        </UserLink>
+                        </Link>
                     </div>)
                 }
                 return <ListGroup.Item
@@ -72,7 +103,7 @@ export default props => {
                     onClick={() => handleClick(n)}
                 >
                     <Link className="stretched-link" to={anchor}></Link>
-                    <div className='mt-n2 mb-2'><small>{n.title}</small></div>
+                    <div className='mt-n2 mb-2'><small>{tag}</small></div>
                     {heading}
                     {body}
                 </ListGroup.Item>
