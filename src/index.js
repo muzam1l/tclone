@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import Spinner from './comps/Spinner'
+import Splash from './comps/splash'
 import TryAgain from './comps/TryAgain'
 import * as serviceWorker from './serviceWorker';
 
@@ -21,7 +21,7 @@ JavascriptTimeAgo.locale(en)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Splash />}>
       <Root />
     </Suspense>
   </Provider>,
@@ -37,7 +37,7 @@ function Root() {
   if (isAuthenticated && user)
     return <App />
   else if (status === "loading")
-    return <Spinner />
+    return <Splash />
   else if (status === "error")
     return <TryAgain fn={() => { dispatch(login()) }} message='Something went wrong, check you connection and try again' />
   else if (!(isAuthenticated && user))

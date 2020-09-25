@@ -33,27 +33,28 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         // isAuthenticated: false,
-        isAuthenticated: !!localStorage.getItem('loggedIn'),
-        status: "idle", //or "loading", "error"
-        user: JSON.parse(localStorage.getItem('user')) || null
+        isAuthenticated: !!sessionStorage.getItem('LOGGED_IN'),
+        status: "loading", //or "idle", "error"
+        user: JSON.parse(sessionStorage.getItem('user')) || null
     },
     reducers: {
         loggedIn(state, action) {
             let user = action.payload
             state.isAuthenticated = true
             state.user = user
-            localStorage.setItem('loggedIn', '1');
-            localStorage.setItem('user', JSON.stringify(user))
+            sessionStorage.setItem('LOGGED_IN', '1');
+            sessionStorage.setItem('user', JSON.stringify(user))
         },
         loggedOut(state) {
             state.isAuthenticated = false
             state.user = null
-            localStorage.setItem('loggedIn', '');
-            localStorage.removeItem('user')
+            sessionStorage.setItem('LOGGED_IN', '');
+            sessionStorage.removeItem('user')
         },
         userUpdated(state, action) {
             let user = action.payload
             state.user = user
+            sessionStorage.setItem('user', JSON.stringify(user))
         }
     },
     extraReducers: {

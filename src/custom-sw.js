@@ -39,7 +39,7 @@ registerRoute(
 )
 // images cache first
 registerRoute(
-    ({ request, url }) => request.destination === 'image' && url.origin === 'https://tclone-api.herokuapp.com',
+    ({ request, url }) => request.destination === 'image' && (url.origin === process.env.REACT_APP_API_SERVER),
     new CacheFirst({
         cacheName: 'images',
         plugins: [

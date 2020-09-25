@@ -60,8 +60,9 @@ class Login extends React.Component {
         let disabled = this.state.disabled;
         return (
             <Col style={{ maxWidth: "400px" }} className="mx-auto border px-3 pb-3">
-                <Figure>
+                <Figure className='d-flex flex-column align-items-end'>
                     <Figure.Image
+                        className='align-self-start'
                         width={250}
                         height={250}
                         src="/img/login-thumb-vector.svg"
