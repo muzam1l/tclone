@@ -2,13 +2,19 @@
 import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
 import { registerRoute } from 'workbox-routing';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { skipWaiting, clientsClaim } from 'workbox-core';
+
+skipWaiting();
+clientsClaim();
+/* pre cache */
+precacheAndRoute(self.__WB_MANIFEST || [])
 
 /**
  * Offline and caching
  */
 
-//index doc
+//index doc, stale-while-revalidate
 self.addEventListener('install', async (event) => {
     event.waitUntil(
         caches.open('index')
@@ -31,10 +37,10 @@ registerRoute(
         return cachedResponse || networkResponsePromise;
     }
 )
-// images
+// images cache first
 registerRoute(
     ({ request, url }) => request.destination === 'image' && url.origin === 'https://tclone-api.herokuapp.com',
-    new StaleWhileRevalidate({
+    new CacheFirst({
         cacheName: 'images',
         plugins: [
             new ExpirationPlugin({
@@ -44,15 +50,13 @@ registerRoute(
         ],
     })
 );
-//scripts
+// fallback scripts
 registerRoute(
     ({ request }) => request.destination === 'script',
     new StaleWhileRevalidate({
         cacheName: 'scripts',
     })
 );
-// fallback to precache
-precacheAndRoute(self.__WB_MANIFEST || [])
 
 /**
  * Push n Notifications
@@ -63,7 +67,7 @@ self.addEventListener('push', event => {
     console.info('New notification', data)
     const options = {
         "icon": "./android-chrome-192x192.png",
-        "badge": "/favicon.ico",
+        "badge": "./favicon-32x32.png",
         "actions": [
             {
                 "action": "open",
@@ -106,3 +110,26 @@ self.addEventListener('notificationclick', function (event) {
         event.waitUntil(promiseChain);
     }
 });
+
+const registration = self.registration;
+registration.onupdatefound = () => {
+    const installingWorker = registration.installing;
+    if (installingWorker == null) {
+        return;
+    }
+    installingWorker.onstatechange = () => {
+        if (installingWorker.state === 'activated') {
+            // At this point, the updated precached content has been fetched,
+            // window.location.reload();
+            const url = new URL('/', self.location.origin).href;
+            self.clients.matchAll({
+                type: 'window',
+                includeUncontrolled: true
+            }).then(async windowClients => {
+                for (let client of windowClients) {
+                    await client.navigate(url)
+                }
+            });
+        }
+    };
+}

@@ -7,10 +7,9 @@ import { Container, Col, Row } from 'react-bootstrap'
 
 import MediaQuery from 'react-responsive'
 import Explore from 'layouts/main/Explore'
-// const Explore = React.lazy(() => import('layouts/main/Explore'))
-const Search = React.lazy(() => import('features/search/Search'))
-const PostDetail = React.lazy(() => import('features/posts/PostDetail'))
-const UserDetail = React.lazy(() => import('features/users/UserDetail'))
+import Search from 'features/search/Search'
+import PostDetail from 'features/posts/PostDetail'
+import UserDetail from 'features/users/UserDetail'
 
 export default props => {
     return (

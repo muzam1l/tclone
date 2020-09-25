@@ -14,13 +14,10 @@ import { login } from 'store/authSlice'
 import store from 'store/'
 
 import App from 'pages/App'
-// import Landing from 'pages/Landing'
+import Landing from 'pages/Landing'
 import './styles/main.scss';
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en)
-
-// const App = React.lazy(() => import('./pages/App'))
-const Landing = React.lazy(() => import('./pages/Landing'))
 
 ReactDOM.render(
   <Provider store={store}>
@@ -33,7 +30,6 @@ ReactDOM.render(
 function Root() {
   const { status, isAuthenticated, user } = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  // console.log({ user, isAuthenticated, status })
   useEffect(() => {
     dispatch(login());
     // eslint-disable-next-line
