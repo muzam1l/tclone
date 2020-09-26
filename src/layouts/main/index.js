@@ -19,6 +19,8 @@ import UserFollowers from 'features/users/user-followers'
 import PostLikes from 'features/users/post-likes'
 import PostReposts from 'features/users/post-reposts'
 
+import ChatRoom from 'comps/chat-room-placeholder'
+
 import { useAlerts } from 'features/alerts/alertsContext'
 import { useEffect } from 'react'
 
@@ -46,6 +48,8 @@ export default props => {
 
                         <Route path='/notifications' component={Notifies} />
                         <Route path='/settings' component={Settings} />
+                        <Route path='/chats' component={ChatRoom} />
+
                         <Route path='/' component={Home} />
                     </Switch>
                     <Route path='/compose/post' component={Compose} />

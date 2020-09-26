@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
-import { faBookmark } from '@fortawesome/free-regular-svg-icons/faBookmark'
+import { faComments } from '@fortawesome/free-regular-svg-icons/faComments'
 import { faListAlt } from '@fortawesome/free-regular-svg-icons/faListAlt'
 import { faUser } from '@fortawesome/free-regular-svg-icons/faUser'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
@@ -51,6 +51,11 @@ function Header(props) {
             count: notifsCount
         },
         {
+            name: "Chat Room",
+            href: "/chats",
+            icon: faComments
+        },
+        {
             name: "Settings",
             href: "/settings",
             icon: faEllipsisH
@@ -59,12 +64,6 @@ function Header(props) {
             name: "Messages",
             href: "/messages",
             icon: faEnvelope,
-            disabled: true
-        },
-        {
-            name: "Bookmarks",
-            href: "/bookmarks",
-            icon: faBookmark,
             disabled: true
         },
         {

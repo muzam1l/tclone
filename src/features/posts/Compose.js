@@ -3,7 +3,6 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons/faImage'
 import { faSmile } from '@fortawesome/free-regular-svg-icons/faSmile'
-import { faImages } from '@fortawesome/free-regular-svg-icons/faImages'
 
 import { connect } from 'react-redux'
 import { composePost } from 'features/posts/postsSlice'
@@ -92,16 +91,13 @@ class Compose extends React.Component {
                                 <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
                                     <FontAwesomeIcon size="lg" icon={faImage} />
                                 </button>
-                                <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
-                                    <FontAwesomeIcon size="lg" icon={faImages} />
-                                </button>
                             </div>
                             <div className="right">
                                 <button
                                     onClick={this.handleSubmit}
                                     disabled={!this.state.active}
                                     className="btn btn-primary rounded-pill px-3 py-2 font-weight-bold">
-                                    Tweet
+                                    Post
                                 </button>
                             </div>
                         </div>

@@ -7,7 +7,7 @@ import { skipWaiting, clientsClaim } from 'workbox-core';
 
 skipWaiting();
 clientsClaim();
-/* pre cache */
+/* precache */
 precacheAndRoute(self.__WB_MANIFEST || [])
 
 /**
@@ -39,7 +39,8 @@ registerRoute(
 )
 // images cache first
 registerRoute(
-    ({ request, url }) => request.destination === 'image' && (url.origin === process.env.REACT_APP_API_SERVER),
+    ({ request, url }) => request.destination === 'image' &&
+        (url.origin === process.env.REACT_APP_API_SERVER || url.origin === process.env.PUBLIC_URL),
     new CacheFirst({
         cacheName: 'images',
         plugins: [
@@ -57,7 +58,19 @@ registerRoute(
         cacheName: 'scripts',
     })
 );
-
+// // API requests stale-while-revalidate
+// registerRoute(
+//     new RegExp('/api/(.*)'),
+//     new StaleWhileRevalidate({
+//         cacheName: 'api',
+//         plugins: [
+//             new ExpirationPlugin({
+//                 maxEntries: 100,
+//                 maxAgeSeconds: 10 * 60 // 10 Minutes
+//             })
+//         ]
+//     })
+// );
 /**
  * Push n Notifications
  */
