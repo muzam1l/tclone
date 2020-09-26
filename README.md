@@ -24,6 +24,8 @@ This is something i added to improve user engagement. You are prompted to allow 
 
 - __Compose posts__ (UPDATED to use modals)
 Though posts are primary text based(and emoji if it counts 🥴) and concise. Now i have added nice looking modals to write in, if that helps ¯\\_(ツ)_/¯. Modal based compose is also capable of previewing posts, and is used in reply_posts and quote_posts to display preview of target_posts.  Posts are also parsed for hashtags and usernames, like you can click on user_mentions or hashtags in post (after posting). There is also [emoji-mart](https://www.npmjs.com/package/emoji-mart) emojie picker for handy emojie insertion and gif picker can also be expected in near future (contribute 🥺).
+
+    Link previews are also shown in posts using [react-tiny-link](https://www.npmjs.com/package/react-tiny-link)  
  
 - __Pre populated posts__ (now DISABLED in main project, can be enabled in forks though).
 ~~when you open [tclone](https://tclone.netlify.app/), you see a bunch of users and their tweets (after you follow them). These are actual recent tweets of these accounts on Twitter and fetched via twitter api and then populated in database (so no, NASA didn't log into this clone 💣). Tweet Model on this project is exactly compatible with Tweet objects returned by Twitter api so you can pre populate  you own set of tweets (parsed automatically) for your own fork of this project (Go make one...----------------------------------------------------------------    please🥺).~~

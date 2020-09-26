@@ -58,19 +58,19 @@ registerRoute(
         cacheName: 'scripts',
     })
 );
-// // API requests stale-while-revalidate
-// registerRoute(
-//     new RegExp('/api/(.*)'),
-//     new StaleWhileRevalidate({
-//         cacheName: 'api',
-//         plugins: [
-//             new ExpirationPlugin({
-//                 maxEntries: 100,
-//                 maxAgeSeconds: 10 * 60 // 10 Minutes
-//             })
-//         ]
-//     })
-// );
+// requests to cors-anywhere proxy, cache-first
+registerRoute(
+    ({ url }) => url.origin === 'https://cors-anywhere.herokuapp.com',
+    new CacheFirst({
+        cacheName: 'previews',
+        plugins: [
+            new ExpirationPlugin({
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+            })
+        ]
+    })
+);
 /**
  * Push n Notifications
  */
