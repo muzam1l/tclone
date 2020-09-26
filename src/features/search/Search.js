@@ -13,6 +13,7 @@ import { followUser, unFollowUser } from 'features/users/usersSlice'
 import { useEffect } from 'react'
 import Spinner from 'comps/Spinner'
 import TryAgain from 'comps/TryAgain'
+import Heading from 'comps/Heading'
 
 export default () => {
     let location = useLocation()
@@ -32,6 +33,7 @@ export default () => {
     if (status === 'loading' && !(posts.length || users.length))
         return <Spinner />
     return (<>
+        <Heading title={query || 'Search'} backButton btnProfile />
         <UsersList
             users={users}
             followUser={username => { dispatch(followUser(username)) }}

@@ -10,7 +10,7 @@ function MM(props) {
     let { post, expanded = false, className } = props;
     let style = {
         card: {
-            maxHeight: !expanded ? "300px" : "fit-content",
+            maxHeight: !expanded ? "350" : "fit-content",
             overflow: "hidden"
         }
     }
