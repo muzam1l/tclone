@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import Spinner from './comps/Spinner'
+import Splash from './comps/splash'
 import TryAgain from './comps/TryAgain'
 import * as serviceWorker from './serviceWorker';
 
@@ -14,17 +14,14 @@ import { login } from 'store/authSlice'
 import store from 'store/'
 
 import App from 'pages/App'
-// import Landing from 'pages/Landing'
+import Landing from 'pages/Landing'
 import './styles/main.scss';
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en)
 
-// const App = React.lazy(() => import('./pages/App'))
-const Landing = React.lazy(() => import('./pages/Landing'))
-
 ReactDOM.render(
   <Provider store={store}>
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Splash />}>
       <Root />
     </Suspense>
   </Provider>,
@@ -33,7 +30,6 @@ ReactDOM.render(
 function Root() {
   const { status, isAuthenticated, user } = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  // console.log({ user, isAuthenticated, status })
   useEffect(() => {
     dispatch(login());
     // eslint-disable-next-line
@@ -41,7 +37,7 @@ function Root() {
   if (isAuthenticated && user)
     return <App />
   else if (status === "loading")
-    return <Spinner />
+    return <Splash />
   else if (status === "error")
     return <TryAgain fn={() => { dispatch(login()) }} message='Something went wrong, check you connection and try again' />
   else if (!(isAuthenticated && user))

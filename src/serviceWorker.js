@@ -44,7 +44,7 @@ export function register(config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            'This web app is being served using stale-while-revalidate strategy'
+            'This web app is being served by service worker'
           );
         });
       } else {
@@ -71,13 +71,14 @@ function registerValidSW(swUrl, config) {
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
               console.log(
-                'New content is available and will be used on page refresh'
+                'New content is available, reloading'
               );
 
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
+              // window.location.reload(); done in service worker
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a

@@ -3,34 +3,41 @@ Try it [here](https://tclone.netlify.app)
 back-end repo [here](https://github.com/muzam1l/tclone-api)
 
 
-![Demo](./docs/tclone-demo.gif)
+![Demo](./docs/tclone-demo2.gif)
 
-> *looks exactly like twitter web app* 😊
+> *looks like twitter, but not* 😊
 
 It is my own take on building Twitter clone, I have tried to keep things simple and concise. With minimal modules needed, it is very lightweight and fast, yet very functional and feature-rich and improving consistently.
 
 ## Things working ⚡
 
 - __State management__ (UPDATED to use redux-toolkit)
-Although not in my first builds, where i had state mostly in components itself, now most of the state is global in redux store. Posts, Users etc are in normalised form (by `createAdapter`) and accessed using selectors and using CRUD methods (by adapter) thus sticking solely to ducks file pattern and redux-toolkit environment. This change combined with adding bootstarp has allowed me quickly add new features and made whole app very stable and functional, like spinners which used to be all around the place have been reduced heavily and app now feels more fluid. Now basic things, like user/user_timeline which were missing are added, I will continue to improve it, like adding notifications and socket api is now definitely on agenda.
+Although not in my first builds, where i had state mostly in components itself, now most of the state is global in redux store. Posts, Users etc are in normalised form (by `createAdapter`) and accessed using selectors and using CRUD methods (by adapter) thus sticking solely to ducks file pattern and redux-toolkit environment. This change combined with adding bootstarp has allowed me quickly add new features and made whole app very stable and functional, like spinners which used to be all around the place have been reduced heavily and app now feels more fluid. Now basic things like: likes, user_detail/timeline, post_detail/replies/reposts/quote_posts, notifications,  which were missing initially are implemented, I will continue to improve it and add new features if required.
 
-- __Styling__ (UPDATED! to use bootstrap)
-First step towards learning from my mistakes and improving this mess, i removed all of my custom css (courage 😎), and replaced it with bootstrap classes, now DOM and directories are both clean and more portable, accessibility should improve and extensibilty would now be easier . Bootstrap is customised to match twitter/tclone theme mostly with overriding Sass variables and also extending classes and adding my own ones too. Though all of the styling and responsive layout is now bootstrap powered, i have reatined react-responsive Media queries to not load the hidden components at all. This change lays the strong base to entend this project beyond!.
+- __Styling__ (UPDATED to use bootstrap)
+First step towards learning from my mistakes and improving this mess, i removed all of my custom css (courage 😎), and replaced it with bootstrap classes, now DOM and directories are both clean and more portable, accessibility should improve and extensibilty would now be easier . Bootstrap is customised to match twitter/tclone theme mostly with overriding Sass variables and also extending classes and adding my own ones too. This change lays the strong base to entend this project beyond!.
 
-- __Compose posts__ (minimal for now)
-Though I am considering implementing modal and media sharing in posts (Tweets). Right now, it is very concise and only lets you to share text-based posts only. But tweets are parsed for hashtags, so you may be able to make a hashtag through trends.
+    This site also looks good and works perfectly on mobile, like good, so bootstrap got credit in that too
 
-- __Pre populated posts__ (only original feature of this project 💪).
-when you open [tclone](https://tclone.netlify.app/), you see a bunch of users and their tweets (after you follow them). These are actual recent tweets of these accounts on Twitter and fetched via twitter api and then populated in database (so no, NASA didn't log into this clone 💣). Tweet Model on this project is exactly compatible with Tweet objects returned by Twitter api so you can pre populate  you own set of tweets (parsed automatically) for your own fork of this project (Go make one...----------------------------------------------------------------    please🥺).
+- __Notifications__
+This is something i added to improve user engagement. You are prompted to allow notifications once in a while if not enabled (don't call me cheesy!) and when enabled sends push notifications about replies, likes, follows and things like that. Recent ones are also stored in `/notifications` page for easy access and this page gets refreshed (in background) once in a while and displays number badge for unread notifications too. I must also mention and that these notifications (not the push ones) are not sent through sockets as it is first guessed, because Nelify (on which i host front-end right now) doesn't support socket proxying (which is must as i have cookie based auth) so as a workaroud setInterval does the trick for now!
+
+- __Compose posts__ (UPDATED to use modals)
+Though posts are primary text based(and emoji if it counts 🥴) and concise. Now i have added nice looking modals to write in, if that helps ¯\\_(ツ)_/¯. Modal based compose is also capable of previewing posts, and is used in reply_posts and quote_posts to display preview of target_posts.  Posts are also parsed for hashtags and usernames, like you can click on user_mentions or hashtags in post (after posting). There is also [emoji-mart](https://www.npmjs.com/package/emoji-mart) emojie picker for handy emojie insertion and gif picker can also be expected in near future (contribute 🥺).
+
+    Link previews are also shown in posts using [react-tiny-link](https://www.npmjs.com/package/react-tiny-link)  
+ 
+- __Pre populated posts__ (now DISABLED in main project, can be enabled in forks though).
+~~when you open [tclone](https://tclone.netlify.app/), you see a bunch of users and their tweets (after you follow them). These are actual recent tweets of these accounts on Twitter and fetched via twitter api and then populated in database (so no, NASA didn't log into this clone 💣). Tweet Model on this project is exactly compatible with Tweet objects returned by Twitter api so you can pre populate  you own set of tweets (parsed automatically) for your own fork of this project (Go make one...----------------------------------------------------------------    please🥺).~~
 
 - __Trends and User suggestions__ (*It ain't much but it's honest work*)
-Hashtags with higher posts are stored as trends on the sidebar or on explore page and you can click on them to search for posts with given hashtags, users you are not following are also listed in Who to follow card on sidebar. Trends are now realtime, so go on rise your hastag to trending section 💥.
+Hashtags with higher number and recent posts are parsed and stored as trends, shown in sidebar or on explore page, you can click on them to search for posts with given hashtags. Users you are not following are also listed in 'Who to follow' card on sidebar. Trends are now realtime, so go on rise your hastag to trending section 💥.
 
 - __Search__ (it is easily done through mongoDB queries but I was proud to have it 🥇)
-You can search for text that the posts contain or for hashtags (by prefixing search with #) and for users and user mentions (by prefixing query with @) and all of this just works and is enough to search through all of database 🥳)
+You can search for text that the posts contain or for hashtags (by prefixing search with #) and for users and user mentions (by prefixing query with @) and all of this just works and is enough to search through all of the database 🥳)
 
--  __Authentication__ (simple one 💩)
-Authentication is done with passport local-strategy with sessions managed [server](https://github.com/muzam1l/tclone-api) side via cookies (though I need some help regarding prevention of session-hijacking). No session data is stored in local-storage and cookies are also httpOnly. Log-in session is detected in React, at app start, by sending and checking get request to authenticating api, and subsequent api requests also check for `403`, to destroy session, as an added measure. Authentication state is stored now in redux store as opposed to context api previously.
+-  __Authentication__ (simple yet effective, just works)
+Authentication is done with passport local-strategy with sessions managed [server](https://github.com/muzam1l/tclone-api) side via cookies. Cookies are httpOnly so not accessible in javascript, log-in session is detected in React, at app start, by sending and checking get request to authenticating api, and subsequent api requests also check for `403`, to destroy session, as an added measure (this is not done repeatedly but in single 'fetch wrapper' function which hadles all requests `/src/api/request`). Authentication state is stored now in redux store as opposed to context api previously, and also in sessionStorage now, so reloads doesnt feel like reloads 🥳.
 
 
 ## TODO
@@ -38,9 +45,10 @@ All those things which I want to do and makes me learn smarting new and ........
 Some of it would be 
 - [x] Adding react-bootstrap for styling
 - [x] Adding Redux-toolkit for global state and utilities 
-- [ ] Likes, commets on post and maybe include retweets now. 
-- [ ] Using Modals and popovers' for things like compose posts and hover on say user-link for detail (like twitter😉).
-- [ ] Notifications and improving engagement, this include general fixed and features and maybe socket-api (lying useless in dependencies for ages now😁).
+- [x] Likes, commets on post and maybe include retweets now. 
+- [x] Using Modals and popovers' for things like compose posts and hover on user-link for user detail (like twitter😉).
+- [x] Notifications and improving engagement, this include general fixed and features ~~and maybe socket-api (lying useless in dependencies for ages now😁)~~.
+- [ ] Toasts for events like post posted, content updated, etc. 
 - [ ] Dark mode, not particularly excited about but will be fun messing with bootstraps sass variables ans mixins.
 - [ ] Custom/Cool/New features that even twitter would want to borrow 😎. but for this community participation would be required.
 

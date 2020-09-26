@@ -50,7 +50,7 @@ export default props => {
         {/* reply */}
         <Link
             to={`/compose/post?reply_to=${post.id_str}`}
-            className="btn btn-naked-secondary rounded-circle high-index"
+            className="btn btn-naked-secondary rounded-pill high-index"
         >
             <FontAwesomeIcon style={{ fontSize: '1.2em' }} className='mb-1 text-muted' icon={faReply} />
         </Link>
