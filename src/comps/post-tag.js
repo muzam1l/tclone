@@ -17,7 +17,7 @@ export default ({ post, no_reply_tag = false }) => {
                 className="text-muted"
                 to={`/user/${retweeted_by.screen_name}`}
             >
-                <small>@{retweeted_by.name} retweeted</small>
+                <small>@{retweeted_by.screen_name} retweeted</small>
             </UserLink>
         )}
         {!no_reply_tag && post.in_reply_to_screen_name && (

@@ -104,7 +104,7 @@ export const getFollowers = createAsyncThunk(
         users = users || []
         if (!users.length)
             return
-        users = users.map(user => ({ ...user, follower_of: decodeURIComponent(username) }))
+        users = users.map(user => ({ ...user, follower_of: decodeURIComponent(username) })).filter(Boolean)
         dispatch(usersAdded(users))
         return users.length
     }
@@ -124,7 +124,7 @@ export const getFriends = createAsyncThunk(
         users = users || []
         if (!users.length)
             return
-        users = users.map(user => ({ ...user, friend_of: decodeURIComponent(username) }))
+        users = users.map(user => ({ ...user, friend_of: decodeURIComponent(username) })).filter(Boolean)
         dispatch(usersAdded(users))
         return users.length
     }
@@ -144,7 +144,7 @@ export const getLikes = createAsyncThunk(
             users = users || []
             if (!users.length)
                 return
-            users = users.map(user => ({ ...user, liked_post: postId }))
+            users = users.map(user => ({ ...user, liked_post: postId })).filter(Boolean)
             dispatch(usersAdded(users))
             return users.length
         } catch (err) {
@@ -167,7 +167,7 @@ export const getReposts = createAsyncThunk(
         users = users || []
         if (!users.length)
             return
-        users = users.map(user => ({ ...user, reposted_post: postId }))
+        users = users.map(user => ({ ...user, reposted_post: postId })).filter(Boolean)
         dispatch(usersAdded(users))
         return users.length
     }

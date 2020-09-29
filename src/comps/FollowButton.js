@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useAlerts } from 'features/alerts/alertsContext'
 
 export default props => {
-    let { isAuthenticated } = useSelector(state => state.auth)
+    let { isAuthenticated, user: AuthUser } = useSelector(state => state.auth)
     const alerts = useAlerts()
     let ensureNotifPermission;
     /**
@@ -39,7 +39,8 @@ export default props => {
     }
     let text = !following ? "Follow" : "Following"
     let variant = following ? "primary" : "outline-primary"
-    if (!isAuthenticated)
+    if (!isAuthenticated
+        || (AuthUser && AuthUser.screen_name === user.screen_name))
         return <></>
     return (<>
         <Button

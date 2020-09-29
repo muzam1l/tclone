@@ -30,7 +30,7 @@ export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_use
         posts = posts.filter(Boolean)
         if (!posts.length)
             return
-        let users = posts.map(post => post.user)
+        let users = posts.map(post => post.user).filter(Boolean)
         let users1 = posts.map(post => post.retweeted_status && post.retweeted_status.user)
             .filter(Boolean)
         users.push(...users1)

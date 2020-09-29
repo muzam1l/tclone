@@ -74,8 +74,8 @@ export default props => {
                 <Row></Row>
             </Row>
             <Row><blockquote
-                style={{ whiteSpace: "pre-wrap", fontSize: "1.5em" }}
-                className="text-break my-2">
+                style={{ fontSize: "1.5em" }}
+                className="my-2">
                 <PostText expanded post={post} />
             </blockquote></Row>
             <Row className="mb-2">

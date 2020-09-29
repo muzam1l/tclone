@@ -24,7 +24,7 @@ export const getSearch = createAsyncThunk(
         posts = posts || []
         users = users || []
         posts = posts.map(post => ({ ...post, searched: true, query: q }))
-        users = users.map(user => ({ ...user, searched: true, query: q }))
+        users = users.map(user => ({ ...user, searched: true, query: q })).filter(Boolean)
         dispatch(usersAdded(users))
 
         dispatch(parsePosts(posts))

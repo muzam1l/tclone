@@ -1,3 +1,4 @@
+import { escape } from 'html-escaper';
 /**
  * truncates text after n newlines
  * @param {String} text to trunaate 
@@ -39,7 +40,7 @@ export function filterInput(input = '', type = 'custom', {
     identifier = null
 } = {}) {
     identifier = identifier || `input {${type}}`
-    input = input.toString()
+    input = escape(input.toString()).trim()
     let regexes = {
         username: RegExp(`^[_a-zA-Z0-9]{${min},${max}}$`),
         password: RegExp(`^\\S{${min},${max}}$`),
@@ -58,6 +59,6 @@ export function filterInput(input = '', type = 'custom', {
         throw Error(`${identifier} must be minimum ${min} and maximum ${max} characters`)
     }
     if (input.includes('\n')) // long text, strip of multiple newlines etc
-        input = input.replaceAll(/\n+/g, '\n').trim('')
+        input = input.replace(/\n+/g, '\n').trim()
     return input;
 }

@@ -49,7 +49,7 @@ export default props => {
     if (!user)
         userDetail = <div className="message font-weight-bold">User not found</div>
     else if (user) {
-        let { url: { urls: [{ url, expanded_url, display_url } = {}] = [] } = {} } = user.entities
+        let { url: { urls: [{ url, expanded_url } = {}] = [] } = {} } = user.entities
         let banner_color = user.profile_banner_color || '#f5f8fa'
         userDetail = (<>
             <ScrollToTop />
@@ -107,7 +107,8 @@ export default props => {
                     <Col sm="6" lg="4" className="px-2 mb-1">
                         <div className="d-flex text-muted align-items-top">
                             <FontAwesomeIcon className="mt-1 mr-1" icon={faLink} style={{ fontSize: '1em' }} />
-                            <a className="d-block text-truncate ml-1" target="_blank" rel="noopener noreferrer" href={expanded_url || url}>{display_url || url || expanded_url || 'Just here'}</a>
+                            <WithUrls>{expanded_url || url}</WithUrls>
+                            {/* <a className="d-block text-truncate ml-1" target="_blank" rel="noopener noreferrer" href={expanded_url || url}>{display_url || url || expanded_url || 'Just here'}</a> */}
                         </div>
                     </Col>
                 </Row>
