@@ -2,11 +2,8 @@ import React from 'react'
 import { Card, Image } from 'react-bootstrap'
 import { ReactTinyLink } from 'react-tiny-link'
 import getUrls from 'get-urls'
-import { useMediaQuery } from 'react-responsive'
 
 function MM(props) {
-    const isMobile = useMediaQuery({ query: '(max-width: 540px)' })
-
     let { post, expanded = false, className } = props;
     let style = {
         card: {
@@ -28,14 +25,15 @@ function MM(props) {
         let unparsed_urls = Array.from(getUrls(text))
         if (unparsed_urls.length) {
             url = {
-                expanded_url: unparsed_urls[0]
+                expanded_url: unparsed_urls[0] // just the first one
             }
         }
     }
     if (url) {
         url = <ReactTinyLink
             width="100%"
-            cardSize={isMobile ? 'large' : "small"}
+            cardSize={expanded ? 'large' : "small"}
+            autoPlay={expanded}
             showGraphic={true}
             maxLine={2}
             minLine={1}

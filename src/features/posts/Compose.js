@@ -11,6 +11,9 @@ import { withRouter, Link } from 'react-router-dom'
 import { Media } from 'react-bootstrap'
 import { AlertsContext } from 'features/alerts/alertsContext'
 
+import DOMPurify from 'dompurify';
+import { filterInput } from 'utils/helpers'
+
 class Compose extends React.Component {
     static contextType = AlertsContext
     state = {
@@ -22,20 +25,31 @@ class Compose extends React.Component {
         let ta = e.target
         if (!this.ta)
             this.ta = ta
+        let text = ta.value
         this.setState({
-            editor_text: ta.value,
-            active: ta.value.length > 0
+            editor_text: text,
+            active: this.isValid(text)
         })
         this.resizeTa()
+    }
+    isValid(text = '') {
+        return Boolean(
+            DOMPurify.sanitize(text, { ALLOWED_TAGS: [] }).trim().length > 0
+        )
     }
     handleChange = this.handleChange.bind(this);
     handleSubmit = async (e) => {
         if (!this.state.active)
             return;
-        // some more checks
+        let text = this.state.editor_text.trim()
+        try {
+            text = filterInput(this.state.editor_text, 'html', { max_length: 500, identifier: 'Post' })
+        } catch (err) {
+            return alert(err.message)
+        }
         this.setState({ active: false })
         let body = {
-            "text": this.state.editor_text
+            text
         }
         await this.props.composePost({ body })
         this.setState({ editor_text: '' })

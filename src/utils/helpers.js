@@ -1,4 +1,4 @@
-import { escape } from 'html-escaper';
+import DOMPurify from 'dompurify';
 /**
  * truncates text after n newlines
  * @param {String} text to trunaate 
@@ -30,7 +30,7 @@ export function numFormatter(num) {
  * @returns input if good
  * @throws {Error} with msg 'message for front-end'}
  * @param {String} input - input to sanitize
- * @param type - one of name, username, password, custom
+ * @param type - one of 'name', 'username', 'password', 'html', 'custom'
  * @param {Object} opts optional setings with sig { min_length, max_length, regex }
  */
 export function filterInput(input = '', type = 'custom', {
@@ -40,7 +40,7 @@ export function filterInput(input = '', type = 'custom', {
     identifier = null
 } = {}) {
     identifier = identifier || `input {${type}}`
-    input = escape(input.toString()).trim()
+    input = input.toString().trim()
     let regexes = {
         username: RegExp(`^[_a-zA-Z0-9]{${min},${max}}$`),
         password: RegExp(`^\\S{${min},${max}}$`),
@@ -54,8 +54,10 @@ export function filterInput(input = '', type = 'custom', {
             throw Error(`${identifier} must match regex: ${reg} (range between ${min} and ${max} characters)`)
         }
     }
-    //else custom
-    else if (input.length > max || input.length < min) {
+    //else custom || html
+    if (type === 'html')
+        input = DOMPurify.sanitize(input, { ALLOWED_TAGS: ['b'] }).trim()
+    if (input.length > max || input.length < min) {
         throw Error(`${identifier} must be minimum ${min} and maximum ${max} characters`)
     }
     if (input.includes('\n')) // long text, strip of multiple newlines etc

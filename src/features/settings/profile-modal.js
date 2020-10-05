@@ -45,10 +45,10 @@ export default props => {
         setError(null)
         try {
             let _name = filterInput(name, 'name', { identifier: 'Name' });
-            let description = filterInput(bio, 'null', { max_length: 200, identifier: 'Bio' })
+            let description = filterInput(bio, 'html', { max_length: 200, identifier: 'Bio' })
             let profile_banner_color = filterInput(color, null, { regex: /^#[0-9A-Fa-f]{3,6}$/, identifier: 'Banner color' })
             let _location = filterInput(location, 'name', { min_length: 0, identifier: 'Location' })
-            let _website = filterInput(website, 'name', { min_length: 0, identifier: 'Website URL' })
+            let _website = filterInput(website, 'html', { min_length: 0, identifier: 'Website URL' })
             let profile_image_url_https = profile;
             let body = {
                 name: _name,

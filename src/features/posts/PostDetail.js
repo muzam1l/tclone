@@ -75,7 +75,7 @@ export default props => {
             </Row>
             <Row><blockquote
                 style={{ fontSize: "1.5em" }}
-                className="my-2">
+                className="my-2 mw-100">
                 <PostText expanded post={post} />
             </blockquote></Row>
             <Row className="mb-2">

@@ -41,6 +41,7 @@ export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_use
             if (retweeted_status) {
                 return ({
                     ...retweeted_status,
+                    is_feed_post: post.is_feed_post,
                     is_retweeted_status: true,
                     retweeted_by: post.user,
                     created_at: post.created_at
@@ -48,7 +49,7 @@ export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_use
             }
             return post
         }).filter(Boolean)
-
+        console.log(posts)
         // replace users with their screen_name (selectId)
         posts = posts.map(post => ({
             ...post,

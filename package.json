@@ -1,7 +1,7 @@
 {
   "name": "tclone",
   "sideEffects": false,
-  "version": "0.0.1",
+  "version": "2.0.0",
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "anchorme": "^2.1.2",
     "bootstrap": "^4.5.2",
     "dompurify": "^2.1.1",
     "emoji-mart": "^3.0.0",

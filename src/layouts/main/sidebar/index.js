@@ -27,7 +27,7 @@ function Sidebar() {
                 <p className="text-black font-weight-bold mb-0 mt-1">
                     <a className="text-monospace" href="https://github.com/muzam1l/tclone">Tclone, the twitter clone</a>
                 </p>
-                <div className="text-muted mb-1 mt-n1"><small>@2.0.0</small></div>
+                <div className="text-muted mb-1 mt-n1"><small>@2.1.0</small></div>
             </footer>
         </Col>
     )

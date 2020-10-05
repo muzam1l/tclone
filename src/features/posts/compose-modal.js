@@ -15,6 +15,8 @@ import QuotedPost from 'comps/quoted-post'
 
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import DOMPurify from 'dompurify';
+import { filterInput } from 'utils/helpers'
 
 export default props => {
     let location = useLocation()
@@ -35,6 +37,7 @@ export default props => {
     const [editor_text, setText] = useState(``)
     const [active, setActive] = useState(false)
 
+    const [error, setError] = useState(null)
 
     let [progress, setProgress] = useState(10)
 
@@ -44,8 +47,7 @@ export default props => {
         return true
     }
     const handleClose = () => {
-        if (status !== 'error') {
-            setText('')
+        if (status !== 'error' || true) {
             history.goBack();
         }
     }
@@ -69,17 +71,22 @@ export default props => {
     }, [])
     let handleChange = e => {
         resizeTa()
-        let ta = e.target
-        setText(ta.value)
-        setActive(ta.value.length > 0)
+        let text = e.target.value
+        setText(text)
+        setActive(DOMPurify.sanitize(text, { ALLOWED_TAGS: [] }).trim().length > 0)
     }
     let handleSubmit = async (e) => {
         if (!active)
             return;
-        // some more checks
+        let text;
+        try {
+            text = filterInput(editor_text, 'html', { max_length: 500, identifier: 'Post' })
+        } catch (err) {
+            return setError(err.message)
+        }
         setActive(false)
         let body = {
-            "text": editor_text
+            text
         }
         let url;
         if (replyId) {
@@ -138,6 +145,11 @@ export default props => {
                 {status === "error" && (
                     <Alert variant="danger" className="font-weight-bold text-white">
                         Error submiting post, try again!
+                    </Alert>
+                )}
+                {error && (
+                    <Alert variant="danger" className="font-weight-bold text-white">
+                        {error}
                     </Alert>
                 )}
                 <Modal.Body className="pt-1 pb-0">
