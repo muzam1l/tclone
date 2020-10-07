@@ -49,7 +49,6 @@ export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_use
             }
             return post
         }).filter(Boolean)
-        console.log(posts)
         // replace users with their screen_name (selectId)
         posts = posts.map(post => ({
             ...post,

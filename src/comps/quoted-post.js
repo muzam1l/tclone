@@ -40,7 +40,7 @@ export default ({ post, className, expanded = false }) => {
                     <span className="text-muted"><ReactTimeAgo date={Date.parse(post.created_at)} timeStyle="twitter" /></span>
                 </Row>
                 <Row className=""><blockquote className="mb-1">
-                    <PostText expanded={expanded} post={post} />
+                    <PostText to={`/post/${post.id_str}`} expanded={expanded} post={post} />
                 </blockquote></Row>
 
             </div>

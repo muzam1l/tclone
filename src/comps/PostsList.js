@@ -76,7 +76,7 @@ export default function PostsList(props) {
                                     <span className="text-muted"><ReactTimeAgo date={Date.parse(post.created_at)} timeStyle="twitter" /></span>
                                 </Row>
                                 <Row className="mb-n1 mt-1"><blockquote className="mb-1 mw-100">
-                                    <PostText post={post} />
+                                    <PostText to={`/post/${post.id_str}`} post={post} />
                                 </blockquote></Row>
                                 <Row>
                                     <MultiMedia

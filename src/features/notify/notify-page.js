@@ -32,7 +32,7 @@ export default props => {
         <Heading title='Notifications' btnProfile backButton />
         <ListGroup variant="flush" className="">
             {notifications.length ? notifications.map(n => {
-                let active = n.read ? '' : 'bg-bg-color'
+                let active = n.read ? '' : 'bg-bg-color border-left-right-primary-custom'
                 let post = n.body.post;
                 let user = n.body.user;
                 let body, heading, anchor = '', tag = n.title
@@ -41,7 +41,7 @@ export default props => {
                         anchor = `/post/${post.id_str}`
                         body = (<div className='d-flex flex-column'>
                             <p><b>@{post.user.screen_name}</b> mentioned you in post</p>
-                            <blockquote className="bg-light mt-n2 p-2"><PostText post={post} /></blockquote>
+                            <blockquote className="bg-light mt-n2 p-2 border-left-right-secondary-custom"><PostText post={post} /></blockquote>
                         </div>)
                         break
                     case 'replied':

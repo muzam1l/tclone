@@ -15,10 +15,10 @@ export default ({ children }) => {
             attributes: {
                 target: "_blank",
                 rel: "noopener noreferrer",
-                class: "text-truncate d-block-inline",
+                class: "text-wrap break-all",
             },
-            // any link above 30 characters will be truncated
-            truncate: 30,
+            // any link above 50 characters will be truncated
+            truncate: 50,
         },
         // and extensions
         extensions: [
@@ -26,23 +26,21 @@ export default ({ children }) => {
             {
                 test: /#(\w|_)+/gi,
                 transform: (string) =>
-                    `<a class="high-index mr-1" href="/search?q=${encodeURIComponent(string)}"> ${string} </a>`,
+                    `<a class="high-index" href="/search?q=${encodeURIComponent(string)}"> ${string} </a>`,
             },
             // an extension for mentions
             {
                 test: /@(\w|_)+/gi,
                 transform: (string) =>
-                    `<a class="high-index mr-1" href="/user/${string.slice(1)}">${string}</a>`,
+                    `<a class="high-index" href="/user/${string.slice(1)}">${string}</a>`,
             },
         ],
     });
-    //Dirty UI fix
-    text = text.replace(/\n/g, '<div style="flex-basis: 100%;width: 0px;height: 0px;overflow: hidden;"></div>')
 
     // should not pass for a good code beforehand
     if (DOMPurify.sanitize(text, { ALLOWED_TAGS: [] }).trim() === '')
         text = 'null'
     return (<>
-        <div className='mw-100 d-flex flex-wrap' dangerouslySetInnerHTML={{ __html: text }}></div>
+        <div className='mw-100 overflow-hidden' dangerouslySetInnerHTML={{ __html: text }}></div>
     </>)
 }

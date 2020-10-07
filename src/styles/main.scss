@@ -128,7 +128,7 @@ a:not(.stretched-link) {
   animation: slide 0.15s ease-out;
 }
 blockquote {
-  // z-index: 1;
+  z-index: 1;
   font: inherit;
   white-space: pre-wrap !important;
   word-break: break-word !important;
@@ -167,4 +167,15 @@ a + span.badge {
   left: -10px;
   top: -7.5px;
   // content: attr(data-count);
+}
+.border-left-right-primary-custom {
+  border-left: 1px solid $primary !important;
+  border-right: 1px solid $primary !important;
+}
+.border-left-right-secondary-custom {
+  border-left: 1px solid $secondary !important;
+  border-right: 1px solid $secondary !important;
+}
+.break-all {
+  word-break: break-all;
 }
