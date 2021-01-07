@@ -27,6 +27,7 @@ const initialState = postsAdapter.getInitialState({
 
 export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_users = false } = {}) => dispatch => {
     try {
+        console.log("Parsing posts...")
         posts = posts.filter(Boolean)
         if (!posts.length)
             return
@@ -73,9 +74,10 @@ export const parsePosts = (posts, { dont_dispatch_posts = false, dont_update_use
             dispatch(usersAddedDontUpdate(users))
         else
             dispatch(usersAdded(users))
+        console.log("Parsing complete!")
         return posts
     } catch (err) {
-        console.log('error parsing', err);
+        console.log('error parsing', err)
         throw err
     }
 }
@@ -96,13 +98,15 @@ export const getFeed = createAsyncThunk(
         try {
             let { posts: { feed_page: p } } = getState()
             let url = `/api/home_timeline?p=${p + 1}`
+            console.log("Fetching feed...")
             let data = await request(url, { dispatch })
+            console.log("Fetching feed complete!")
             let posts = data.posts || []
             posts = posts
                 .filter(Boolean)
                 .map(post => ({ ...post, is_feed_post: true }))
             dispatch(parsePosts(posts))
-            return posts.length;
+            return posts.length
         } catch (err) {
             console.log(err)
             throw err
@@ -125,7 +129,7 @@ export const getReplies = createAsyncThunk(
             return
         // posts = posts.map(post => ({ ...post, reply_to: postId }))
         dispatch(parsePosts(posts))
-        return posts.length;
+        return posts.length
     }
 )
 
@@ -180,7 +184,7 @@ const postsSlice = createSlice({
         postsAdded: postsAdapter.upsertMany,
         postAdded: postsAdapter.upsertOne,
         postLiked: (state, action) => {
-            let post = action.payload;
+            let post = action.payload
             postsAdapter.updateOne(state, {
                 id: post.id_str,
                 changes: {
@@ -190,7 +194,7 @@ const postsSlice = createSlice({
             })
         },
         postUnliked: (state, action) => {
-            let post = action.payload;
+            let post = action.payload
             postsAdapter.updateOne(state, {
                 id: post.id_str,
                 changes: {
@@ -200,7 +204,7 @@ const postsSlice = createSlice({
             })
         },
         postReposted: (state, action) => {
-            let post = action.payload;
+            let post = action.payload
             postsAdapter.updateOne(state, {
                 id: post.id_str,
                 changes: {
@@ -210,7 +214,7 @@ const postsSlice = createSlice({
             })
         },
         postUnReposted: (state, action) => {
-            let post = action.payload;
+            let post = action.payload
             postsAdapter.updateOne(state, {
                 id: post.id_str,
                 changes: {
