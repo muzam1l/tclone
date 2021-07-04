@@ -3,8 +3,9 @@ import {
 } from '@reduxjs/toolkit'
 import { request } from 'api'
 import {
-    getFeed, parsePosts, selectUserPosts
+    getFeed, selectUserPosts
 } from 'features/posts/postsSlice'
+import { parsePosts } from 'features/posts/utils'
 import { userUpdated as authUserUpdated } from 'store/authSlice'
 
 
@@ -46,7 +47,7 @@ export const updateUserDetails = createAsyncThunk(
 export const getUserSuggests = createAsyncThunk(
     'users/getUserSuggests',
     async (_, { dispatch }) => {
-        let data = await request('/api/users', { dispatch });
+        let data = await request('/api/users', { dispatch })
         // console.log(data.users)
         return data.users
     }
@@ -66,7 +67,7 @@ export const getUserTimeline = createAsyncThunk(
             dispatch(userAdded(user))
         }
         dispatch(parsePosts(posts))
-        return posts.length;
+        return posts.length
     }
 )
 
@@ -75,7 +76,7 @@ export const followUser = createAsyncThunk(
     async (username, { dispatch, getState }) => {
         dispatch(followingChanged({ username, following: true }))
         username = encodeURIComponent(username)
-        await request(`/api/follow/${username}`, { dispatch });
+        await request(`/api/follow/${username}`, { dispatch })
         let feedStatus = getState().posts.feed_status
         if (feedStatus === 'done')
             dispatch(getFeed())
@@ -86,7 +87,7 @@ export const unFollowUser = createAsyncThunk(
     async (username, { dispatch }) => {
         dispatch(followingChanged({ username, following: false }))
         username = encodeURIComponent(username)
-        return request(`/api/unfollow/${username}`, { dispatch });
+        return request(`/api/unfollow/${username}`, { dispatch })
     }
 )
 export const getFollowers = createAsyncThunk(
@@ -325,4 +326,4 @@ export const selectReposts = createSelector(
         .filter(user => user.reposted_post === postId)
 )
 
-export { selectUserPosts } from 'features/posts/postsSlice'
+// export { selectUserPosts } from 'features/posts/postsSlice'

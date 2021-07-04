@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { likePost, unlikePost, repostPost, unRepostPost } from './postsSlice'
 import { Dropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-regular-svg-icons/faComment'
@@ -13,13 +15,24 @@ import { faReply } from '@fortawesome/free-solid-svg-icons/faReply'
 import { numFormatter } from 'utils/helpers'
 
 export default props => {
+    const history = useHistory()
+
+    let { isAuthenticated } = useSelector(state => state.auth)
     let dispatch = useDispatch()
     let handleLike = e => {
-        e.preventDefault();
+        e.preventDefault()
+        if (!isAuthenticated) {
+            history.push(`/login`)
+            return
+        }
         post.favorited ? dispatch(unlikePost(post)) : dispatch(likePost(post))
 
     }
     let handleRepost = post => {
+        if (!isAuthenticated) {
+            history.push(`/login`)
+            return
+        }
         post.retweeted ? dispatch(unRepostPost(post)) : dispatch(repostPost(post))
     }
     let { post } = props

@@ -6,7 +6,7 @@ import { ListGroup, Media, Row, Col } from 'react-bootstrap'
 import UserLink from 'comps/user-link'
 import Spinner from 'comps/Spinner'
 import TryAgain from './TryAgain'
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 
 import { truncateText } from 'utils/helpers'
 
@@ -22,6 +22,10 @@ export default props => {
         compact,
         noPop
     } = props
+    /*
+        Not the best implementation, but I dont want to spend hours to check if changing it breaks anything
+    */
+    // eslint-disable-next-line
     useEffect(useCallback(() => {
         if ((status === 'idle' || status === 'done') && !users.length) {
             getUsers()
@@ -77,7 +81,7 @@ export default props => {
                 </ListGroup.Item>)
             }) : (status === 'idle' &&
                 <div className="message font-weight-bold">No users to show</div>
-                )}
+            )}
             {status === 'loading' ? <Spinner /> : null}
             {status === 'error' && <TryAgain fn={getUsers} />}
         </ListGroup>

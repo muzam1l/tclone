@@ -11,15 +11,15 @@ class Signup extends React.Component {
         error: null
     }
     handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (this.state.disabled)
             return
         this.setState({ error: null, disabled: true })
         try {
-            let form = e.target;
-            let username = filterInput(form.username.value, 'username', { min_length: 4 });
-            let password = filterInput(form.password.value, 'password');
-            let fullname = filterInput(form.fullname.value, 'name', { min_length: 0 });
+            let form = e.target
+            let username = filterInput(form.username.value, 'username', { min_length: 4 })
+            let password = filterInput(form.password.value, 'password')
+            let fullname = filterInput(form.fullname.value, 'name', { min_length: 0 })
             let responce = await fetch('/auth/signup', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -33,20 +33,20 @@ class Signup extends React.Component {
             })
             if (!responce.ok) {
                 if (responce.status === 409) //conflict
-                    throw Error((await responce.json()).message);
+                    throw Error((await responce.json()).message)
                 throw Error('Something went wrong')
             }
-            let data = await responce.json();
-            console.log(data.message);
+            let data = await responce.json()
+            console.log(data.message)
             this.setState({ disabled: false })
-            this.props.login(data.user);
+            this.props.login(data.user)
         } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
             this.setState({ error: error.message, disabled: false })
         }
     }
     render() {
-        let disabled = this.state.disabled;
+        let disabled = this.state.disabled
         return (
             <Col style={{ maxWidth: "400px" }} className="mx-auto border px-3 pb-3">
                 <Figure className='d-flex flex-column align-items-end'>
@@ -62,7 +62,7 @@ class Signup extends React.Component {
                     </Figure.Caption>
                 </Figure>
                 <h5 className="font-weight-bolder">
-                    See what’s happening in the fake_world right now
+                    Signup to see what’s happening in the muzamilverse right now
                 </h5>
                 <fieldset disabled={disabled}>
                     <Form onSubmit={this.handleSubmit}>

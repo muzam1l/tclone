@@ -4,7 +4,7 @@ import {
 } from '@reduxjs/toolkit'
 import { request } from 'api'
 import { usersAdded } from 'features/users/usersSlice'
-import { parsePosts } from 'features/posts/postsSlice'
+import { parsePosts } from 'features/posts/utils'
 
 export const trySearch = () => async (dispatch, getState) => {
     let { search: { status } } = getState()
@@ -20,7 +20,7 @@ export const getSearch = createAsyncThunk(
             throw Error('No Query')
         let query = encodeURIComponent(q)
         let url = `/api/search?q=${query}&p=${p + 1}`
-        let { posts = [], users = [] } = await request(url, { dispatch });
+        let { posts = [], users = [] } = await request(url, { dispatch })
         posts = posts || []
         users = users || []
         posts = posts.map(post => ({ ...post, searched: true, query: q }))

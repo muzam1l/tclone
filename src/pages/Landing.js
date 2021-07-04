@@ -28,15 +28,24 @@ export default props => {
                                         <Explore noSearchBar />
                                     </MediaQuery>
                                 </Route>
-                                <Route path="/search" component={Search} />
-                                <Route path='/post/:postId' component={PostDetail} />
-                                <Route path='/user/:username' component={UserDetail} />
-                                <Route path="/">
+                                <Route path="/login">
                                     <MediaQuery maxWidth={992}>
                                         <Login />
                                     </MediaQuery>
                                     <MediaQuery minWidth={993}>
                                         <Explore noSearchBar />
+                                    </MediaQuery>
+                                </Route>
+                                <Route path="/search" component={Search} />
+                                <Route path='/post/:postId' component={PostDetail} />
+                                <Route path='/user/:username' component={UserDetail} />
+                                <Route path="/">
+                                    <MediaQuery maxWidth={992}>
+                                        <Login compact />
+                                        <Explore noSearchBar noSuggestions compact />
+                                    </MediaQuery>
+                                    <MediaQuery minWidth={993}>
+                                        <Explore noSearchBar noSuggestions />
                                     </MediaQuery>
                                 </Route>
                             </Switch>

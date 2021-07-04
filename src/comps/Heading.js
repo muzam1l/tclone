@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
 function Heading(props) {
-    let { title, btnLogout, backButton, btnProfile } = props;
+    let { title, btnLogout, backButton, btnProfile } = props
 
     let dispatch = useDispatch()
     let history = useHistory()
@@ -20,7 +20,7 @@ function Heading(props) {
     let [btnTxt, setBtnTxt] = React.useState("Don't click")
     if (backButton)
         backButton = (<button
-            onClick={() => { history.goBack() }}
+            onClick={() => { isAuthenticated ? history.goBack() : history.push('/') }}
             className="ml-2 btn btn-naked-primary rounded-circle text-primary">
             <FontAwesomeIcon icon={faArrowLeft} size="lg" />
         </button>)

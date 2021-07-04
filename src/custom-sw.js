@@ -1,12 +1,12 @@
 /* eslint no-restricted-globals: "off" */
-import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
-import { registerRoute } from 'workbox-routing';
-import { ExpirationPlugin } from 'workbox-expiration';
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
-import { skipWaiting, clientsClaim } from 'workbox-core';
+import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute'
+import { registerRoute } from 'workbox-routing'
+import { ExpirationPlugin } from 'workbox-expiration'
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { skipWaiting, clientsClaim } from 'workbox-core'
 
-skipWaiting();
-clientsClaim();
+skipWaiting()
+clientsClaim()
 /* precache */
 precacheAndRoute(self.__WB_MANIFEST || [])
 
@@ -19,22 +19,22 @@ self.addEventListener('install', async (event) => {
     event.waitUntil(
         caches.open('index')
             .then((cache) => cache.add('/index.html'))
-    );
-});
+    )
+})
 registerRoute(
     ({ request }) => request.destination === 'document',
     async ({ event }) => {
-        const cache = await caches.open('index');
-        const cachedResponse = await cache.match('/index.html');
-        const networkResponsePromise = fetch('/index.html');
+        const cache = await caches.open('index')
+        const cachedResponse = await cache.match('/index.html')
+        const networkResponsePromise = fetch('/index.html')
 
         event.waitUntil(async function () {
-            const networkResponse = await networkResponsePromise;
-            await cache.put('/index.html', networkResponse.clone());
-        }());
+            const networkResponse = await networkResponsePromise
+            await cache.put('/index.html', networkResponse.clone())
+        }())
 
         // Returned the cached response if we have one, otherwise return the network response.
-        return cachedResponse || networkResponsePromise;
+        return cachedResponse || networkResponsePromise
     }
 )
 // images cache first
@@ -50,14 +50,14 @@ registerRoute(
             }),
         ],
     })
-);
+)
 // fallback scripts
 registerRoute(
     ({ request }) => request.destination === 'script',
     new StaleWhileRevalidate({
         cacheName: 'scripts',
     })
-);
+)
 // requests to cors-anywhere proxy, cache-first
 registerRoute(
     ({ url }) => url.origin === 'https://cors-anywhere.herokuapp.com',
@@ -70,7 +70,7 @@ registerRoute(
             })
         ]
     })
-);
+)
 /**
  * Push n Notifications
  */
@@ -96,45 +96,49 @@ self.addEventListener('push', event => {
     }
     event.waitUntil(
         self.registration.showNotification(data.title, options)
-    );
+    )
 })
 
 self.addEventListener('notificationclick', function (event) {
-    const clickedNotification = event.notification;
-    clickedNotification.close();
+    const clickedNotification = event.notification
+    clickedNotification.close()
     fetch(`/api/notification_read/${clickedNotification.data._id}`)
     if (event.action === 'close')
         return
     else { //`open` action or just click anywhere on notification
         const page = clickedNotification.data.page || '/notifications'
-        const url = new URL(page, self.location.origin).href;
+        const url = new URL(page, self.location.origin).href
         const promiseChain = self.clients.matchAll({
             type: 'window',
             includeUncontrolled: true
         }).then((windowClients) => {
-            let matchingClient = windowClients[0];
+            let matchingClient = windowClients[0]
             if (matchingClient) {
                 return matchingClient.navigate(url).then(matchingClient => matchingClient.focus())
             } else {
-                return self.clients.openWindow(url);
+                return self.clients.openWindow(url)
             }
-        });
+        })
 
-        event.waitUntil(promiseChain);
+        event.waitUntil(promiseChain)
     }
-});
+})
+self.addEventListener('notificationclose', function (event) {
+    const closedNotification = event.notification
+    fetch(`/api/notification_read/${closedNotification.data._id}`)
+})
 
-const registration = self.registration;
+const registration = self.registration
 registration.onupdatefound = () => {
-    const installingWorker = registration.installing;
+    const installingWorker = registration.installing
     if (installingWorker == null) {
-        return;
+        return
     }
     installingWorker.onstatechange = () => {
         if (installingWorker.state === 'activated') {
             // At this point, the updated precached content has been fetched,
             // window.location.reload();
-            const url = new URL('/', self.location.origin).href;
+            const url = new URL('/', self.location.origin).href
             self.clients.matchAll({
                 type: 'window',
                 includeUncontrolled: true
@@ -142,7 +146,7 @@ registration.onupdatefound = () => {
                 for (let client of windowClients) {
                     await client.navigate(url)
                 }
-            });
+            })
         }
-    };
+    }
 }

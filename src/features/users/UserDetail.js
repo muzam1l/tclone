@@ -6,9 +6,10 @@ import {
     usersSelectors,
     followUser,
     unFollowUser,
-    selectUserPosts,
+    // selectUserPosts,
     getUserTimeline
 } from './usersSlice'
+import { selectUserPosts } from 'features/posts/postsSlice'
 
 // import Spinner from 'comps/Spinner'
 import PostsList from 'comps/PostsList'
@@ -45,7 +46,7 @@ export default props => {
             posts={posts}
         />
     </>)
-    let userDetail;
+    let userDetail
     if (!user)
         userDetail = <div className="message font-weight-bold">User not found</div>
     else if (user) {
@@ -79,12 +80,12 @@ export default props => {
                             to='/settings/profile'
                         >Edit profile</Link>
                     ) : (
-                            <FollowButton
-                                user={user}
-                                followUser={() => { dispatch(followUser(user.screen_name)) }}
-                                unFollowUser={() => { dispatch(unFollowUser(user.screen_name)) }}
-                            />
-                        )}
+                        <FollowButton
+                            user={user}
+                            followUser={() => { dispatch(followUser(user.screen_name)) }}
+                            unFollowUser={() => { dispatch(unFollowUser(user.screen_name)) }}
+                        />
+                    )}
                 </Row>
                 <div className="flex flex-column">
                     <h5 className="mb-0"><b>{user.name}</b></h5>
@@ -95,7 +96,7 @@ export default props => {
                     <Col sm="6" lg="4" className="px-2 mb-1">
                         <div className="d-flex text-muted align-items-top">
                             <FontAwesomeIcon className="mt-1" icon={faLocation} style={{ fontSize: '1em' }} />
-                            <span className="ml-1">{user.location || 'Unknown'}</span>
+                            <span className="ml-1">{user.location || 'Location unknown'}</span>
                         </div>
                     </Col>
                     <Col sm="6" lg="4" className="px-2 mb-1">
@@ -112,7 +113,7 @@ export default props => {
                         </div>
                     </Col>
                 </Row>
-                <Row className="d-flex my-2">
+                <Row className="d-flex my-2 justify-content-between w-100">
                     <Link
                         to={`/user/${user.screen_name}/followers`}
                         className="text-muted mr-2"
@@ -121,6 +122,7 @@ export default props => {
                         to={`/user/${user.screen_name}/friends`}
                         className="text-muted mr-2"
                     >{numFormatter(user.friends_count)} <span>Following</span></Link>
+                    <span className="text-muted">Notifications enabled on {user.notifications_enabled_device_count || 0} device(s)</span>
                 </Row>
             </div>
             <h5 className="m-2 pb-2 border-bottom">{user.statuses_count} <span className="text-muted">Posts</span></h5>

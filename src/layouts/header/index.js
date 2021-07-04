@@ -1,10 +1,10 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+// import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope'
-import { faComments } from '@fortawesome/free-regular-svg-icons/faComments'
-import { faListAlt } from '@fortawesome/free-regular-svg-icons/faListAlt'
+// import { faComments } from '@fortawesome/free-regular-svg-icons/faComments'
+// import { faListAlt } from '@fortawesome/free-regular-svg-icons/faListAlt'
 import { faUser } from '@fortawesome/free-regular-svg-icons/faUser'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH'
@@ -22,7 +22,6 @@ function Header(props) {
     let { user: { screen_name } } = useSelector(state => state.auth)
     let logo = {
         href: "/home",
-        icon: faTwitter
     }
     let compose = {
         name: "Post",
@@ -50,11 +49,11 @@ function Header(props) {
             icon: faBell,
             count: notifsCount
         },
-        {
-            name: "Chat Room",
-            href: "/chats",
-            icon: faComments
-        },
+        // {
+        //     name: "Chat Room",
+        //     href: "/chats",
+        //     icon: faComments
+        // },
         {
             name: "Settings",
             href: "/settings",
@@ -66,21 +65,16 @@ function Header(props) {
             icon: faEnvelope,
             disabled: true
         },
-        {
-            name: "Lists",
-            href: "/lists",
-            icon: faListAlt,
-            disabled: true
-        }
 
     ]
     return (
         <Col className="d-flex flex-column align-items-end vh-100 overflow-y-auto mr-sm-n3 mr-md-0 mr-xl-3 hide-scroll">
-            <div className="m-2 mr-xl-auto ml-xl-4">
+            <div className="my-2 mr-xl-auto ml-xl-4">
                 <Link
                     className='btn text-primary btn-naked-primary rounded-circle p-2'
                     to={logo.href}>
-                    <FontAwesomeIcon size="2x" icon={logo.icon} />
+                    {/* <FontAwesomeIcon size="2x" icon={logo.icon} /> */}
+                    <img className="rounded-circle" height="45" width="45" src="/android-chrome-192x192.png" alt="logo" />
                 </Link>
             </div>
             <div className="ml-0 d-flex flex-column mb-2 align-items-start">
@@ -90,7 +84,7 @@ function Header(props) {
                     return (<div key={itm.name} className="d-flex align-items-top position-relative">
                         <NavLink
                             to={itm.href}
-                            className={`${vis} px-xl-2 py-xl-1 p-1 mb-1 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center`}
+                            className={`${vis} px-xl-2 py-xl-1 p-1 mb-2 mx-lg-0 mx-auto btn btn-naked-primary rounded-pill font-weight-bold btn-lg d-flex align-items-center`}
                             activeClassName="active"
                         >
                             <FontAwesomeIcon className="m-2" size="lg" icon={itm.icon} />

@@ -11,11 +11,16 @@ import QuotedPost from 'comps/quoted-post'
 import UserLink from 'comps/user-link'
 import PostTag from 'comps/post-tag'
 
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import TryAgain from './TryAgain'
 
 export default function PostsList(props) {
-    let { posts = [], status, getPosts, no_reply_tag } = props;
+    let { posts = [], status, getPosts, no_reply_tag } = props
+
+    /* 
+        Not the best implementation, but I dont want to spend hours to check if changing it breaks anything
+    */
+    // eslint-disable-next-line
     useEffect(useCallback(() => {
         if ((status === 'idle' || status === 'done') && !posts.length) {
             getPosts()
@@ -93,7 +98,7 @@ export default function PostsList(props) {
                 )
             }) : (status === 'idle' &&
                 <div className="message">No posts for you right now</div>
-                )}
+            )}
             {status === 'loading' && <Spinner />}
             {status === 'error' && <TryAgain fn={getPosts} />}
         </ListGroup>
