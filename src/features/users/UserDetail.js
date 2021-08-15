@@ -125,7 +125,7 @@ export default props => {
                         className="text-muted mr-2"
                     >{numFormatter(user.friends_count)} <span>Following</span></Link>
 
-                    <span className={`text-muted ${isNotifEnabled ? "text-success" : "text-warning"}`}>{isNotifEnabled ? "Notifications enabled" : "Notifications disabled"}</span>
+                    <span className={isNotifEnabled ? "text-success" : "text-danger"}>{isNotifEnabled ? "Notifications enabled" : "Notifications disabled"}</span>
                 </Row>
             </div>
             <h5 className="m-2 pb-2 border-bottom">{user.statuses_count} <span className="text-muted">Posts</span></h5>
