@@ -11,7 +11,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { Media } from 'react-bootstrap'
 import { AlertsContext } from 'features/alerts/alertsContext'
 
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify'
 import { filterInput } from 'utils/helpers'
 
 class Compose extends React.Component {
@@ -19,68 +19,69 @@ class Compose extends React.Component {
     state = {
         editor_text: '',
         active: false,
-        pending: false
+        pending: false,
     }
     handleChange(e) {
         let ta = e.target
-        if (!this.ta)
-            this.ta = ta
+        if (!this.ta) this.ta = ta
         let text = ta.value
         this.setState({
             editor_text: text,
-            active: this.isValid(text)
+            active: this.isValid(text),
         })
         this.resizeTa()
     }
     isValid(text = '') {
-        return Boolean(
-            DOMPurify.sanitize(text, { ALLOWED_TAGS: [] }).trim().length > 0
-        )
+        return Boolean(DOMPurify.sanitize(text, { ALLOWED_TAGS: [] }).trim().length > 0)
     }
-    handleChange = this.handleChange.bind(this);
-    handleSubmit = async (e) => {
-        if (!this.state.active)
-            return;
+    // eslint-disable-next-line no-dupe-class-members
+    handleChange = this.handleChange.bind(this)
+    handleSubmit = async e => {
+        if (!this.state.active) return
         let text = this.state.editor_text.trim()
         try {
-            text = filterInput(this.state.editor_text, 'html', { max_length: 500, identifier: 'Post' })
+            text = filterInput(this.state.editor_text, 'html', {
+                max_length: 500,
+                identifier: 'Post',
+            })
         } catch (err) {
             return alert(err.message)
         }
         this.setState({ active: false })
         let body = {
-            text
+            text,
         }
         await this.props.composePost({ body })
         this.setState({ editor_text: '' })
         this.resizeTa()
-        let { posts: { compose_status } } = this.props
-        if (compose_status === "error") {
+        let {
+            posts: { compose_status },
+        } = this.props
+        if (compose_status === 'error') {
             alert('Post could not be submitted, try again')
-        }
-        else
-            this.context.ensureNotifPermission()
+        } else this.context.ensureNotifPermission()
     }
     resizeTa() {
         // for auto resizing of text area
         if (this.ta) {
-            this.ta.style.height = 'auto';
-            this.ta.style.height = (this.ta.scrollHeight) + 'px';
+            this.ta.style.height = 'auto'
+            this.ta.style.height = this.ta.scrollHeight + 'px'
         }
     }
     render() {
-        let { auth, className } = this.props;
+        let { auth, className } = this.props
         let { user } = auth
         return (
-            <div className={"p-2 " + className}>
+            <div className={'p-2 ' + className}>
                 <Media>
-                    <Link
-                        className="rounded-circle"
-                        to={`/user/${user.screen_name}`}
-                    >
+                    <Link className="rounded-circle" to={`/user/${user.screen_name}`}>
                         <img
                             className="rounded-circle"
-                            src={user.default_profile_image ? '/img/default-profile-vector.svg' : user.profile_image_url_https}
+                            src={
+                                user.default_profile_image
+                                    ? '/img/default-profile-vector.svg'
+                                    : user.profile_image_url_https
+                            }
                             alt=""
                             width={50}
                             height={50}
@@ -89,17 +90,19 @@ class Compose extends React.Component {
                     <Media.Body>
                         <textarea
                             className="w-100 p-2"
-                            style={{ maxHeight: "80vh" }}
+                            style={{ maxHeight: '80vh' }}
                             name="text"
                             onChange={this.handleChange}
                             onKeyPress={this.handleLine}
                             value={this.state.editor_text}
                             placeholder="What's happening?"
-                        >
-                        </textarea>
+                        ></textarea>
                         <div className="border-top d-flex justify-content-between align-items-center pt-2">
-                            <div style={{ fontSize: "1.5em" }}>
-                                <Link className="text-primary btn btn-lg rounded-circle btn-naked-primary p-2" to="/compose/post">
+                            <div style={{ fontSize: '1.5em' }}>
+                                <Link
+                                    className="text-primary btn btn-lg rounded-circle btn-naked-primary p-2"
+                                    to="/compose/post"
+                                >
                                     <FontAwesomeIcon size="lg" icon={faSmile} />
                                 </Link>
                                 <button className="disabled text-primary btn btn-lg rounded-circle btn-naked-primary p-2">
@@ -110,7 +113,8 @@ class Compose extends React.Component {
                                 <button
                                     onClick={this.handleSubmit}
                                     disabled={!this.state.active}
-                                    className="btn btn-primary rounded-pill px-3 py-2 font-weight-bold">
+                                    className="btn btn-primary rounded-pill px-3 py-2 font-weight-bold"
+                                >
                                     Post
                                 </button>
                             </div>
