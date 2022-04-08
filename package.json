@@ -1,7 +1,7 @@
 {
   "name": "tclone",
   "sideEffects": false,
-  "version": "2.2.1",
+  "version": "2.2.2",
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
