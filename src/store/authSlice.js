@@ -2,9 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { unsubscribeUser } from '../subscription'
 
 export const login = createAsyncThunk('auth/login', async (_, { dispatch }) => {
-    let res = await fetch('/auth/login', {
-        method: 'POST',
-    })
+    let res = await fetch('/auth/login')
     if (res.ok) {
         let data = await res.json()
         if (data.user) {
