@@ -75,7 +75,7 @@ export const followUser = createAsyncThunk(
     async (username, { dispatch, getState }) => {
         dispatch(followingChanged({ username, following: true }))
         username = encodeURIComponent(username)
-        await request(`/api/follow/${username}`, { dispatch, body: null })
+        await request(`/api/follow/${username}`, { dispatch, body: {} })
         let feedStatus = getState().posts.feed_status
         if (feedStatus === 'done') dispatch(getFeed())
     }
@@ -85,7 +85,7 @@ export const unFollowUser = createAsyncThunk(
     async (username, { dispatch }) => {
         dispatch(followingChanged({ username, following: false }))
         username = encodeURIComponent(username)
-        return request(`/api/unfollow/${username}`, { dispatch, body: null })
+        return request(`/api/unfollow/${username}`, { dispatch, body: {} })
     }
 )
 export const getFollowers = createAsyncThunk(

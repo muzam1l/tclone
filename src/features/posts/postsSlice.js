@@ -67,11 +67,11 @@ export const getReplies = createAsyncThunk(
 
 export const likePost = createAsyncThunk('posts/likePost', async (post, { dispatch }) => {
     dispatch(postLiked(post))
-    await request(`/api/like/${post.id_str}`, { dispatch, body: null })
+    await request(`/api/like/${post.id_str}`, { dispatch, body: {} })
 })
 export const unlikePost = createAsyncThunk('posts/unlikePost', async (post, { dispatch }) => {
     dispatch(postUnliked(post))
-    return request(`/api/unlike/${post.id_str}`, { dispatch, body: null })
+    return request(`/api/unlike/${post.id_str}`, { dispatch, body: {} })
 })
 export const repostPost = createAsyncThunk('posts/repostPost', async (post, { dispatch }) => {
     dispatch(postReposted(post))
