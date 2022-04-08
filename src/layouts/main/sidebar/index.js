@@ -34,7 +34,7 @@ function Sidebar() {
                     </a>
                 </p>
                 <div className="text-muted mb-1 mt-n1">
-                    <small>@2.2.2</small>
+                    <small>@2.2.3</small>
                 </div>
             </footer>
         </Col>
