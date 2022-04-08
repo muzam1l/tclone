@@ -1,7 +1,7 @@
 import { logout } from 'store/authSlice'
 
 /**
- * 
+ *
  * request - general method for all requests handling authorisation within
  * @param {String} url url to fetch
  * @param {{ dispatch: Function, body: Object, headers: Object}} data adding data for request
@@ -9,20 +9,17 @@ import { logout } from 'store/authSlice'
  */
 export async function request(url, { dispatch, body, headers } = {}) {
     let res = await fetch(url, {
-        method: body ? 'POST' : 'GET',
+        method: body !== undefined ? 'POST' : 'GET',
         headers: {
             'Content-Type': 'application/json',
-            ...headers
+            ...headers,
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
     })
     if (res.ok) {
         return res.json()
-    }
-    else if (res.status === 401) {
+    } else if (res.status === 401) {
         await dispatch(logout())
         throw Error('Not Authorised')
-    }
-    else
-        throw Error('Something went wrong')
+    } else throw Error('Something went wrong')
 }
