@@ -52,6 +52,7 @@ export default props => {
     else if (user) {
         let { url: { urls: [{ url, expanded_url } = {}] = [] } = {} } = user.entities
         let banner_color = user.profile_banner_color || '#f5f8fa'
+        const isNotifEnabled = user.notifications_enabled_device_count > 0
         userDetail = (<>
             <ScrollToTop />
             <Heading title={user.name} backButton />
@@ -118,11 +119,13 @@ export default props => {
                         to={`/user/${user.screen_name}/followers`}
                         className="text-muted mr-2"
                     >{numFormatter(user.followers_count)} <span>Followers</span></Link>
+
                     <Link
                         to={`/user/${user.screen_name}/friends`}
                         className="text-muted mr-2"
                     >{numFormatter(user.friends_count)} <span>Following</span></Link>
-                    <span className="text-muted">Notifications enabled on {user.notifications_enabled_device_count || 0} device(s)</span>
+
+                    <span className={isNotifEnabled ? "text-success" : "text-danger"}>{isNotifEnabled ? "Notifications enabled" : "Notifications disabled"}</span>
                 </Row>
             </div>
             <h5 className="m-2 pb-2 border-bottom">{user.statuses_count} <span className="text-muted">Posts</span></h5>
