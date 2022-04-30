@@ -17,7 +17,7 @@
     "bootstrap": "^4.5.2",
     "dompurify": "^2.1.1",
     "emoji-mart": "^3.0.0",
-    "get-urls": "^10.0.0",
+    "get-urls": "^9.2.1",
     "html-escaper": "^3.0.0",
     "node-sass": "^7.0.1",
     "react": "^16.13.1",
@@ -32,7 +32,7 @@
     "react-scripts": "^5.0.0",
     "react-time-ago": "^6.0.1",
     "react-tiny-link": "^3.6.0",
-    "workbox-webpack-plugin": "^5.1.4"
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "scripts": {
     "start": "react-app-rewired start",
