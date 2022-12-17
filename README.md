@@ -57,11 +57,11 @@ So just bombard me with pull requests 🥺.
 
 ## Deploying
 
-Current setup has front-end deployed on netlify with api calls connected to heroku api server via netlify redirects. It needs VAPID public keys corresponding to server keys for push notifications, and api server address to connect to api. Below is how your environmental variables should like (`.env` file on local and netlify variables when deployed on netlify)
+Current setup has front-end deployed on netlify with api calls connected to api server via netlify redirects. It needs VAPID public keys corresponding to server keys for push notifications, and api server address to connect to api. Below is how your environmental variables should like (`.env` file on local and netlify variables when deployed on netlify)
 
 ```bash
 REACT_APP_PUBLIC_VAPID_KEY=<corresponding public vapid key of vapid keys for push notifications>
-REACT_APP_API_SERVER=<server url, like https://myserver.herokuapp.com for production>
+REACT_APP_API_SERVER=<server url, like https://myserver.com for production>
 ```
 
 Note: `REACT_APP_API_SERVER` key is not used in fetch calls, instead used to build netlify redirects and on local, fetch calls are proxied via `proxy` key in `package.json`. So if you plan to deploy it anywhere else, make edits accordingly.

@@ -24,7 +24,7 @@ export default function PostsList(props) {
     useEffect(useCallback(() => {
         if ((status === 'idle' || status === 'done') && !posts.length) {
             getPosts()
-            console.log('fetching on posts load, status:', status)
+            // console.log('fetching on posts load, status:', status)
         }
     }, [status, posts, getPosts]), [getPosts])
     useBottomScrollListener(useCallback(() => {
