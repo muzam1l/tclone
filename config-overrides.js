@@ -10,7 +10,7 @@ module.exports = function override(config, env) {
         const workboxConfig = {
             ...defaultInjectConfig,
             swSrc: path.join(__dirname, 'src', 'custom-sw.js'),
-            maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+            maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         }
         config = rewireWorkboxInject(workboxConfig)(config, env)
     }
