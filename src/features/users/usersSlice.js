@@ -9,7 +9,16 @@ import { getFeed, selectUserPosts } from 'features/posts/postsSlice'
 import { parsePosts } from 'features/posts/utils'
 import { userUpdated as authUserUpdated } from 'store/authSlice'
 
-let usersComparer = (a, b) => b.followers_count - a.followers_count
+let usersComparer = (a, b) => {
+    let statusesEither = b.statuses_count || a.statuses_count
+    if (statusesEither && statusesEither > 3) {
+        return b.statuses_count - a.statuses_count
+    } else if (b.followers_count || a.followers_count) {
+        return b.followers_count - a.followers_count
+    }
+    return b.statuses_count - a.statuses_count
+}
+
 const usersAdapter = createEntityAdapter({
     selectId: user => user.screen_name,
     // sortComparer: usersComparer
