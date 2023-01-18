@@ -49,7 +49,7 @@ export default props => {
                     notifications.map(n => {
                         let active = n.read ? '' : 'bg-bg-color border-left-right-primary-custom'
                         let post = n.body.post
-                        let user = n.body.user
+                        let user = n.body.user || { screen_name: "<not_found>" }
                         let body,
                             heading,
                             anchor = '',
@@ -60,7 +60,7 @@ export default props => {
                                 body = (
                                     <div className="d-flex flex-column">
                                         <p>
-                                            <b>@{post.user.screen_name}</b> mentioned you in post
+                                            <b>@{user.screen_name}</b> mentioned you in post
                                         </p>
                                         <blockquote className="bg-light mt-n2 p-2 border-left-right-secondary-custom">
                                             <PostText post={post} />
@@ -73,7 +73,7 @@ export default props => {
                                 body = (
                                     <div className="d-flex flex-column">
                                         <p>
-                                            <b>@{post.user.screen_name}</b> replied
+                                            <b>@{user.screen_name}</b> replied
                                         </p>
                                         <QuotePost post={post} />
                                     </div>
