@@ -8,7 +8,7 @@ import { askPermission, subscribeUserToPush } from '../../subscription'
 import { useHistory } from 'react-router-dom'
 
 const AlertsContext = React.createContext()
-const AlertsPovider = ({ children, ...props }) => {
+const AlertsProvider = ({ children, ...props }) => {
     const history = useHistory()
 
     /*Detect incomplete profile on basis of description */
@@ -69,4 +69,4 @@ const AlertsPovider = ({ children, ...props }) => {
 const useAlerts = () => React.useContext(AlertsContext)
 //for functional components
 
-export { AlertsPovider, useAlerts, AlertsContext } 
+export { AlertsProvider, useAlerts, AlertsContext } 

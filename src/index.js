@@ -15,6 +15,7 @@ import store from 'store/'
 
 import App from 'pages/App'
 import Landing from 'pages/Landing'
+
 import './styles/main.scss';
 // Initialize the desired locales.
 JavascriptTimeAgo.locale(en)

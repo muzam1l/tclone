@@ -10,13 +10,11 @@ import Header from 'layouts/header'
 import { useDispatch } from 'react-redux'
 import { fetchNotifs } from 'features/notify/notifySlice'
 import { useEffect } from 'react'
-import { AlertsPovider } from 'features/alerts/alertsContext'
+import { AlertsProvider } from 'features/alerts/alertsContext'
 
 import { subscribeUserToPush } from '../subscription'
 
-//import { render } from '@testing-library/react';
-
-function App() {
+export default function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -24,14 +22,12 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    if (Notification.permission === 'granted')
+    if (window.Notification?.permission === 'granted')
       subscribeUserToPush()
-    // eslint-disable-next-line
   }, [])
-
   return (
     <Router>
-      <AlertsPovider>
+      <AlertsProvider>
         <Container className="mb-5 mb-sm-1">
           <Row>
             <MediaQuery minWidth={576}>
@@ -54,9 +50,7 @@ function App() {
             <Nav />
           </MediaQuery>
         </Container>
-      </AlertsPovider>
+      </AlertsProvider>
     </Router>
   );
 }
-
-export default App;
