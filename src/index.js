@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import Splash from './comps/splash'
 import TryAgain from './comps/TryAgain'
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorkerReg';
 
 import JavascriptTimeAgo from 'javascript-time-ago'
 // The desired locales.

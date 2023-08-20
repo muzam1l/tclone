@@ -13,12 +13,6 @@
     from = "/img/*"
     to = "API_PLACEHOLDER/img/:splat"
     status = 200
-    
-#[[redirects]]
-#    from = "/socket.io/*"
-#    to = "API_PLACEHOLDER/socket.io/:splat"
-#    status = 200
-#    force = true
 
 [[redirects]]
     from = "/*"

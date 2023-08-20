@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/28362dd5-9756-4aac-b840-d99fcd6d3a5d/deploy-status)](https://app.netlify.com/sites/tclone/deploys)
+
 ## React front-end for tclone
 
 Try it [here](https://tclone.muzam1l.com)

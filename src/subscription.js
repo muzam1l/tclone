@@ -13,7 +13,7 @@ export function askPermission() {
         }
     }).then(result => {
         if (result !== 'granted') {
-            alert('Notication permission denied\nIf it was by mistake, turn it on in settings')
+            alert('Notification permission denied\nIf it was by mistake, turn it on from the settings')
             return false
         }
         return true
@@ -24,13 +24,13 @@ export function subscribeUserToPush() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(function (registration) {
             if (!registration.pushManager) {
-                console.log('Push manager unavailable.')
+                console.warn('Push manager unavailable.')
                 return
             }
 
             registration.pushManager.getSubscription().then(function (existingSubscription) {
                 if (existingSubscription === null) {
-                    console.info('No subscription detected, make a request.')
+                    console.info('No push subscription detected. Making one..')
                     const subscribeOptions = {
                         userVisibleOnly: true,
                         applicationServerKey: convertedVapidKey,
@@ -38,7 +38,7 @@ export function subscribeUserToPush() {
                     registration.pushManager
                         .subscribe(subscribeOptions)
                         .then(function (newSubscription) {
-                            console.log('New subscription added.')
+                            console.log('New push subscription added.')
                             return sendSubscription(newSubscription)
                         })
                         .catch(function (e) {
