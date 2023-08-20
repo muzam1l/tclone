@@ -1,7 +1,7 @@
 {
   "name": "tclone",
   "sideEffects": false,
-  "version": "2.2.3",
+  "version": "2.2.4",
   "proxy": "https://tclone-api.onrender.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",

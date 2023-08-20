@@ -2,7 +2,7 @@ import { logout } from 'store/authSlice'
 
 /**
  *
- * request - general method for all requests handling authorisation within
+ * request - general method for all requests handling authorization within
  * @param {String} url url to fetch
  * @param {{ dispatch: Function, body: Object, headers: Object}} data adding data for request
  * @returns {Promise<Object>}
@@ -20,6 +20,6 @@ export async function request(url, { dispatch, body, headers } = {}) {
         return res.json()
     } else if (res.status === 401) {
         await dispatch(logout())
-        throw Error('Not Authorised')
+        throw Error('Not Authorized')
     } else throw Error('Something went wrong')
 }
