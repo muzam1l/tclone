@@ -6,7 +6,8 @@ Try it [here](https://tclone.muzam1l.com)
 
 Back-end repo [here](https://github.com/muzam1l/tclone-api)
 
-![Demo](./docs/tclone-demo2.gif)
+<!-- ![Demo](./docs/tclone-demo2.gif) -->
+<img src="./docs/tclone-demo2.gif" alt="demo" />
 
 This is my take on building a Twitter clone, I have tried to keep things simple and concise. With minimal modules, it is very lightweight and fast, yet very functional and feature-rich.
 
