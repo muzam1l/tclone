@@ -57,6 +57,7 @@ REACT_APP_API_SERVER=<server url, like https://myserver.com for production>
 ```
 Note: `REACT_APP_API_SERVER` key is not used in fetch calls, instead it is used in netlify redirects. On local, fetch calls are proxied via the `proxy` key in `package.json`. So if you plan to deploy it anywhere else, do the necessary changes accordingly.
 
+## Local Setup
 - Windows Users: `npm install --save-dev cross-env` and replace `"start": "REACT_APP_VERSION=$npm_package_version react-scripts start"` with `"start": "cross-env REACT_APP_VERSION=%npm_package_version% react-scripts start"`
 
 - Install deps: `npm install`.
